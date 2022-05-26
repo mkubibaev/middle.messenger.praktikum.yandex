@@ -1,0 +1,17 @@
+---
+title: Авторизация
+css:
+  - auth.css
+---
+
+{{!< base}}
+
+<main class="auth">
+  {{> auth-form
+      title="Вход"
+      controls=auth.loginFields
+      submitLabel="Войти"
+      linkUrl="./signup.hbs"
+      linkLabel="Нет аккаунта?"
+  }}
+</main>

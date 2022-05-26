@@ -1,0 +1,17 @@
+---
+title: Регистрация
+css:
+  - auth.css
+---
+
+{{!< base}}
+
+<main class="auth">
+  {{> auth-form
+        title="Регистрация"
+        controls=auth.signUpFields
+        submitLabel="Зарегистрироваться"
+        linkUrl="./login.hbs"
+        linkLabel="Войти"
+  }}
+</main>
