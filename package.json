@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "parcel build src/pages/* --no-cache --public-url ./",
-    "serve": "parcel src/pages/* --no-cache && parcel watch ./*"
+    "serve": "parcel src/pages/* --no-cache && parcel watch ./*",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/mkubibaev/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "express": "^4.18.1",
     "parcel": "^2.5.0",
     "postcss-import": "^14.1.0",
     "postcss-mixins": "^9.0.2",
