@@ -1,23 +1,4 @@
-@import 'variables.css';
-@import 'mixins.css';
-@import 'forms.css';
-
-@import 'common.css';
-
-.auth {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.auth-form {
-  flex-grow: 1;
-  max-width: 360px;
-  background: var(--base-white);
-  border-radius: 20px;
-  padding: 20px;
-
+.base-form {
   &__title {
     font-size: 20px;
     font-weight: 600;

@@ -1,0 +1,18 @@
+<form class="base-form">
+  <h2 class="base-form__title">{{title}}</h2>
+
+  <div class="base-form__inputs">
+    {{#each controls}}
+      {{> formInput/formInput this }}
+    {{/each}}
+  </div>
+
+  <div class="base-form__actions">
+    {{> formBtn/formBtn
+          type="submit"
+          label=submitLabel
+          classes="base-form__submit btn--primary"
+    }}
+    <a class="base-form__link link" href="{{linkUrl}}">{{linkLabel}}</a>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+{{#with this}}
+  <div class="form-control">
+    <label class="form-control__label" for="{{name}}">{{label}}</label>
+    <input class="form-control__input"
+            type="{{#if type}}{{type}}{{else}}text{{/if}}"
+            name="login" id="{{name}}"
+            placeholder="{{placeholder}}"
+    >
+  </div>
+{{/with}} 

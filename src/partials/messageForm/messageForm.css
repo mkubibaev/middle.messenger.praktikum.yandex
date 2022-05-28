@@ -1,0 +1,37 @@
+.message-form {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  &__inner {
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: var(--gray-100);
+  }
+  &__input {
+    @mixin reset-input;
+    flex-grow: 1;
+    height: 100%;
+    padding: 0 30px;
+    background: var(--gray-100);
+  }
+  &__btn {
+    @mixin reset-btn;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    background-color: transparent;
+    transform: rotate(45deg);
+
+    &--submit {
+      background-color: var(--primary-color);
+      color: var(--base-white);
+      transform: none;
+    }
+  }
+}

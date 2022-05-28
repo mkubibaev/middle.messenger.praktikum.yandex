@@ -1,17 +1,23 @@
 ---
 title: Авторизация
-css:
-  - auth.css
 ---
 
 {{!< base}}
 
-<main class="auth">
-  {{> auth-form
-      title="Вход"
-      controls=auth.loginFields
-      submitLabel="Войти"
-      linkUrl="./signup.hbs"
-      linkLabel="Нет аккаунта?"
-  }}
-</main>
+<div class="auth">
+  {{#> header/header }}
+    {{> mainNav/mainNav links=navLinks.anonymNav }} 
+  {{/header/header }}
+
+  <main class="auth__container container">
+    <div class="auth__inner">
+      {{> baseForm/baseForm
+            title="Вход"
+            controls=authFormFields.loginFields
+            submitLabel="Войти"
+            linkUrl="./signup.hbs"
+            linkLabel="Нет аккаунта?"
+      }}
+    </div>
+  </main>
+</div>

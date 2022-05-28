@@ -40,7 +40,8 @@
     {
       "name": "password",
       "label": "Пароль",
-      "placeholder": "Введите пароль"
+      "placeholder": "Введите пароль",
+      "type": "password"
     }
   ]
 }
