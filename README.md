@@ -14,6 +14,12 @@
     ```shell script
         npm run serve
     ```
+
+---
+Ссылка на приложение (Netlify):
+https://incandescent-starship-4c6295.netlify.app/
+
 ---
 Макеты в Figma доступны по ссылке:
 https://www.figma.com/file/lMt3wnD6f9qy75wphOxKJr/SomeChat?node-id=0%3A1
+
