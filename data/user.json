@@ -1,0 +1,9 @@
+{
+  "first_name": "Иван",
+  "second_name": "Иванов",
+  "display_name": "Иван",
+  "login": "ivan",
+  "email": "ivan@ivan.ru",
+  "phone": "+71231231234",
+  "avatar": "../../static/images/default-avatar.png"
+}

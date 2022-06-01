@@ -1,0 +1,23 @@
+---
+title: Регистрация
+---
+
+{{!< base}}
+
+<div class="auth">
+  {{#> header/header }}
+    {{> mainNav/mainNav links=navLinks.anonymNav }} 
+  {{/header/header }}
+
+  <main class="auth__container container">
+    <div class="auth__inner">
+      {{> baseForm/baseForm
+            title="Регистрация"
+            controls=authFormFields.signUpFields
+            submitLabel="Зарегистрироваться"
+            linkUrl="./login.hbs"
+            linkLabel="Войти"
+      }}
+    </div>
+  </main>
+</div>

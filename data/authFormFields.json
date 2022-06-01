@@ -1,0 +1,47 @@
+{
+  "loginFields": [
+    {
+      "name": "login",
+      "label": "Логин",
+      "placeholder": "Введите логин"
+    },
+    {
+      "name": "password",
+      "label": "Пароль",
+      "placeholder": "Введите пароль"
+    }
+  ],
+  "signUpFields": [
+    {
+      "name": "first_name",
+      "label": "Имя",
+      "placeholder": "Ваше имя"
+    },
+    {
+      "name": "second_name",
+      "label": "Фамилия",
+      "placeholder": "Ваша фамилия"
+    },
+    {
+      "name": "email",
+      "label": "Почта",
+      "placeholder": "Ваша почта"
+    },
+    {
+      "name": "phone",
+      "label": "Телефон",
+      "placeholder": "Ваш телефон"
+    },
+    {
+      "name": "login",
+      "label": "Логин",
+      "placeholder": "Введите логин"
+    },
+    {
+      "name": "password",
+      "label": "Пароль",
+      "placeholder": "Введите пароль",
+      "type": "password"
+    }
+  ]
+}
