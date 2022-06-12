@@ -1,0 +1,77 @@
+.contacts {
+  background: var(--base-white);
+  border-radius: 25px;
+  padding: 20px 0px;
+  margin: 0;
+  list-style-type: none;
+}
+.contact {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: var(--gray-200);
+    .contact__info {
+      border-color: transparent;
+    }
+  }
+  &.active {
+    background-color: rgba(var(--primary-color-rgb), 0.3);
+    .contact__info {
+      border-color: transparent;
+    }
+  }
+  
+  &__avatar {
+    height: 50px;
+    min-width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+  &__avatar-img {
+    display: block;
+    height: 100%;
+  }
+  &__info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  &__info-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__name {
+    font-weight: 600;
+    flex-grow: 1;
+  }
+  &__date {
+    font-size: 12px;
+    line-height: 1;
+    color: var(--secondary-color);
+    white-space: nowrap;
+  }
+  &__message {
+    flex-grow: 1;
+    color: var(--secondary-color);
+  }
+  &__notif {
+    font-size: 12px;
+    font-weight: 600;
+    height: 20px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 10px;
+    color: var(--base-white);
+    background: var(--base-orange);
+  }
+}

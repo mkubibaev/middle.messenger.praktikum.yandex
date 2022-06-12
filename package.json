@@ -2,9 +2,14 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "scripts": {
-    "build": "parcel build src/pages/* --no-cache --public-url ./",
-    "serve": "parcel src/pages/* --no-cache && parcel watch ./*",
-    "start": "node server.js"
+    "build": "parcel build src/*.html --no-cache --public-url ./",
+    "serve": "parcel src/*.html --no-source-maps && parcel watch ./*",
+    "start": "node server.js",
+    "lint": "eslint . --ext .ts"
+  },
+  "alias": {
+    "core": "./src/core",
+    "types": "./src/types"
   },
   "repository": {
     "type": "git",
@@ -12,21 +17,25 @@
   },
   "keywords": [],
   "author": "Murat Kubibaev",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mkubibaev/middle.messenger.praktikum.yandex/issues"
-  },
-  "homepage": "https://github.com/mkubibaev/middle.messenger.praktikum.yandex#readme",
+  "license": "MIT",
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
-    "express": "^4.18.1",
-    "parcel": "^2.5.0",
-    "postcss-import": "^14.1.0",
-    "postcss-mixins": "^9.0.2",
-    "postcss-nested": "^5.0.6"
+    "@types/node": "17.0.41",
+    "@typescript-eslint/eslint-plugin": "5.27.1",
+    "@typescript-eslint/parser": "5.27.1",
+    "eslint": "8.17.0",
+    "eslint-config-airbnb-typescript": "17.0.0",
+    "express": "4.18.1",
+    "handlebars": "4.7.7",
+    "parcel": "2.5.0",
+    "parcel-plugin-handlebars-precompile": "1.0.2",
+    "postcss": "8.4.14",
+    "postcss-import": "14.1.0",
+    "postcss-mixins": "9.0.2",
+    "postcss-nested": "5.0.6",
+    "typescript": "4.7.3"
   },
-  "engines": {
-    "node": "^16.13.2",
-    "npm": "^8.11.0"
+  "dependencies": {
+    "nanoid": "4.0.0"
   }
 }
