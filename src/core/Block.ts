@@ -22,7 +22,7 @@ export default class Block<P = any> {
 
   protected _element: Nullable<HTMLElement> = null;
 
-  protected readonly props: P;
+  readonly props: P;
 
   protected children: { [id: string]: Block } = {};
 
@@ -30,7 +30,7 @@ export default class Block<P = any> {
 
   protected state: any = {};
 
-  protected refs: { [key: string]: HTMLElement } = {};
+  refs: { [key: string]: Block } = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();

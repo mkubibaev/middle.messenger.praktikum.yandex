@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import { userNav } from '../../utils/mockData';
+import { userNav } from 'helpers/mockData';
 
 interface AppLayoutProps {
   wrapClassName: string;

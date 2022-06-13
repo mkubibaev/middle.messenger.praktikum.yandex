@@ -2,26 +2,38 @@ import { Block } from 'core';
 import './Input.pcss';
 
 interface InputProps {
-  label: string;
   name: string;
-  type?: string;
+  value?: string;
+  type?: 'text' | 'password' | 'email';
   placeholder?: string;
   classes?: string;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onInput?: () => void;
 }
 
-export default class Input extends Block<InputProps> {
+export default class Input extends Block {
+  constructor({ onFocus, onBlur, onInput, ...props }: InputProps) {
+    super({
+      ...props,
+      events: {
+        focus: onFocus,
+        blur: onBlur,
+        input: onInput,
+      },
+    });
+  }
+
   render() {
     // language=hbs
     return `
-      <div class="form-control">
-        <label class="form-control__label" for="{{name}}">{{label}}</label>
-        <input class="form-control__input {{classes}}"
-               type="{{#if type}}{{type}}{{else}}text{{/if}}"
-               name="{{name}}"
-               id="{{name}}"
-               {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}
-        >
-      </div>
+      <input type="{{#if type}}{{type}}{{else}}text{{/if}}"
+             name="{{name}}"
+             id="{{name}}"
+             value="{{value}}"
+             class="form-control__input {{classes}}"
+             {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}
+      >
     `;
   }
 }

@@ -8,6 +8,7 @@ interface MessagesProps {
 
 export default class Messages extends Block<MessagesProps> {
   render() {
+    // language=hbs
     return `
       <ul class="messages">
         {{#each messages}}

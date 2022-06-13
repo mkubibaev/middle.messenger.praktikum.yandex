@@ -3,12 +3,12 @@ import { Contact, Message, NavLink, User } from 'types';
 export const user: User = {
   first_name: 'Иван',
   second_name: 'Иванов',
-  display_name: 'Иван',
   login: 'ivan',
   email: 'ivan@ivan.ru',
   phone: '+71231231234',
-  avatar: 'https://robohash.org/51e6d8f1948e909898302c6b9edcc05d?set=set1&bgset=bg1&size=400x400',
 };
+
+export const userAvatar = 'https://robohash.org/51e6d8f1948e909898302c6b9edcc05d?set=set1&bgset=bg1&size=400x400';
 
 export const contacts: Contact[] = [
   {

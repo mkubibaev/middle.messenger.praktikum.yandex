@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import { user } from '../../utils/mockData';
+import { user } from 'helpers/mockData';
 
 interface ProfileProps {}
 

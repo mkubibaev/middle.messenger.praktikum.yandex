@@ -1,6 +1,6 @@
 import { Block } from 'core';
 import './ProfileLayout.pcss';
-import { user } from '../../utils/mockData';
+import { user, userAvatar } from 'helpers/mockData';
 
 interface ProfileLayoutProps {}
 
@@ -9,6 +9,7 @@ export default class ProfileLayout extends Block {
     super({
       ...props,
       userData: user,
+      userAvatar,
     });
   }
 
@@ -20,7 +21,7 @@ export default class ProfileLayout extends Block {
          <div class="profile__inner">
            <div class="profile__inner-left">
              <div class="profile__avatar">
-               <img class="profile__avatar-img" src={{userData.avatar}} alt={{userData.first_name}}>
+               <img class="profile__avatar-img" src={{userAvatar}} alt={{userData.first_name}}>
              </div>
              <p class="profile__name">{{userData.first_name}} {{userData.second_name}}</p>
              <ul class="profile__links">

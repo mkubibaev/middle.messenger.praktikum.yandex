@@ -9,7 +9,10 @@
   },
   "alias": {
     "core": "./src/core",
-    "types": "./src/types"
+    "types": "./src/types",
+    "helpers": "./src/helpers",
+    "pages": "./src/pages",
+    "components": "./src/components"
   },
   "repository": {
     "type": "git",

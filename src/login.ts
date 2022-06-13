@@ -1,9 +1,8 @@
 import { registerComponent, renderDOM } from 'core';
-import { BlockConstructable } from './core/registerComponent';
-
+import { Login } from 'pages';
+import * as components from 'components';
+import { BlockConstructable } from 'core/registerComponent';
 import './styles/main.pcss';
-import * as components from './components';
-import { Login } from './pages';
 
 Object.values(components).forEach((component) => {
   registerComponent(component as BlockConstructable);

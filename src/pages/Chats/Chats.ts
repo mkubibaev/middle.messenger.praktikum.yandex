@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import { contacts, messages } from '../../utils/mockData';
+import { contacts, messages } from 'helpers/mockData';
 import './Chats.pcss';
 
 interface ChatsProps {}
@@ -12,6 +12,15 @@ export default class Chats extends Block<ChatsProps> {
       selectedContact: contacts[0],
       messagesList: messages,
     });
+
+    this.setProps({
+      onSend: this.onSend.bind(this),
+    });
+  }
+
+  onSend(event: SubmitEvent) {
+    event.preventDefault();
+    console.log(event);
   }
 
   render() {
@@ -31,7 +40,9 @@ export default class Chats extends Block<ChatsProps> {
               {{{Messages messages=messagesList}}}
             </div>
             <div class="chat__form-wrap">
-              {{{MessageForm}}}
+              {{{MessageForm
+                  onSubmit=onSend
+              }}}
             </div>
           </main>
         </div>

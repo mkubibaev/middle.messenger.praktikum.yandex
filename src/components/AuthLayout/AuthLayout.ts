@@ -1,6 +1,6 @@
 import { Block } from 'core';
 import './AuthLayout.pcss';
-import { anonymousNav } from '../../utils/mockData';
+import { anonymousNav } from 'helpers/mockData';
 
 interface AuthLayoutProps {}
 
