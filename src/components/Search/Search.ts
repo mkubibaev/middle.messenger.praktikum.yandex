@@ -2,6 +2,10 @@ import { Block } from 'core';
 import './Search.pcss';
 
 export default class Search extends Block {
+  get componentName(): string {
+    return 'Search';
+  }
+
   render() {
     // language=hbs
     return `

@@ -15,6 +15,10 @@ export default class BaseForm extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'BaseForm';
+  }
+
   render() {
     // language=hbs
     return `

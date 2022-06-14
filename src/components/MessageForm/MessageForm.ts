@@ -13,6 +13,10 @@ export default class MessageForm extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'MessageForm';
+  }
+
   render() {
     // language=hbs
     return `

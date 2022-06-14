@@ -1,11 +1,11 @@
 import { registerComponent, renderDOM } from 'core';
 import { ProfileChangePassword } from 'pages';
-import * as components from 'components';
+import * as Components from 'components';
 import { BlockConstructable } from './core/registerComponent';
 import './styles/main.pcss';
 
-Object.values(components).forEach((component) => {
-  registerComponent(component as BlockConstructable);
+Object.values(Components).forEach((Component) => {
+  registerComponent(Component as BlockConstructable, new Component({}).componentName);
 });
 
 document.addEventListener('DOMContentLoaded', () => {

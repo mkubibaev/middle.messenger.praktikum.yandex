@@ -7,6 +7,10 @@ interface ProfileDataProps {
 }
 
 export default class ProfileData extends Block<ProfileDataProps> {
+  get componentName(): string {
+    return 'ProfileData';
+  }
+
   render() {
     // language=hbs
     return `

@@ -6,6 +6,10 @@ interface InputErrorProps {
 }
 
 export default class InputError extends Block<InputErrorProps> {
+  get componentName(): string {
+    return 'InputError';
+  }
+
   render() {
     // language=hbs
     return `

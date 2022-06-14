@@ -2,7 +2,7 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "scripts": {
-    "build": "parcel build src/*.html --no-cache --public-url ./",
+    "build": "parcel build src/*.html --public-url ./",
     "serve": "parcel src/*.html --no-source-maps && parcel watch ./*",
     "start": "node server.js",
     "lint": "eslint . --ext .ts",

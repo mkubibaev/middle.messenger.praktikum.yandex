@@ -7,6 +7,10 @@ interface SelectedContactProps {
 }
 
 export default class SelectedContact extends Block<SelectedContactProps> {
+  get componentName(): string {
+    return 'SelectedContact';
+  }
+
   render() {
     return `
       <div class="selected-contact">

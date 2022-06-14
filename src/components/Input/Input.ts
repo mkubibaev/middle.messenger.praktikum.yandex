@@ -24,6 +24,10 @@ export default class Input extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'Input';
+  }
+
   render() {
     // language=hbs
     return `

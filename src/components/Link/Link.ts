@@ -8,6 +8,10 @@ interface LinkProps {
 }
 
 export default class Link extends Block<LinkProps> {
+  get componentName(): string {
+    return 'Link';
+  }
+
   render() {
     // language=hbs
     return '<a href="{{to}}" class="link {{classes}}">{{label}}</a>';

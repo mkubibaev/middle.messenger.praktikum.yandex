@@ -17,6 +17,10 @@ export default class ControlledInput extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'ControlledInput';
+  }
+
   validate(event: FocusEvent) {
     if (this.props.validationRule) {
       const input = event.target as HTMLInputElement;

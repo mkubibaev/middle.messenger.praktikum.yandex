@@ -2,6 +2,10 @@ import { Block } from 'core';
 import './Header.pcss';
 
 export default class Header extends Block {
+  get componentName(): string {
+    return 'Header';
+  }
+
   render() {
     // language=hbs
     return `

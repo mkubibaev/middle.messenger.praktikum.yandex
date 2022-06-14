@@ -7,6 +7,10 @@ interface MessagesProps {
 }
 
 export default class Messages extends Block<MessagesProps> {
+  get componentName(): string {
+    return 'Messages';
+  }
+
   render() {
     // language=hbs
     return `

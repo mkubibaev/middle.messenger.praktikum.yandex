@@ -1,11 +1,11 @@
 import { registerComponent, renderDOM } from 'core';
 import { Chats } from 'pages';
-import * as components from 'components';
-import { BlockConstructable } from 'core/registerComponent';
+import * as Components from 'components';
 import './styles/main.pcss';
+import { BlockConstructable } from './core/registerComponent';
 
-Object.values(components).forEach((component) => {
-  registerComponent(component as BlockConstructable);
+Object.values(Components).forEach((Component) => {
+  registerComponent(Component as BlockConstructable, new Component({}).componentName);
 });
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -7,6 +7,10 @@ interface ButtonProps {
 }
 
 export default class Button extends Block<ButtonProps> {
+  get componentName(): string {
+    return 'Button';
+  }
+
   render() {
     // language=hbs
     return `

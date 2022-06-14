@@ -12,6 +12,10 @@ export default class AuthLayout extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'AuthLayout';
+  }
+
   render() {
     // language=hbs
     return `

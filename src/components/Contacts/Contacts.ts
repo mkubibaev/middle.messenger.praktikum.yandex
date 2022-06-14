@@ -8,6 +8,10 @@ interface ContactsProps {
 }
 
 export default class Contacts extends Block<ContactsProps> {
+  get componentName(): string {
+    return 'Contacts';
+  }
+
   render() {
     // language=hbs
     return `

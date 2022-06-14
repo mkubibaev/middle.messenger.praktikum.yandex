@@ -7,6 +7,10 @@ interface MainNavProps {
 }
 
 export default class MainNav extends Block<MainNavProps> {
+  get componentName() {
+    return 'MainNav';
+  }
+
   render() {
     // language=hbs
     return `

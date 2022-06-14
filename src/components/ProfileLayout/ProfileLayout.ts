@@ -13,6 +13,10 @@ export default class ProfileLayout extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'ProfileLayout';
+  }
+
   render() {
     // language=hbs
     return `

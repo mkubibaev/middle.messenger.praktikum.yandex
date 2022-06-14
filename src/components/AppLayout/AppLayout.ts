@@ -13,6 +13,10 @@ export default class AppLayout extends Block {
     });
   }
 
+  get componentName(): string {
+    return 'AppLayout';
+  }
+
   render() {
     // language=hbs
     return `
