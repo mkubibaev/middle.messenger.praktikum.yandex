@@ -5,7 +5,8 @@
     "build": "parcel build src/*.html --no-cache --public-url ./",
     "serve": "parcel src/*.html --no-source-maps && parcel watch ./*",
     "start": "node server.js",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "stylelint": "stylelint '**/*.pcss'"
   },
   "alias": {
     "core": "./src/core",
@@ -36,6 +37,8 @@
     "postcss-import": "14.1.0",
     "postcss-mixins": "9.0.2",
     "postcss-nested": "5.0.6",
+    "stylelint": "14.9.1",
+    "stylelint-config-standard": "26.0.0",
     "typescript": "4.7.3"
   },
   "dependencies": {

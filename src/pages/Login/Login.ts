@@ -1,5 +1,4 @@
 import { Block } from 'core';
-import './Login.pcss';
 import { validateValue, ValidationRule } from 'helpers/validator';
 
 interface LoginProps {}
