@@ -1,15 +1,21 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import { Block, Router } from 'core';
+import { validateValue, ValidationRule, withRouter } from 'utils';
 
-interface ProfileChangePasswordProps {}
+type ProfileChangePasswordProps = {
+  router: Router;
+  onSave: (event: SubmitEvent) => void;
+};
 
-export default class ProfileChangePassword extends Block {
+class ProfileChangePasswordPage extends Block<ProfileChangePasswordProps> {
+  static componentName = 'ProfileChangePassword';
+
   constructor(props: ProfileChangePasswordProps) {
     super({
       ...props,
     });
 
     this.setProps({
+      ...props,
       onSave: this.onSave.bind(this),
     });
   }
@@ -17,7 +23,7 @@ export default class ProfileChangePassword extends Block {
   onSave(event: SubmitEvent) {
     event.preventDefault();
     const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
+    Object.values(this.refs).forEach((component: Block<any>) => {
       const { validationRule } = component.props;
       if (validationRule) {
         const input = component.refs.input.getContent() as HTMLInputElement;
@@ -58,3 +64,5 @@ export default class ProfileChangePassword extends Block {
     `;
   }
 }
+
+export default withRouter(ProfileChangePasswordPage);

@@ -1,13 +1,29 @@
-import { Block } from 'core';
-import { user } from 'helpers/mockData';
+import { Block, Router } from 'core';
+import { withRouter } from 'utils';
 
-interface ProfileProps {}
+const mockUser = {
+  id: 123,
+  login: 'ivan',
+  firstName: 'Иван',
+  secondName: 'Иваов',
+  displayName: 'qweqweqwe',
+  avatar: 'https://robohash.org/51e6d8f1948e909898302c6b9edcc05d?set=set1&bgset=bg1&size=400x400',
+  phone: '123123123',
+  email: 'ivan@ivan.ru',
+};
 
-export default class Profile extends Block {
-  constructor(props: ProfileProps) {
+interface ProfilePageProps {
+  router: Router;
+  user: User;
+}
+
+class ProfilePage extends Block<ProfilePageProps> {
+  static componentName = 'ProfilePage';
+
+  constructor(props: ProfilePageProps) {
     super({
       ...props,
-      userData: user,
+      user: mockUser,
     });
   }
 
@@ -15,8 +31,10 @@ export default class Profile extends Block {
     // language=hbs
     return `
      {{#ProfileLayout}}
-       {{{ProfileData user=userData}}}  
+       {{{ProfileData user=user}}}  
      {{/ProfileLayout}}
     `;
   }
 }
+
+export default withRouter(ProfilePage);

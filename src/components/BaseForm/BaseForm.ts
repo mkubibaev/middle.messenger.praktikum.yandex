@@ -1,22 +1,23 @@
 import { Block } from 'core';
 import './BaseForm.pcss';
 
-interface BaseFormProps {
+type BaseFormProps = {
   title: string;
   submitLabel: string;
   onSubmit: () => void;
-}
+  events: {
+    submit: () => void;
+  };
+};
 
-export default class BaseForm extends Block {
-  constructor({ onSubmit, ...props }: BaseFormProps) {
+export default class BaseForm extends Block<BaseFormProps> {
+  static componentName = 'BaseForm';
+
+  constructor(props: BaseFormProps) {
     super({
       ...props,
-      events: { submit: onSubmit },
+      events: { submit: props.onSubmit },
     });
-  }
-
-  get componentName(): string {
-    return 'BaseForm';
   }
 
   render() {

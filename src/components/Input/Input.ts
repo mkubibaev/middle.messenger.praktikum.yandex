@@ -1,7 +1,7 @@
 import { Block } from 'core';
 import './Input.pcss';
 
-interface InputProps {
+type InputProps = {
   name: string;
   value?: string;
   type?: 'text' | 'password' | 'email';
@@ -10,9 +10,16 @@ interface InputProps {
   onFocus?: () => void;
   onBlur?: () => void;
   onInput?: () => void;
-}
+  events?: {
+    blur?: (e: FocusEvent) => void;
+    focus?: (e: FocusEvent) => void;
+    input?: () => void;
+  }
+};
 
-export default class Input extends Block {
+export default class Input extends Block<InputProps> {
+  static componentName = 'Input';
+
   constructor({ onFocus, onBlur, onInput, ...props }: InputProps) {
     super({
       ...props,
@@ -22,10 +29,6 @@ export default class Input extends Block {
         input: onInput,
       },
     });
-  }
-
-  get componentName(): string {
-    return 'Input';
   }
 
   render() {

@@ -1,10 +1,10 @@
 import { Block } from 'core';
 import './Search.pcss';
 
-export default class Search extends Block {
-  get componentName(): string {
-    return 'Search';
-  }
+type SearchProps = {};
+
+export default class Search extends Block<SearchProps> {
+  static componentName = 'Search';
 
   render() {
     // language=hbs

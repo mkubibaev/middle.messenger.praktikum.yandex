@@ -1,19 +1,20 @@
 import { Block } from 'core';
 import './AuthLayout.pcss';
-import { anonymousNav } from 'helpers/mockData';
+import { ANONYMOUS_NAV } from '../../constants';
+import { NavLink } from '../../types';
 
-interface AuthLayoutProps {}
+type AuthLayoutProps = {
+  navLinks: NavLink[];
+};
 
-export default class AuthLayout extends Block {
+export default class AuthLayout extends Block<AuthLayoutProps> {
+  static componentName = 'AuthLayout';
+
   constructor(props: AuthLayoutProps) {
     super({
       ...props,
-      navLinks: anonymousNav,
+      navLinks: ANONYMOUS_NAV,
     });
-  }
-
-  get componentName(): string {
-    return 'AuthLayout';
   }
 
   render() {

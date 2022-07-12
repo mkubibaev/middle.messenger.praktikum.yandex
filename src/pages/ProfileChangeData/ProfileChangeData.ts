@@ -1,17 +1,24 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
-import { user } from 'helpers/mockData';
+import { Block, Router } from 'core';
+import { validateValue, ValidationRule } from 'utils/validator';
+import { withRouter } from '../../utils';
 
-interface ProfileChangeDataProps {}
+interface ProfileChangeDataProps {
+  router: Router;
+  user: User;
+  onSave: (event: SubmitEvent) => void;
+}
 
-export default class ProfileChangeData extends Block {
+class ProfileChangeDataPage extends Block<ProfileChangeDataProps> {
+  static componentName = 'ProfileChangeData';
+
   constructor(props: ProfileChangeDataProps) {
     super({
       ...props,
-      user,
+      user: {} as User,
     });
 
     this.setProps({
+      ...props,
       onSave: this.onSave.bind(this),
     });
   }
@@ -19,7 +26,7 @@ export default class ProfileChangeData extends Block {
   onSave(event: SubmitEvent) {
     event.preventDefault();
     const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
+    Object.values(this.refs).forEach((component: Block<any>) => {
       const { validationRule } = component.props;
       if (validationRule) {
         const input = component.refs.input.getContent() as HTMLInputElement;
@@ -81,3 +88,5 @@ export default class ProfileChangeData extends Block {
     `;
   }
 }
+
+export default withRouter(ProfileChangeDataPage);

@@ -1,21 +1,28 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import { Block, Router, Store } from 'core';
+import { withRouter, validateValue, ValidationRule } from 'utils';
 
-interface RegisterProps {}
+type RegisterPageProps = {
+  router: Router
+  store: Store<AppState>;
+  onRegister: (event: SubmitEvent) => void;
+};
 
-export default class Register extends Block<RegisterProps> {
-  constructor(props: RegisterProps) {
+class RegisterPage extends Block<RegisterPageProps> {
+  static componentName = 'RegisterPage';
+
+  constructor(props: RegisterPageProps) {
     super(props);
 
     this.setProps({
-      onRegister: this.onRegister.bind(this),
+      ...props,
+      onRegister: this.onRegister,
     });
   }
 
-  onRegister(event: SubmitEvent) {
+  onRegister = (event: SubmitEvent) => {
     event.preventDefault();
     const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
+    Object.values(this.refs).forEach((component: Block<any>) => {
       const { validationRule } = component.props;
       if (validationRule) {
         const input = component.refs.input.getContent() as HTMLInputElement;
@@ -26,7 +33,7 @@ export default class Register extends Block<RegisterProps> {
       }
     });
     console.log(formValue);
-  }
+  };
 
   render() {
     // language=hbs
@@ -37,7 +44,7 @@ export default class Register extends Block<RegisterProps> {
           submitLabel="Зарегистрироваться"
           onSubmit=onRegister
           linkLabel="Войти"
-          linkUrl="./login.html"
+          linkUrl="/login"
         }}
           {{{ControlledInput
               label="Имя"
@@ -81,3 +88,5 @@ export default class Register extends Block<RegisterProps> {
     `;
   }
 }
+
+export default withRouter(RegisterPage);

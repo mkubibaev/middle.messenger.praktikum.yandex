@@ -1,27 +1,33 @@
-import { Block } from 'core';
-import { contacts, messages } from 'helpers/mockData';
+import { Block, Router } from 'core';
 import './Chats.pcss';
+import { withRouter } from '../../utils';
 
-interface ChatsProps {}
+type ChatsPageProps = {
+  router: Router;
+  onSend: (event: SubmitEvent) => void;
+};
 
-export default class Chats extends Block<ChatsProps> {
-  constructor(props: ChatsProps) {
+class ChatsPage extends Block<ChatsPageProps> {
+  static componentName = 'ChatsPage';
+
+  constructor(props: ChatsPageProps) {
     super({
       ...props,
-      contactsList: contacts,
-      selectedContact: contacts[0],
-      messagesList: messages,
+      // contactsList: contacts,
+      // selectedContact: contacts[0],
+      // messagesList: messages,
     });
 
     this.setProps({
-      onSend: this.onSend.bind(this),
+      ...props,
+      onSend: this.onSend,
     });
   }
 
-  onSend(event: SubmitEvent) {
+  onSend = (event: SubmitEvent) => {
     event.preventDefault();
     console.log(event);
-  }
+  };
 
   render() {
     // language=hbs
@@ -50,3 +56,5 @@ export default class Chats extends Block<ChatsProps> {
     `;
   }
 }
+
+export default withRouter(ChatsPage);

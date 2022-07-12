@@ -2,14 +2,12 @@ import { Block } from 'core';
 import { Message } from 'types';
 import './Messages.pcss';
 
-interface MessagesProps {
+type MessagesProps = {
   messages: Message[];
-}
+};
 
 export default class Messages extends Block<MessagesProps> {
-  get componentName(): string {
-    return 'Messages';
-  }
+  static componentName = 'Messages';
 
   render() {
     // language=hbs

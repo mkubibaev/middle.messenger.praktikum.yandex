@@ -1,20 +1,20 @@
 import { Block } from 'core';
-import { userNav } from 'helpers/mockData';
+import { USER_NAV } from '../../constants';
+import { NavLink } from '../../types';
 
 interface AppLayoutProps {
   wrapClassName: string;
+  navLinks: NavLink[];
 }
 
-export default class AppLayout extends Block {
+export default class AppLayout extends Block<AppLayoutProps> {
+  static componentName = 'AppLayout';
+
   constructor(props: AppLayoutProps) {
     super({
       ...props,
-      navLinks: userNav,
+      navLinks: USER_NAV,
     });
-  }
-
-  get componentName(): string {
-    return 'AppLayout';
   }
 
   render() {

@@ -2,14 +2,12 @@ import { Block } from 'core';
 import { NavLink } from 'types';
 import './MainNav.pcss';
 
-interface MainNavProps {
+type MainNavProps = {
   links: NavLink[];
-}
+};
 
 export default class MainNav extends Block<MainNavProps> {
-  get componentName() {
-    return 'MainNav';
-  }
+  static componentName = 'MainNav';
 
   render() {
     // language=hbs

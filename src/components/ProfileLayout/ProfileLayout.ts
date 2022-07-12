@@ -1,20 +1,21 @@
 import { Block } from 'core';
 import './ProfileLayout.pcss';
-import { user, userAvatar } from 'helpers/mockData';
+import { userAvatar } from 'helpers/mockData';
 
-interface ProfileLayoutProps {}
+type ProfileLayoutProps = {};
 
-export default class ProfileLayout extends Block {
+export default class ProfileLayout extends Block<ProfileLayoutProps> {
+  static componentName = 'ProfileLayout';
+
   constructor(props: ProfileLayoutProps) {
     super({
       ...props,
-      userData: user,
+      userData: {
+        first_name: 'Иван',
+        second_name: 'Иванов',
+      },
       userAvatar,
     });
-  }
-
-  get componentName(): string {
-    return 'ProfileLayout';
   }
 
   render() {
@@ -31,14 +32,14 @@ export default class ProfileLayout extends Block {
              <ul class="profile__links">
                <li>
                  {{{Link
-                     to="./profile-change-data.html"
+                     to="/profile-change-data"
                      label="Изменить данные"
                      classes="profile__link"
                  }}}
                </li>
                <li>
                  {{{Link
-                     to="./profile-change-password.html"
+                     to="/profile-change-password"
                      label="Изменить пароль"
                      classes="profile__link"
                  }}}

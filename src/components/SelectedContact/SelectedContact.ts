@@ -2,14 +2,12 @@ import { Block } from 'core';
 import { Contact } from 'types';
 import './SelectedContact.pcss';
 
-interface SelectedContactProps {
+type SelectedContactProps = {
   contact: Contact;
-}
+};
 
 export default class SelectedContact extends Block<SelectedContactProps> {
-  get componentName(): string {
-    return 'SelectedContact';
-  }
+  static componentName = 'SelectedContact';
 
   render() {
     return `

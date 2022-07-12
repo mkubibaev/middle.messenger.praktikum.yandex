@@ -2,15 +2,13 @@ import { Block } from 'core';
 import { Contact } from 'types';
 import './Contacts.pcss';
 
-interface ContactsProps {
+type ContactsProps = {
   list: Contact[];
   selectedContactId: string;
-}
+};
 
 export default class Contacts extends Block<ContactsProps> {
-  get componentName(): string {
-    return 'Contacts';
-  }
+  static componentName = 'Contacts';
 
   render() {
     // language=hbs
@@ -25,7 +23,7 @@ export default class Contacts extends Block<ContactsProps> {
               <div class="contact__info">
                 <div class="contact__info-row">
                     <span class="contact__name">{{name}}</span>
-                    <span class="contact__date">{{lastSeen}}</span>
+                    <time class="contact__date">{{lastSeen}}</time>
                 </div>
                 <div class="contact__info-row">
                   <span class="contact__message">{{message}}</span>

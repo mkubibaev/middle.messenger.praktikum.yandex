@@ -1,14 +1,12 @@
 import { Block } from 'core';
 import './InputError.pcss';
 
-interface InputErrorProps {
+type InputErrorProps = {
   text: string;
-}
+};
 
 export default class InputError extends Block<InputErrorProps> {
-  get componentName(): string {
-    return 'InputError';
-  }
+  static componentName = 'InputError';
 
   render() {
     // language=hbs

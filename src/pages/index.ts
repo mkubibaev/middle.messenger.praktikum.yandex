@@ -1,3 +1,4 @@
+export * from './Onboarding';
 export * from './Chats';
 export * from './Login';
 export * from './Register';

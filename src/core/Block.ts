@@ -2,13 +2,19 @@ import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './EventBus';
 
-interface BlockMeta<P = any> {
-  props: P;
-}
-
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P = any> {
+export interface BlockConstructable<Props = any> {
+  new(props: Props): Block<Props>;
+  componentName: string
+}
+
+// export interface BlockClass<P> extends Function {
+//   new (props: P): Block<P>;
+//   componentName: string;
+// }
+
+export default class Block<Props extends {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -18,33 +24,27 @@ export default class Block<P = any> {
 
   public id = nanoid(6);
 
-  private readonly _meta: BlockMeta;
-
   protected _element: Nullable<HTMLElement> = null;
 
-  readonly props: P;
+  readonly props: Props;
 
-  protected children: { [id: string]: Block } = {};
+  protected children: { [id: string]: Block<Props> } = {};
 
   eventBus: () => EventBus<Events>;
 
   protected state: any = {};
 
-  refs: { [key: string]: Block } = {};
+  refs: { [key: string]: Block<Props> } = {};
 
-  public constructor(props?: P) {
+  constructor(props?: Props) {
     const eventBus = new EventBus<Events>();
-    this._meta = {
-      props,
-    };
 
     this.getStateFromProps(props);
 
-    this.props = this._makePropsProxy(props || {} as P);
+    this.props = this._makePropsProxy(props || {} as Props);
     this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
-
     this._registerEvents(eventBus);
 
     eventBus.emit(Block.EVENTS.INIT, this.props);
@@ -71,15 +71,15 @@ export default class Block<P = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount(props: P) {
+  _componentDidMount(props: Props) {
     this.componentDidMount(props);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidMount(props: P) {
+  componentDidMount(props: Props) {
   }
 
-  _componentDidUpdate(oldProps: P, newProps: P) {
+  _componentDidUpdate(oldProps: Props, newProps: Props) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -88,11 +88,11 @@ export default class Block<P = any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(oldProps: Props, newProps: Props) {
     return true;
   }
 
-  setProps = (nextProps: P) => {
+  setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;
     }
@@ -110,10 +110,6 @@ export default class Block<P = any> {
 
   get element() {
     return this._element;
-  }
-
-  get componentName() {
-    return '';
   }
 
   _render() {
@@ -145,7 +141,7 @@ export default class Block<P = any> {
     return this.element!;
   }
 
-  _makePropsProxy(props: any): any {
+  private _makePropsProxy(props: any): any {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
     const self = this;
@@ -167,14 +163,14 @@ export default class Block<P = any> {
       deleteProperty() {
         throw new Error('Нет доступа');
       },
-    }) as unknown as P;
+    }) as unknown as Props;
   }
 
-  _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  _removeEvents() {
+  private _removeEvents() {
     const { events } = (this.props as any) as Record<string, () => void>;
 
     if (!events || !this._element) {
@@ -186,7 +182,7 @@ export default class Block<P = any> {
     });
   }
 
-  _addEvents() {
+  private _addEvents() {
     const { events } = (this.props as any) as Record<string, () => void>;
 
     if (!events) {
@@ -198,7 +194,7 @@ export default class Block<P = any> {
     });
   }
 
-  _compile(): DocumentFragment {
+  private _compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
     /**

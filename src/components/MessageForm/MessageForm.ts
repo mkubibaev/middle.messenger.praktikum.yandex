@@ -1,20 +1,21 @@
 import { Block } from 'core';
 import './MessageForm.pcss';
 
-interface MessageFormProps {
+type MessageFormProps = {
   onSubmit: () => void;
-}
+  events: {
+    submit: () => void;
+  }
+};
 
-export default class MessageForm extends Block {
-  constructor({ onSubmit, ...props }: MessageFormProps) {
+export default class MessageForm extends Block<MessageFormProps> {
+  static componentName = 'MessageForm';
+
+  constructor(props: MessageFormProps) {
     super({
       ...props,
-      events: { submit: onSubmit },
+      events: { submit: props.onSubmit },
     });
-  }
-
-  get componentName(): string {
-    return 'MessageForm';
   }
 
   render() {

@@ -1,15 +1,13 @@
 import { Block } from 'core';
 import './Button.pcss';
 
-interface ButtonProps {
+type ButtonProps = {
   label: string;
   classes: string;
-}
+};
 
 export default class Button extends Block<ButtonProps> {
-  get componentName(): string {
-    return 'Button';
-  }
+  static componentName = 'Button';
 
   render() {
     // language=hbs

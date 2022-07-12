@@ -1,12 +1,4 @@
-import { Contact, Message, NavLink, User } from 'types';
-
-export const user: User = {
-  first_name: 'Иван',
-  second_name: 'Иванов',
-  login: 'ivan',
-  email: 'ivan@ivan.ru',
-  phone: '+71231231234',
-};
+import { Contact, Message, NavLink } from 'types';
 
 export const userAvatar = 'https://robohash.org/51e6d8f1948e909898302c6b9edcc05d?set=set1&bgset=bg1&size=400x400';
 
@@ -40,26 +32,26 @@ export const contacts: Contact[] = [
 export const anonymousNav: NavLink[] = [
   {
     label: 'Вход',
-    url: './login.html',
+    url: '/login',
   },
   {
     label: 'Регистрация',
-    url: './register.html',
+    url: '/register',
   },
 ];
 
 export const userNav: NavLink[] = [
   {
     label: 'Чат',
-    url: './index.html',
+    url: '/chats',
   },
   {
     label: 'Профиль',
-    url: './profile.html',
+    url: '/profile',
   },
   {
     label: 'Выход',
-    url: './login.html',
+    url: '/login',
   },
 ];
 

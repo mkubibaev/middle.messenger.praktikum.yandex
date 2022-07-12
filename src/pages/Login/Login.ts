@@ -1,32 +1,46 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import { Block, Router, Store } from 'core';
+import { withRouter, withStore, validateValue, ValidationRule } from 'utils';
 
-interface LoginProps {}
+type LoginPageProps = {
+  router: Router;
+  store: Store<AppState>;
+  onLogin: (event: SubmitEvent) => void;
+  validationRule: ValidationRule
+};
 
-export default class Login extends Block<LoginProps> {
-  constructor(props: LoginProps) {
+class LoginPage extends Block<LoginPageProps> {
+  static componentName = 'LoginPage';
+
+  constructor(props: LoginPageProps) {
     super(props);
 
     this.setProps({
-      onLogin: this.onLogin.bind(this),
+      ...props,
+      onLogin: this.onLogin,
     });
   }
 
-  onLogin(event: SubmitEvent) {
-    event.preventDefault();
-    const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
-      const { validationRule } = component.props;
-      if (validationRule) {
-        const input = component.refs.input.getContent() as HTMLInputElement;
-        const { name, value } = input;
-        formValue[name] = value;
-        const errorText = validateValue(validationRule, value);
-        component.refs.error.setProps({ text: errorText });
-      }
-    });
-    console.log(formValue);
+  componentDidMount() {
+    if (this.props.store.getState().user) {
+      this.props.router.go('/chats');
+    }
   }
+
+  onLogin = (event: SubmitEvent) => {
+    event.preventDefault();
+    this.props.router.go('/chats');
+    // const formValue: { [key: string]: string } = {};
+    // Object.values(this.refs).forEach((component: Block<LoginPageProps>) => {
+    //   const { validationRule } = component.props;
+    //   if (validationRule) {
+    //     const input = component.refs.input.getContent() as HTMLInputElement;
+    //     const { name, value } = input;
+    //     formValue[name] = value;
+    //     const errorText = validateValue(validationRule, value);
+    //     component.refs.error.setProps({ text: errorText });
+    //   }
+    // });
+  };
 
   render() {
     // language=hbs
@@ -37,7 +51,7 @@ export default class Login extends Block<LoginProps> {
           submitLabel="Войти"      
           onSubmit=onLogin
           linkLabel="Нет аккаунта?"
-          linkUrl="./register.html"
+          linkUrl="/register"
         }}
           {{{ControlledInput
               label="Логин"
@@ -57,3 +71,6 @@ export default class Login extends Block<LoginProps> {
     `;
   }
 }
+
+export default withRouter(withStore(LoginPage));
+// export default LoginPage;
