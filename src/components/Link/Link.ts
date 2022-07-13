@@ -1,6 +1,6 @@
 import { Block, Router } from 'core';
 import './Link.pcss';
-import { withRouter } from '../../utils/withRouter';
+import { withRouter } from 'utils';
 
 interface LinkProps {
   label: string;

@@ -1,6 +1,6 @@
 import { Block } from 'core';
+import { NavLink } from 'types';
 import { USER_NAV } from '../../constants';
-import { NavLink } from '../../types';
 
 interface AppLayoutProps {
   wrapClassName: string;

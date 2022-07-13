@@ -31,13 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router
-    .use('/', getPageComponent(Pages.OnBoarding))
-    .use('/login', getPageComponent(Pages.Login))
-    .use('/register', getPageComponent(Pages.Register))
-    .use('/chats', getPageComponent(Pages.Chats))
-    .use('/profile', getPageComponent(Pages.Profile))
+    .use('/', getPageComponent(Pages.Login))
+    .use('/sign-up', getPageComponent(Pages.Register))
+    .use('/messenger', getPageComponent(Pages.Chats))
+    .use('/settings', getPageComponent(Pages.Profile))
     .use('/profile-change-data', getPageComponent(Pages.ProfileChangeData))
     .use('/profile-change-password', getPageComponent(Pages.ProfileChangePassword))
+    .use('/error', getPageComponent(Pages.Error))
+    .use('*', getPageComponent(Pages.Error404))
     .start();
 
   setTimeout(() => {

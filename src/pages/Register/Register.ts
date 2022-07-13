@@ -1,5 +1,5 @@
 import { Block, Router, Store } from 'core';
-import { withRouter, validateValue, ValidationRule } from 'utils';
+import { withRouter, validateValue, ValidationRule, withStore } from 'utils';
 
 type RegisterPageProps = {
   router: Router
@@ -44,7 +44,7 @@ class RegisterPage extends Block<RegisterPageProps> {
           submitLabel="Зарегистрироваться"
           onSubmit=onRegister
           linkLabel="Войти"
-          linkUrl="/login"
+          linkUrl="/"
         }}
           {{{ControlledInput
               label="Имя"
@@ -89,4 +89,4 @@ class RegisterPage extends Block<RegisterPageProps> {
   }
 }
 
-export default withRouter(RegisterPage);
+export default withRouter(withStore(RegisterPage));

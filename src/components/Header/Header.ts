@@ -1,32 +1,10 @@
-import { Block, Router } from 'core';
+import { Block } from 'core';
 import './Header.pcss';
-import { withRouter } from '../../utils';
 
-type HeaderProps = {
-  router: Router;
-  events: {
-    click: (event: PointerEvent) => void;
-  }
-};
+type HeaderProps = {};
 
-class Header extends Block<HeaderProps> {
+export default class Header extends Block<HeaderProps> {
   static componentName = 'Header';
-
-  constructor(props: HeaderProps) {
-    super(props);
-
-    this.setProps({
-      ...props,
-      events: {
-        click: this.onClick,
-      },
-    });
-  }
-
-  onClick = (event: PointerEvent) => {
-    event.preventDefault();
-    this.props.router.go('/');
-  };
 
   render() {
     // language=hbs
@@ -39,5 +17,3 @@ class Header extends Block<HeaderProps> {
     `;
   }
 }
-
-export default withRouter(Header);

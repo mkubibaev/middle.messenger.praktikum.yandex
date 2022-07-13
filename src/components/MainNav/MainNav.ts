@@ -19,7 +19,7 @@ export default class MainNav extends Block<MainNavProps> {
               <li class="main-nav__item">
                 {{{Link
                     label=label
-                    to=url
+                    to=path
                     classes="main-nav__link"
                 }}}
               </li>

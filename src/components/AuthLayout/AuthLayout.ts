@@ -1,7 +1,7 @@
 import { Block } from 'core';
 import './AuthLayout.pcss';
+import { NavLink } from 'types';
 import { ANONYMOUS_NAV } from '../../constants';
-import { NavLink } from '../../types';
 
 type AuthLayoutProps = {
   navLinks: NavLink[];

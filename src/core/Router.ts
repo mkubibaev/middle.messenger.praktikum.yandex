@@ -75,13 +75,13 @@ export default class Router {
     route.render();
   }
 
-  private getRoute(pathname: string) {
-    return this.routes.find((route: Route) => route.match(pathname));
+  private getRoute(pathname: string): Route | undefined {
+    const router = this.routes.find((route: Route) => route.match(pathname));
+    return router || this.routes.find((route: Route) => route.match('*'));
   }
 
   start() {
-    window.onpopstate = (event: PopStateEvent) => {
-      console.log('onpopstate', event);
+    window.onpopstate = () => {
       this.onRoute(window.location.pathname);
     };
     this.onRoute(window.location.pathname);

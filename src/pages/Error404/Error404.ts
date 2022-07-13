@@ -1,23 +1,20 @@
 import { Block, Router } from 'core';
-import './Error.pcss';
 import { withRouter } from 'utils';
 
-interface ErrorPageProps {
-  code: number;
-  message: string;
+type Error404PageProps = {
   router: Router
-}
+};
 
-class ErrorPage extends Block<ErrorPageProps> {
-  static componentName = 'ErrorPage';
+class Error404Page extends Block<Error404PageProps> {
+  static componentName = 'Error404Page';
 
   render() {
     // language=hbs
     return `
       <main class="error-page container">
         <div class="error-card">
-          <strong class="error-card__code">{{code}}</strong>
-          <p class="error-card__msg">{{message}}</p>
+          <strong class="error-card__code">404</strong>
+          <p class="error-card__msg">Страница не найдена</p>
           {{{Link
               label="Назад к чатам"
               to="/"
@@ -28,4 +25,4 @@ class ErrorPage extends Block<ErrorPageProps> {
   }
 }
 
-export default withRouter(ErrorPage);
+export default withRouter(Error404Page);

@@ -3,25 +3,25 @@ import { NavLink } from './types';
 export const USER_NAV: NavLink[] = [
   {
     label: 'Чат',
-    url: '/chats',
+    path: '/messenger',
   },
   {
     label: 'Профиль',
-    url: '/profile',
+    path: '/settings',
   },
   {
     label: 'Выход',
-    url: '/login',
+    path: '/',
   },
 ];
 
 export const ANONYMOUS_NAV: NavLink[] = [
   {
     label: 'Вход',
-    url: '/login',
+    path: '/',
   },
   {
     label: 'Регистрация',
-    url: '/register',
+    path: '/sign-up',
   },
 ];

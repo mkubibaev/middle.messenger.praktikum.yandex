@@ -1,5 +1,5 @@
 import { Block, Router, Store } from 'core';
-import { withRouter, withStore, validateValue, ValidationRule } from 'utils';
+import { withRouter, withStore, ValidationRule } from 'utils';
 
 type LoginPageProps = {
   router: Router;
@@ -22,13 +22,13 @@ class LoginPage extends Block<LoginPageProps> {
 
   componentDidMount() {
     if (this.props.store.getState().user) {
-      this.props.router.go('/chats');
+      this.props.router.go('/messenger');
     }
   }
 
   onLogin = (event: SubmitEvent) => {
     event.preventDefault();
-    this.props.router.go('/chats');
+    this.props.router.go('/messenger');
     // const formValue: { [key: string]: string } = {};
     // Object.values(this.refs).forEach((component: Block<LoginPageProps>) => {
     //   const { validationRule } = component.props;
@@ -51,7 +51,7 @@ class LoginPage extends Block<LoginPageProps> {
           submitLabel="Войти"      
           onSubmit=onLogin
           linkLabel="Нет аккаунта?"
-          linkUrl="/register"
+          linkUrl="/sign-up"
         }}
           {{{ControlledInput
               label="Логин"
@@ -73,4 +73,3 @@ class LoginPage extends Block<LoginPageProps> {
 }
 
 export default withRouter(withStore(LoginPage));
-// export default LoginPage;
