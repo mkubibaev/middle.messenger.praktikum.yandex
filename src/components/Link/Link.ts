@@ -1,12 +1,14 @@
-import { Block, Router } from 'core';
+import { Block, Router, Store } from 'core';
 import './Link.pcss';
-import { withRouter } from 'utils';
+import { withRouter, withStore } from 'utils';
 
 interface LinkProps {
   label: string;
   to: string;
+  action?: () => void;
   classes?: string;
   router: Router;
+  store: Store<AppState>;
   events: {
     click: (event: PointerEvent) => void;
   }
@@ -28,7 +30,11 @@ class Link extends Block<LinkProps> {
 
   onClick = (event: PointerEvent) => {
     event.preventDefault();
-    this.props.router.go(this.props.to);
+    if (this.props.action) {
+      this.props.store.dispatch(this.props.action);
+    } else {
+      this.props.router.go(this.props.to);
+    }
   };
 
   render() {
@@ -37,4 +43,4 @@ class Link extends Block<LinkProps> {
   }
 }
 
-export default withRouter(Link);
+export default withRouter(withStore(Link));

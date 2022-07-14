@@ -1,6 +1,7 @@
 export enum ValidationRule {
-  Name = 'name',
-  Login = 'Login',
+  FirstName = 'firstName',
+  SecondName = 'secondName',
+  Login = 'login',
   Email = 'email',
   Phone = 'phone',
   Password = 'password',
@@ -28,14 +29,15 @@ const ERROR_MESSAGES = {
 
 const fieldValidations: Record<string, (value: string) => string> = {
   [ValidationRule.Required]: (value: string) => (value.length ? '' : ERROR_MESSAGES.required),
-  [ValidationRule.Name]: (value: string) => (REG_EXP.name.test(value) ? '' : ERROR_MESSAGES.name),
+  [ValidationRule.FirstName]: (value: string) => (REG_EXP.name.test(value) ? '' : ERROR_MESSAGES.name),
+  [ValidationRule.SecondName]: (value: string) => (REG_EXP.name.test(value) ? '' : ERROR_MESSAGES.name),
   [ValidationRule.Email]: (value: string) => (REG_EXP.email.test(value) ? '' : ERROR_MESSAGES.email),
   [ValidationRule.Login]: (value: string) => (REG_EXP.login.test(value) ? '' : ERROR_MESSAGES.login),
   [ValidationRule.Phone]: (value: string) => (REG_EXP.phone.test(value) ? '' : ERROR_MESSAGES.phone),
   [ValidationRule.Password]: (value: string) => (REG_EXP.password.test(value) ? '' : ERROR_MESSAGES.password),
 };
 
-export function validateValue(rule: ValidationRule, value: string) {
+export function validate(rule: ValidationRule, value: string) {
   const trimmedValue = value.trim();
   return fieldValidations[rule](trimmedValue);
 }

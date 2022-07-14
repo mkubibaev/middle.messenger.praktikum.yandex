@@ -1,5 +1,5 @@
 import { Block, Router } from 'core';
-import { validateValue, ValidationRule, withRouter } from 'utils';
+import { validate, ValidationRule, withRouter } from 'utils';
 
 type ProfileChangePasswordProps = {
   router: Router;
@@ -29,7 +29,7 @@ class ProfileChangePasswordPage extends Block<ProfileChangePasswordProps> {
         const input = component.refs.input.getContent() as HTMLInputElement;
         const { name, value } = input;
         formValue[name] = value;
-        const errorText = validateValue(validationRule, value);
+        const errorText = validate(validationRule, value);
         component.refs.error.setProps({ text: errorText });
       }
     });

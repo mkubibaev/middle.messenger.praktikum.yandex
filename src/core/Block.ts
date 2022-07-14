@@ -34,7 +34,7 @@ export default class Block<Props extends {}> {
 
   protected state: any = {};
 
-  refs: { [key: string]: Block<Props> } = {};
+  protected refs: { [key: string]: Block<Props> } = {};
 
   constructor(props?: Props) {
     const eventBus = new EventBus<Events>();

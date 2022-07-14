@@ -1,7 +1,11 @@
 import { Block } from 'core';
 import './AuthLayout.pcss';
 import { NavLink } from 'types';
-import { ANONYMOUS_NAV } from '../../constants';
+
+const anonymNav: NavLink[] = [
+  { path: '/', label: 'Вход' },
+  { path: '/sign-up', label: 'Регистрация' },
+];
 
 type AuthLayoutProps = {
   navLinks: NavLink[];
@@ -13,7 +17,7 @@ export default class AuthLayout extends Block<AuthLayoutProps> {
   constructor(props: AuthLayoutProps) {
     super({
       ...props,
-      navLinks: ANONYMOUS_NAV,
+      navLinks: anonymNav,
     });
   }
 

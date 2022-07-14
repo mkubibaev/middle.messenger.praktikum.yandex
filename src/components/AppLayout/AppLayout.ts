@@ -1,6 +1,12 @@
 import { Block } from 'core';
 import { NavLink } from 'types';
-import { USER_NAV } from '../../constants';
+import { logout } from '../../services';
+
+const userNav: NavLink[] = [
+  { path: '/messenger', label: 'Чат' },
+  { path: '/settings', label: 'Профиль' },
+  { path: '/', label: 'Выход', action: logout },
+];
 
 interface AppLayoutProps {
   wrapClassName: string;
@@ -13,7 +19,7 @@ export default class AppLayout extends Block<AppLayoutProps> {
   constructor(props: AppLayoutProps) {
     super({
       ...props,
-      navLinks: USER_NAV,
+      navLinks: userNav,
     });
   }
 

@@ -7,13 +7,13 @@ type InputProps = {
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
   classes?: string;
-  onFocus?: () => void;
-  onBlur?: () => void;
-  onInput?: () => void;
+  onFocus?: (e: FocusEvent) => void;
+  onBlur?: (e: FocusEvent) => void;
+  onInput?: (e: InputEvent) => void;
   events?: {
     blur?: (e: FocusEvent) => void;
     focus?: (e: FocusEvent) => void;
-    input?: () => void;
+    input?: (e: InputEvent) => void;
   }
 };
 

@@ -1,5 +1,5 @@
 import { Block, Router } from 'core';
-import { validateValue, ValidationRule } from 'utils/validator';
+import { validate, ValidationRule } from 'utils/validator';
 import { withRouter } from '../../utils';
 
 interface ProfileChangeDataProps {
@@ -32,7 +32,7 @@ class ProfileChangeDataPage extends Block<ProfileChangeDataProps> {
         const input = component.refs.input.getContent() as HTMLInputElement;
         const { name, value } = input;
         formValue[name] = value;
-        const errorText = validateValue(validationRule, value);
+        const errorText = validate(validationRule, value);
         component.refs.error.setProps({ text: errorText });
       }
     });
