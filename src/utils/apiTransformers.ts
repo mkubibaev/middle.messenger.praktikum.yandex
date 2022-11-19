@@ -12,4 +12,3 @@ export const transformUser = (data: UserDTO): User => {
     email: data.email,
   };
 };
-

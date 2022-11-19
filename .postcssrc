@@ -1,7 +1,0 @@
-{
-  "plugins": {
-    "postcss-nested": true,
-    "postcss-mixins": true,
-    "postcss-import": true
-  }
-}

@@ -1,7 +1,7 @@
 .link {
   text-decoration: none;
 
-  &:not(.main-nav__link) {
+  &:not(.nav__link) {
     color: var(--primary-color);
   }
 }

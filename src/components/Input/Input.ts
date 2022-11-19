@@ -1,7 +1,7 @@
 import { Block } from 'core';
-import './Input.pcss';
+import './Input.scss';
 
-type InputProps = {
+export type InputProps = {
   name: string;
   value?: string;
   type?: 'text' | 'password' | 'email';
@@ -13,7 +13,6 @@ type InputProps = {
   events?: {
     blur?: (e: FocusEvent) => void;
     focus?: (e: FocusEvent) => void;
-    input?: (e: InputEvent) => void;
   }
 };
 
@@ -26,7 +25,6 @@ export default class Input extends Block<InputProps> {
       events: {
         focus: onFocus,
         blur: onBlur,
-        input: onInput,
       },
     });
   }

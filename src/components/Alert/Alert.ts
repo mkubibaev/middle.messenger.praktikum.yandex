@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import './Alert.pcss';
+import './Alert.scss';
 
 type AlertProps = {
   type: 'success' | 'danger' | 'warning';

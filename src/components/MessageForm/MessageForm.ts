@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import './MessageForm.pcss';
+import './MessageForm.scss';
 
 type MessageFormProps = {
   onSubmit: () => void;

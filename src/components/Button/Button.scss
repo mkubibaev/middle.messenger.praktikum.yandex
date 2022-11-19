@@ -8,6 +8,7 @@
   padding: 0 5px;
   transition: background-color 0.2s;
 
+
   &--primary {
     background-color: var(--primary-color);
     color: var(--base-white);
@@ -15,5 +16,9 @@
     &:hover {
       background-color: var(--primary-color-hovered);
     }
+  }
+
+  &:disabled {
+    background-color: var(--secondary-bg);
   }
 }

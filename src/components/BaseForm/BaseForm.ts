@@ -1,12 +1,13 @@
 import { Block } from 'core';
-import './BaseForm.pcss';
+import './BaseForm.scss';
 
 type BaseFormProps = {
   title: string;
   submitLabel: string;
   onSubmit: () => void;
+  isLoading: boolean;
   events: {
-    submit: () => void;
+    submit: (event: SubmitEvent) => void;
   };
 };
 
@@ -30,10 +31,12 @@ export default class BaseForm extends Block<BaseFormProps> {
       
         <div class="base-form__actions">
           {{{Button
-              label=submitLabel
-              type="submit"
-              classes="base-form__submit btn--primary"
+            label=submitLabel
+            type="submit"
+            classes="base-form__submit btn--primary"
+            disabled=isLoading
           }}}
+          
           {{#if linkLabel}}
             {{{Link
               label=linkLabel

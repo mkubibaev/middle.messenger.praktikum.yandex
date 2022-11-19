@@ -1,13 +1,11 @@
-import { Block, Router } from 'core';
-import './Chats.pcss';
-import { withRouter } from '../../utils';
+import { Block } from 'core';
+import './Chats.scss';
 
 type ChatsPageProps = {
-  router: Router;
   onSend: (event: SubmitEvent) => void;
 };
 
-class ChatsPage extends Block<ChatsPageProps> {
+export default class ChatsPage extends Block<ChatsPageProps> {
   static componentName = 'ChatsPage';
 
   constructor(props: ChatsPageProps) {
@@ -32,7 +30,7 @@ class ChatsPage extends Block<ChatsPageProps> {
   render() {
     // language=hbs
     return `
-      {{#AppLayout wrapClassName="chat"}}
+      {{#Layout}}
         <div class="chat__container container">
           <aside class="chat__sidebar">
             {{{Search}}}
@@ -52,9 +50,7 @@ class ChatsPage extends Block<ChatsPageProps> {
             </div>
           </main>
         </div>
-      {{/AppLayout}}
+      {{/Layout}}
     `;
   }
 }
-
-export default withRouter(ChatsPage);

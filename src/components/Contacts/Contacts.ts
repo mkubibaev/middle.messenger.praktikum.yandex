@@ -1,6 +1,6 @@
 import { Block } from 'core';
 import { Contact } from 'types';
-import './Contacts.pcss';
+import './Contacts.scss';
 
 type ContactsProps = {
   list: Contact[];

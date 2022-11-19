@@ -1,6 +1,7 @@
+import { Block } from 'core';
+
 export enum ValidationRule {
-  FirstName = 'firstName',
-  SecondName = 'secondName',
+  Name = 'name',
   Login = 'login',
   Email = 'email',
   Phone = 'phone',
@@ -29,15 +30,32 @@ const ERROR_MESSAGES = {
 
 const fieldValidations: Record<string, (value: string) => string> = {
   [ValidationRule.Required]: (value: string) => (value.length ? '' : ERROR_MESSAGES.required),
-  [ValidationRule.FirstName]: (value: string) => (REG_EXP.name.test(value) ? '' : ERROR_MESSAGES.name),
-  [ValidationRule.SecondName]: (value: string) => (REG_EXP.name.test(value) ? '' : ERROR_MESSAGES.name),
+  [ValidationRule.Name]: (value: string) => (REG_EXP.name.test(value) ? '' : ERROR_MESSAGES.name),
   [ValidationRule.Email]: (value: string) => (REG_EXP.email.test(value) ? '' : ERROR_MESSAGES.email),
   [ValidationRule.Login]: (value: string) => (REG_EXP.login.test(value) ? '' : ERROR_MESSAGES.login),
   [ValidationRule.Phone]: (value: string) => (REG_EXP.phone.test(value) ? '' : ERROR_MESSAGES.phone),
   [ValidationRule.Password]: (value: string) => (REG_EXP.password.test(value) ? '' : ERROR_MESSAGES.password),
 };
 
-export function validate(rule: ValidationRule, value: string) {
+export function validateValue(rule: ValidationRule, value: string): string {
   const trimmedValue = value.trim();
   return fieldValidations[rule](trimmedValue);
+}
+
+export function readAndValidateForm(refs: Record<string, Block<any>> = {}): [isValid: boolean, formValue: Indexed] {
+  const formValue: Indexed = {};
+  let isValid = true;
+  Object.values(refs).forEach((component) => {
+    const inputEl = component.refs.input.element! as HTMLInputElement;
+    const { name, value } = inputEl;
+    formValue[name] = value;
+
+    const { validationRule } = component.props;
+    if (validationRule) {
+      const errorText = validateValue(validationRule, value);
+      isValid = isValid && !errorText;
+      component.refs.error.setProps({ text: errorText });
+    }
+  });
+  return [isValid, formValue];
 }

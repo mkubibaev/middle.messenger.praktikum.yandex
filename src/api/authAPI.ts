@@ -4,16 +4,21 @@ import { LoginRequestData, RegisterRequestData } from './types';
 const http = new HttpClient(process.env.API_ENDPOINT!);
 
 class AuthAPI {
-  login = (data: LoginRequestData) => http.post('auth/signin', { data })
-    .then(({ response }) => response);
+  login(data: LoginRequestData) {
+    return http.post('auth/signin', { data });
+  }
 
-  register = (data: RegisterRequestData) => http.post('auth/signup', { data })
-    .then(({ response }) => response);
+  logout() {
+    return http.post('auth/logout');
+  }
 
-  me = () => http.get('auth/user')
-    .then(({ response }) => response);
+  register(data: RegisterRequestData) {
+    return http.post('auth/signup', { data });
+  }
 
-  logout = () => http.post('auth/logout');
+  getUser() {
+    return http.get('auth/user');
+  }
 }
 
 export default new AuthAPI();

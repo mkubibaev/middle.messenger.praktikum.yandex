@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import './ProfileData.pcss';
+import './ProfileData.scss';
 
 type ProfileDataProps = {
   user: User,

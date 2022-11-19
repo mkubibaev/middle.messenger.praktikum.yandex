@@ -1,122 +1,76 @@
-import { Block, Router, Store } from 'core';
-import { cloneDeep, validate, ValidationRule, withRouter, withStore } from 'utils';
+import { Block, Store } from 'core';
+import {
+  readAndValidateForm,
+  ValidationRule,
+  withStore,
+} from 'utils';
 import { login } from 'services';
 
 type LoginPageProps = {
-  router: Router;
   store: Store<AppState>;
-  formError?: () => string | null;
+  onLogin: (event: SubmitEvent) => void;
+  formError: () => string | null;
+  isLoading: () => boolean;
 };
 
 class LoginPage extends Block<LoginPageProps> {
   static componentName = 'LoginPage';
 
   constructor(props: LoginPageProps) {
-    super(props);
+    super({
+      ...props,
+      onLogin: (event) => {
+        event.preventDefault();
+        const [isValid, formValue] = readAndValidateForm(this.refs);
+        if (isValid) {
+          this.props.store.dispatch(login, formValue);
+        }
+      },
+    });
 
     this.setProps({
       ...props,
-      formError: () => props.store.getState().loginFormError,
+      formError: () => props.store.getState().loginError,
+      isLoading: () => props.store.getState().isLoading,
     });
-  }
-
-  componentDidMount() {
-    console.log('login page mounted');
-    if (this.props.store.getState().user) {
-      this.props.router.go('/messenger');
-    }
-  }
-
-  getStateFromProps() {
-    this.state = {
-      values: {
-        login: '',
-        password: '',
-      },
-      errors: {
-        login: '',
-        password: '',
-      },
-      onLogin: (event: SubmitEvent) => {
-        event.preventDefault();
-        const formValid = this.validateForm();
-        if (formValid) {
-          const loginData = this.state.values;
-          console.log(loginData);
-          this.props.store.dispatch(login as Partial<AppState>, loginData);
-        }
-      },
-      onInput: (event: InputEvent) => {
-        const { name, value } = event.target as HTMLInputElement;
-        const nextState = cloneDeep(this.state);
-        nextState.values[name] = value;
-      },
-      onBlur: this.validateInput.bind(this),
-    };
-  }
-
-  validateInput(event: FocusEvent) {
-    const { name, value } = event.target as HTMLInputElement;
-    const errorMsg = validate(name as ValidationRule, value);
-    const nextState = cloneDeep(this.state);
-    nextState.errors[name] = errorMsg;
-    this.setState(nextState);
-  }
-
-  validateForm() {
-    let formValid = true;
-    Object.entries(this.state.values).forEach(([name, value]) => {
-      const errorMsg = validate(name as ValidationRule, value as string);
-      const nextState = cloneDeep(this.state);
-      nextState.errors[name] = errorMsg;
-      this.setState(nextState);
-      formValid = formValid && !errorMsg;
-    });
-    return formValid;
   }
 
   render() {
-    const { errors, values } = this.state;
-
     // language=hbs
     return `
-      {{#AuthLayout}}
-        {{#BaseForm
-          title="Вход"      
-          submitLabel="Войти"      
-          onSubmit=onLogin
-          linkLabel="Нет аккаунта?"
-          linkUrl="/sign-up"
-        }}
-          {{#if formError}}
-            {{{Alert
-                type="danger"
-                text=formError
-            }}}    
-          {{/if}}
-          {{{FormControl
-              label="Логин"
-              name="login"
-              value="${values.login}"
-              error="${errors.login}"
-              onInput=onInput
-              onFocus=onFocus
-              onBlur=onBlur
-          }}}
-          {{{FormControl
-              label="Пароль"
-              name="password"
-              type="password"
-              value="${values.password}"
-              error="${errors.password}"
-              onInput=onInput
-              onFocus=onFocus
-              onBlur=onBlur
-          }}}
-        {{/BaseForm}}    
-      {{/AuthLayout}}
+      {{#Layout}}
+        <div class="auth__container container">
+          <div class="auth__inner">
+            {{#BaseForm
+                title="Вход"
+                submitLabel="Войти"
+                onSubmit=onLogin
+                isLoading=isLoading
+                linkLabel="Нет аккаунта?"
+                linkUrl="/sign-up"
+            }}
+              {{#if formError}}
+                  {{{Alert type="danger" text=formError}}}
+              {{/if}}
+              {{{ControlledInput
+                  label="Логин"
+                  name="login"
+                  ref="login"
+                  validationRule="${ValidationRule.Required}"
+              }}}
+              {{{ControlledInput
+                  label="Пароль"
+                  name="password"
+                  type="password"
+                  ref="password"
+                  validationRule="${ValidationRule.Required}"
+              }}}
+            {{/BaseForm}}
+          </div>
+        </div>
+      {{/Layout}}
     `;
   }
 }
 
-export default withRouter(withStore(LoginPage));
+export default withStore(LoginPage);

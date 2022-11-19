@@ -18,19 +18,16 @@ export const login = async (
   _state: AppState,
   action: LoginPayload,
 ) => {
-  dispatch({ isLoading: true });
+  dispatch({ isLoading: true, loginError: null });
 
   const response = await authAPI.login(action);
-
   if (apiHasError(response)) {
-    dispatch({ isLoading: false, loginFormError: response.reason });
+    dispatch({ isLoading: false, loginError: response.reason });
     return;
   }
 
-  const responseUser = await authAPI.me();
-
-  dispatch({ isLoading: false, loginFormError: null });
-
+  const responseUser = await authAPI.getUser();
+  dispatch({ isLoading: false, loginError: null });
   if (apiHasError(response)) {
     dispatch(logout);
     return;
@@ -60,13 +57,13 @@ export const register = async (
   const response = await authAPI.register(payload);
 
   if (apiHasError(response)) {
-    dispatch({ isLoading: false, registerFormError: response.reason });
+    dispatch({ isLoading: false, registerError: response.reason });
     return;
   }
 
-  const responseUser = await authAPI.me();
+  const responseUser = await authAPI.getUser();
 
-  dispatch({ isLoading: false, registerFormError: null });
+  dispatch({ isLoading: false, registerError: null });
 
   if (apiHasError(response)) {
     dispatch(logout);

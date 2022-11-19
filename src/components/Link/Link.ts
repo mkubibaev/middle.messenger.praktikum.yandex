@@ -1,5 +1,5 @@
 import { Block, Router, Store } from 'core';
-import './Link.pcss';
+import './Link.scss';
 import { withRouter, withStore } from 'utils';
 
 interface LinkProps {
@@ -30,6 +30,7 @@ class Link extends Block<LinkProps> {
 
   onClick = (event: PointerEvent) => {
     event.preventDefault();
+    event.stopPropagation();
     if (this.props.action) {
       this.props.store.dispatch(this.props.action);
     } else {

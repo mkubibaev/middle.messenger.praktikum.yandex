@@ -22,7 +22,7 @@ export default class HttpClient {
     this.apiUrl = apiUrl;
   }
 
-  public get(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
+  public get<T>(url: string, options: RequestOptions = {}): Promise<T> {
     const queryString = options.data ? url + this.queryStringify(options.data) : url;
     return this.request(queryString, { ...options, method: METHOD.GET }, options.timeout);
   }
@@ -39,11 +39,11 @@ export default class HttpClient {
     return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
   }
 
-  private request(url: string, options: RequestOptionsWithMethod, timeout = 10000): Promise<XMLHttpRequest> {
+  private request<T>(url: string, options: RequestOptionsWithMethod, timeout = 10000): Promise<T> {
     const resultUrl = this.apiUrl + url;
     const { method, headers, data } = options;
 
-    return new Promise((resolve, reject) => {
+    return new Promise<T>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open(method, resultUrl);
 
@@ -52,7 +52,7 @@ export default class HttpClient {
       xhr.responseType = 'json';
       xhr.withCredentials = true;
       xhr.timeout = timeout;
-      xhr.onload = () => { resolve(xhr); };
+      xhr.onload = () => resolve(xhr.response);
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;
@@ -63,6 +63,8 @@ export default class HttpClient {
 
       if (method === METHOD.GET) {
         xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
       } else {
         xhr.send(JSON.stringify(data));
       }

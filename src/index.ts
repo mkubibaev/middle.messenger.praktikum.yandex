@@ -1,6 +1,6 @@
 import { BlockConstructable, registerComponent, renderDOM, Router, Store } from 'core';
 import * as Components from 'components';
-import './styles/main.pcss';
+import './styles/main.scss';
 import { getPageComponent, Pages } from 'utils';
 import { defaultState } from './store';
 import { initApp } from './services';

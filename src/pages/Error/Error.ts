@@ -1,5 +1,5 @@
 import { Block, Router } from 'core';
-import './Error.pcss';
+import './Error.scss';
 import { withRouter } from 'utils';
 
 interface ErrorPageProps {

@@ -1,6 +1,6 @@
 import { Block } from 'core';
 import { Message } from 'types';
-import './Messages.pcss';
+import './Messages.scss';
 
 type MessagesProps = {
   messages: Message[];

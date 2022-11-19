@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import './Search.pcss';
+import './Search.scss';
 
 type SearchProps = {};
 

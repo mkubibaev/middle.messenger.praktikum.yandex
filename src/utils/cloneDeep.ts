@@ -1,5 +1,3 @@
-import { isObject } from './isObject';
-
 export function cloneDeep<T extends object = object>(obj: T) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
@@ -11,7 +9,7 @@ export function cloneDeep<T extends object = object>(obj: T) {
     // * string
     // * symbol
     // * function
-    if (item === null || !isObject(item)) {
+    if (item === null || typeof item !== 'object') {
       return item;
     }
 

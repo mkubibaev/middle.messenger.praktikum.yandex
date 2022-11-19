@@ -5,13 +5,13 @@ type Props = Record<string, any>;
 class Route {
   private pathname: string;
 
-  private block: Block<{}> | null;
+  private block: Block<any> | null;
 
-  private readonly BlockClass: BlockConstructable<{}>;
+  private readonly BlockClass: BlockConstructable;
 
   private readonly props: Props;
 
-  constructor(pathname: string, view: BlockConstructable<{}>, props: Props) {
+  constructor(pathname: string, view: BlockConstructable<any>, props: Props) {
     this.pathname = pathname;
     this.BlockClass = view;
     this.block = null;
@@ -38,9 +38,10 @@ class Route {
   render() {
     if (!this.block) {
       this.block = new this.BlockClass(this.props);
+    } else {
+      this.block.show();
     }
     renderDOM(this.block);
-    this.block.show();
   }
 }
 
@@ -81,8 +82,9 @@ export default class Router {
   }
 
   start() {
-    window.onpopstate = () => {
-      this.onRoute(window.location.pathname);
+    window.onpopstate = (event: PopStateEvent) => {
+      const target = event.currentTarget as Window;
+      this.onRoute(target.location.pathname);
     };
     this.onRoute(window.location.pathname);
   }

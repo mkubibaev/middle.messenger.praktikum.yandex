@@ -1,4 +1,5 @@
 import { Pages } from '../src/utils';
+import { Dispatch } from '../src/core';
 
 declare global {
   export type Nullable<T> = T | null;
@@ -14,9 +15,9 @@ declare global {
     appIsInited: boolean;
     page: Pages | null;
     isLoading: boolean;
-    loginFormError: string | null;
-    registerFormError: string | null;
     user: User | null;
+    loginError: string | null;
+    registerError: string | null;
   };
 
   export type User = {
@@ -28,6 +29,12 @@ declare global {
     avatar: string;
     phone: string;
     email: string;
+  };
+
+  export type NavLink = {
+    label: string;
+    path: string;
+    action?: (dispatch: Dispatch<AppState>) => Promise<void>;
   };
 }
 

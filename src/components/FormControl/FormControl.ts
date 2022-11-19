@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import './FormControl.pcss';
+import './FormControl.scss';
 
 type FormControlProps = {
   label: string;

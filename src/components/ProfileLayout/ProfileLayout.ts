@@ -1,6 +1,5 @@
 import { Block } from 'core';
-import './ProfileLayout.pcss';
-import { userAvatar } from 'helpers/mockData';
+import './ProfileLayout.scss';
 
 type ProfileLayoutProps = {};
 
@@ -14,14 +13,14 @@ export default class ProfileLayout extends Block<ProfileLayoutProps> {
         first_name: 'Иван',
         second_name: 'Иванов',
       },
-      userAvatar,
+      userAvatar: 'https://robohash.org/51e6d8f1948e909898302c6b9edcc05d?set=set1&bgset=bg1&size=400x400',
     });
   }
 
   render() {
     // language=hbs
     return `
-     {{#AppLayout wrapClassName="profile"}}
+
        <main class="profile__container container">
          <div class="profile__inner">
            <div class="profile__inner-left">
@@ -49,7 +48,6 @@ export default class ProfileLayout extends Block<ProfileLayoutProps> {
            <div class="profile__inner-right" data-layout="${this.id}"></div>
          </div>
        </main>
-     {{/AppLayout}}   
     `;
   }
 }

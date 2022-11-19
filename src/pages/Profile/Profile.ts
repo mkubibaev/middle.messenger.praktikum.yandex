@@ -29,10 +29,15 @@ class ProfilePage extends Block<ProfilePageProps> {
 
   render() {
     // language=hbs
+    // return `
+    //  {{#ProfileLayout}}
+    //    {{{ProfileData user=user}}}
+    //  {{/ProfileLayout}}
+    // `;
     return `
-     {{#ProfileLayout}}
-       {{{ProfileData user=user}}}  
-     {{/ProfileLayout}}
+      {{#Layout}}
+        <div>Profile page</div>
+      {{/Layout}} 
     `;
   }
 }

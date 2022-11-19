@@ -1,6 +1,6 @@
 import { Block } from 'core';
 import { Contact } from 'types';
-import './SelectedContact.pcss';
+import './SelectedContact.scss';
 
 type SelectedContactProps = {
   contact: Contact;
