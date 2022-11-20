@@ -1,4 +1,4 @@
-import { BlockConstructable, registerComponent, renderDOM, Router, Store } from 'core';
+import { BlockConstructable, registerComponent, Router, Store } from 'core';
 import * as Components from 'components';
 import './styles/main.scss';
 import { getPageComponent, Pages } from 'utils';
@@ -23,20 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
   window.router = router;
   window.store = store;
 
-  store.on('changed', (prevState, nextState) => {
-    if (prevState.page !== nextState.page) {
-      const Page = getPageComponent(nextState.page);
-      renderDOM(new Page({}));
-    }
-  });
-
   router
     .use('/', getPageComponent(Pages.Login))
     .use('/sign-up', getPageComponent(Pages.Register))
     .use('/messenger', getPageComponent(Pages.Chats))
     .use('/settings', getPageComponent(Pages.Profile))
-    .use('/profile-change-data', getPageComponent(Pages.ProfileChangeData))
-    .use('/profile-change-password', getPageComponent(Pages.ProfileChangePassword))
+    .use('/settings/change-data', getPageComponent(Pages.ProfileChangeData))
+    .use('/settings/change-password', getPageComponent(Pages.ProfileChangePassword))
     .use('/error', getPageComponent(Pages.Error))
     .use('*', getPageComponent(Pages.Error404))
     .start();

@@ -1,8 +1,11 @@
 import { Block } from 'core';
+import { withIsLoading } from '../../utils';
 
-type LayoutProps = {};
+type LayoutProps = {
+  isLoading: boolean;
+};
 
-export default class Layout extends Block<LayoutProps> {
+class Layout extends Block<LayoutProps> {
   static componentName = 'Layout';
 
   render() {
@@ -10,8 +13,13 @@ export default class Layout extends Block<LayoutProps> {
     return `
       <div class="wrapper">
         {{{Header}}}
+        {{#if isLoading}}
+          {{{Loader}}}    
+        {{/if}}  
         <main class="main" data-layout="${this.id}"></main>
       </div>
     `;
   }
 }
+
+export default withIsLoading(Layout);

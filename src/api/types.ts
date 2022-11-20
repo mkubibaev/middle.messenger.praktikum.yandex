@@ -9,7 +9,7 @@ export type LoginRequestData = {
   password: string;
 };
 
-export type RegisterRequestData = {
+export type RegisterDTO = {
   first_name: string;
   second_name: string;
   login: string;
@@ -27,4 +27,27 @@ export type UserDTO = {
   avatar: string;
   phone: string;
   email: string;
+};
+
+export type Profile = {
+  firstName: string;
+  secondName: string;
+  displayName: string;
+  login: string;
+  email: string;
+  phone: string;
+};
+
+export type ProfileDTO = {
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+};
+
+export type PasswordDTO = {
+  oldPassword: string;
+  newPassword: string;
 };

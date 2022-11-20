@@ -1,14 +1,20 @@
 import { HttpClient } from 'core';
-import { PasswordData, UserData } from './types';
+import { PasswordDTO, ProfileDTO } from './types';
 
-const http = new HttpClient(`${process.env.API_ENDPOINT}user/`);
+const http = new HttpClient(`${process.env.API_ENDPOINT}user`);
 
 class UserAPI {
-  changeProfile = (data: UserData) => http.put('profile', { data })
-    .then(({ response }) => response);
+  changeAvatar(data: FormData) {
+    return http.put('/profile/avatar', { data });
+  }
 
-  changePassword = (data: PasswordData) => http.put('password', { data })
-    .then(({ response }) => response);
+  changeProfile(data: ProfileDTO) {
+    return http.put('/profile', { data, headers: { 'content-type': 'application/json' } });
+  }
+
+  changePassword(data: PasswordDTO) {
+    return http.put('/password', { data, headers: { 'content-type': 'application/json' } });
+  }
 }
 
 export default new UserAPI();

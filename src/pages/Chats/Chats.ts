@@ -1,11 +1,13 @@
-import { Block } from 'core';
+import { Block, Store } from 'core';
 import './Chats.scss';
+import { withStore } from '../../utils';
 
 type ChatsPageProps = {
+  store: Store<AppState>;
   onSend: (event: SubmitEvent) => void;
 };
 
-export default class ChatsPage extends Block<ChatsPageProps> {
+class ChatsPage extends Block<ChatsPageProps> {
   static componentName = 'ChatsPage';
 
   constructor(props: ChatsPageProps) {
@@ -54,3 +56,5 @@ export default class ChatsPage extends Block<ChatsPageProps> {
     `;
   }
 }
+
+export default withStore(ChatsPage);

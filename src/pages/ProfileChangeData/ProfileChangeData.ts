@@ -1,10 +1,13 @@
-import { Block, Router } from 'core';
-import { validateValue, ValidationRule } from 'utils/validator';
-import { withRouter } from '../../utils';
+import { Block, Router, Store } from 'core';
+import { readAndValidateForm, ValidationRule } from 'utils/validator';
+import { withStore } from 'utils';
+import { changeProfile } from 'services/user';
 
 interface ProfileChangeDataProps {
   router: Router;
-  user: User;
+  store: Store<AppState>;
+  user: () => User | null;
+  formError: () => string | null;
   onSave: (event: SubmitEvent) => void;
 }
 
@@ -14,83 +17,86 @@ class ProfileChangeDataPage extends Block<ProfileChangeDataProps> {
   constructor(props: ProfileChangeDataProps) {
     super({
       ...props,
-      user: {} as User,
+      onSave: (event) => this.onSave(event),
     });
 
     this.setProps({
       ...props,
-      onSave: this.onSave.bind(this),
+      user: () => props.store.getState().user,
+      formError: () => props.store.getState().profileFormError,
     });
   }
 
   onSave(event: SubmitEvent) {
     event.preventDefault();
-    const formValue: { [key: string]: string } = {};
-    // Object.values(this.refs).forEach((component: Block<any>) => {
-    //   const { validationRule } = component.props;
-    //   if (validationRule) {
-    //     const input = component.refs.input.getContent() as HTMLInputElement;
-    //     const { name, value } = input;
-    //     formValue[name] = value;
-    //     const errorText = validate(validationRule, value);
-    //     component.refs.error.setProps({ text: errorText });
-    //   }
-    // });
-    console.log(formValue);
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.props.store.dispatch(changeProfile, formValue);
+    }
   }
 
   render() {
     // language=hbs
     return `
-      <div>Profile change data</div>
+      {{#Layout}}
+        {{#ProfileWrapper}}
+          {{#BaseForm
+              title="Изменить данные"
+              submitLabel="Сохранить"
+              onSubmit=onSave
+          }}
+            {{#if formError}}
+              {{{Alert type="danger" text=formError}}}
+            {{/if}}  
+            {{#with user}}  
+              {{{ControlledInput
+                  label="Имя"
+                  name="firstName"
+                  ref="firstName"
+                  value=firstName
+                  validationRule="${ValidationRule.Name}"
+              }}}
+              {{{ControlledInput
+                  label="Фамилия"
+                  name="secondName"
+                  ref="secondName"
+                  value=secondName
+                  validationRule="${ValidationRule.Name}"
+              }}}
+              {{{ControlledInput
+                  label="Почта"
+                  name="email"
+                  type="email"
+                  ref="email"
+                  value=email
+                  validationRule="${ValidationRule.Email}"
+              }}}
+              {{{ControlledInput
+                  label="Телефон"
+                  name="phone"
+                  ref="phone"
+                  value=phone
+                  validationRule="${ValidationRule.Phone}"
+              }}}
+              {{{ControlledInput
+                  label="Логин"
+                  name="login"
+                  ref="login"
+                  value=login
+                  validationRule="${ValidationRule.Login}"
+              }}}
+              {{{ControlledInput
+                  label="Имя в чате"
+                  name="displayName"
+                  ref="displayName"
+                  value=displayName
+              }}}
+            {{/with}}    
+          {{/BaseForm}}
+        {{/ProfileWrapper}}
+      {{/Layout}}  
     `;
-
-    // return `
-    //   {{#ProfileLayout}}
-    //     {{#BaseForm
-    //         title="Изменить данные"
-    //         submitLabel="Сохранить"
-    //         onSubmit=onSave
-    //     }}
-    //       {{{ControlledInput
-    //           label="Имя"
-    //           name="first_name"
-    //           ref="first_name"
-    //           value=user.first_name
-    //           validationRule="${ValidationRule.FirstName}"
-    //       }}}
-    //       {{{ControlledInput
-    //           label="Фамилия"
-    //           name="second_name"
-    //           ref="second_name"
-    //           value=user.second_name
-    //           validationRule="${ValidationRule.SecondName}"
-    //       }}}
-    //       {{{ControlledInput
-    //           label="Почта"
-    //           name="email"
-    //           ref="email"
-    //           value=user.email
-    //           validationRule="${ValidationRule.Email}"
-    //       }}}
-    //       {{{ControlledInput
-    //           label="Телефон"
-    //           name="phone"
-    //           ref="phone"
-    //           value=user.phone
-    //           validationRule="${ValidationRule.Phone}"
-    //       }}}
-    //       {{{ControlledInput
-    //           label="Логин"
-    //           name="login"
-    //           ref="login"
-    //           value=user.login
-    //           validationRule="${ValidationRule.Login}"
-    //       }}}
-    //     {{/BaseForm}}
-    //   {{/ProfileLayout}}
-    // `;
   }
 }
 
-export default withRouter(ProfileChangeDataPage);
+export default withStore(ProfileChangeDataPage);

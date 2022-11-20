@@ -16,8 +16,11 @@ declare global {
     page: Pages | null;
     isLoading: boolean;
     user: User | null;
-    loginError: string | null;
-    registerError: string | null;
+    loginFormError: string | null;
+    registerFormError: string | null;
+    avatarFormError: string | null;
+    profileFormError: string | null;
+    passwordFormError: string | null;
   };
 
   export type User = {

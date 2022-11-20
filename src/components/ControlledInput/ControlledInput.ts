@@ -38,6 +38,7 @@ export default class ControlledInput extends Block<ControlledInputProps> {
         {{{Input
             name=name
             type=type
+            value=value
             placeholder=placeholder
             onFocus=onFocus
             onBlur=onBlur

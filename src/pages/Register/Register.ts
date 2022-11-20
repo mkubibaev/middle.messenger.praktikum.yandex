@@ -6,7 +6,6 @@ type RegisterPageProps = {
   store: Store<AppState>;
   onRegister: (event: SubmitEvent) => void;
   formError: () => string | null;
-  isLoading: () => boolean;
 };
 
 class RegisterPage extends Block<RegisterPageProps> {
@@ -15,23 +14,44 @@ class RegisterPage extends Block<RegisterPageProps> {
   constructor(props: RegisterPageProps) {
     super({
       ...props,
-      onRegister: (event) => {
-        event.preventDefault();
-        const [isValid, formValue] = readAndValidateForm(this.refs);
-        if (isValid) {
-          this.props.store.dispatch(register, formValue);
-        }
-      },
+      onRegister: (event) => this.onRegister(event),
     });
 
     this.setProps({
       ...props,
-      formError: () => props.store.getState().registerError,
-      isLoading: () => props.store.getState().isLoading,
+      formError: () => props.store.getState().registerFormError,
     });
   }
 
+  getStateFromProps() {
+    this.state = {
+      firstName: '',
+      secondName: '',
+      login: '',
+      email: '',
+      phone: '',
+      password: '',
+    };
+  }
+
+  onRegister(event: SubmitEvent) {
+    event.preventDefault();
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.setState(formValue);
+      this.props.store.dispatch(register, formValue);
+    }
+  }
+
   render() {
+    const {
+      firstName,
+      secondName,
+      login,
+      email,
+      phone,
+    } = this.state;
+
     // language=hbs
     return `
       {{#Layout}}
@@ -53,18 +73,21 @@ class RegisterPage extends Block<RegisterPageProps> {
                   label="Имя"
                   name="firstName"
                   ref="firstName"
+                  value="${firstName}"
                   validationRule="${ValidationRule.Name}"
               }}}
               {{{ControlledInput
                   label="Фамилия"
                   name="secondName"
                   ref="secondName"
+                  value="${secondName}"
                   validationRule="${ValidationRule.Name}"
               }}}
               {{{ControlledInput
                   label="Логин"
                   name="login"
                   ref="login"
+                  value="${login}"
                   validationRule="${ValidationRule.Login}"
               }}}
               {{{ControlledInput
@@ -72,12 +95,14 @@ class RegisterPage extends Block<RegisterPageProps> {
                   name="email"
                   type="email"
                   ref="email"
+                  value="${email}"
                   validationRule="${ValidationRule.Email}"
               }}}
               {{{ControlledInput
                   label="Телефон"
                   name="phone"
                   ref="phone"
+                  value="${phone}"
                   validationRule="${ValidationRule.Phone}"
               }}}
               {{{ControlledInput
@@ -89,7 +114,10 @@ class RegisterPage extends Block<RegisterPageProps> {
               }}}
             {{/BaseForm}}
           </div>
-        </div>  
+        </div>
+        {{#if isLoading}}
+            {{{Loader}}}
+        {{/if}}  
       {{/Layout}}
     `;
   }

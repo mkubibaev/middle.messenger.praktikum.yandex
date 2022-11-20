@@ -6,7 +6,7 @@ enum METHOD {
 }
 
 interface RequestOptions {
-  headers?: [string, string][];
+  headers?: Record<string, string>;
   data?: any;
   timeout?: number
 }
@@ -31,7 +31,7 @@ export default class HttpClient {
     return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
   }
 
-  public put(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
+  public put<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
   }
 
@@ -47,7 +47,12 @@ export default class HttpClient {
       const xhr = new XMLHttpRequest();
       xhr.open(method, resultUrl);
 
-      xhr.setRequestHeader('content-type', 'application/json');
+      if (headers) {
+        Object.keys(headers).forEach((key) => {
+          xhr.setRequestHeader(key, headers[key]);
+        });
+      }
+
       xhr.setRequestHeader('accept', 'application/json');
       xhr.responseType = 'json';
       xhr.withCredentials = true;
@@ -57,16 +62,14 @@ export default class HttpClient {
       xhr.onerror = reject;
       xhr.ontimeout = reject;
 
-      if (headers) {
-        headers.forEach((header) => xhr.setRequestHeader(...header));
-      }
-
       if (method === METHOD.GET) {
         xhr.send();
-      } else if (data instanceof FormData) {
-        xhr.send(data);
       } else {
-        xhr.send(JSON.stringify(data));
+        if (data instanceof FormData) {
+          xhr.send(data);
+        } else {
+          xhr.send(JSON.stringify(data));
+        }
       }
     });
   }

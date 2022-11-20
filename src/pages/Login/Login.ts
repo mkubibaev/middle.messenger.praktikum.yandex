@@ -4,13 +4,12 @@ import {
   ValidationRule,
   withStore,
 } from 'utils';
-import { login } from 'services';
+import { login as loginAction } from 'services';
 
 type LoginPageProps = {
   store: Store<AppState>;
-  onLogin: (event: SubmitEvent) => void;
   formError: () => string | null;
-  isLoading: () => boolean;
+  onLogin: (event: SubmitEvent) => void
 };
 
 class LoginPage extends Block<LoginPageProps> {
@@ -19,23 +18,34 @@ class LoginPage extends Block<LoginPageProps> {
   constructor(props: LoginPageProps) {
     super({
       ...props,
-      onLogin: (event) => {
-        event.preventDefault();
-        const [isValid, formValue] = readAndValidateForm(this.refs);
-        if (isValid) {
-          this.props.store.dispatch(login, formValue);
-        }
-      },
+      onLogin: (event) => this.onLogin(event),
     });
 
     this.setProps({
       ...props,
-      formError: () => props.store.getState().loginError,
-      isLoading: () => props.store.getState().isLoading,
+      formError: () => props.store.getState().loginFormError,
     });
   }
 
+  getStateFromProps() {
+    this.state = {
+      login: '',
+      password: '',
+    };
+  }
+
+  onLogin(event: SubmitEvent) {
+    event.preventDefault();
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.setState(formValue);
+      this.props.store.dispatch(loginAction, formValue);
+    }
+  }
+
   render() {
+    const { login, password } = this.state;
+
     // language=hbs
     return `
       {{#Layout}}
@@ -56,6 +66,7 @@ class LoginPage extends Block<LoginPageProps> {
                   label="Логин"
                   name="login"
                   ref="login"
+                  value="${login}"
                   validationRule="${ValidationRule.Required}"
               }}}
               {{{ControlledInput
@@ -63,6 +74,7 @@ class LoginPage extends Block<LoginPageProps> {
                   name="password"
                   type="password"
                   ref="password"
+                  value="${password}"
                   validationRule="${ValidationRule.Required}"
               }}}
             {{/BaseForm}}

@@ -1,7 +1,7 @@
 import { Dispatch } from 'core';
-import { apiHasError, transformUser } from 'utils';
+import { apiHasError, transformToRegisterDTO, transformUser } from 'utils';
 import authAPI from 'api/authAPI';
-import { RegisterRequestData, UserDTO } from 'api/types';
+import { UserDTO } from 'api/types';
 import { LoginPayload, RegisterPayload } from './types';
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
@@ -16,18 +16,18 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
 export const login = async (
   dispatch: Dispatch<AppState>,
   _state: AppState,
-  action: LoginPayload,
+  payload: LoginPayload,
 ) => {
-  dispatch({ isLoading: true, loginError: null });
+  dispatch({ isLoading: true, loginFormError: null });
 
-  const response = await authAPI.login(action);
+  const response = await authAPI.login(payload);
   if (apiHasError(response)) {
-    dispatch({ isLoading: false, loginError: response.reason });
+    dispatch({ isLoading: false, loginFormError: response.reason });
     return;
   }
 
   const responseUser = await authAPI.getUser();
-  dispatch({ isLoading: false, loginError: null });
+  dispatch({ isLoading: false, loginFormError: null });
   if (apiHasError(response)) {
     dispatch(logout);
     return;
@@ -41,29 +41,21 @@ export const login = async (
 export const register = async (
   dispatch: Dispatch<AppState>,
   _state: AppState,
-  action: RegisterPayload,
+  payload: RegisterPayload,
 ) => {
-  dispatch({ isLoading: true });
+  dispatch({ isLoading: true, registerFormError: null });
 
-  const payload: RegisterRequestData = {
-    first_name: action.firstName,
-    second_name: action.secondName,
-    login: action.login,
-    email: action.email,
-    phone: action.phone,
-    password: action.password,
-  };
-
-  const response = await authAPI.register(payload);
+  const registerDTO = transformToRegisterDTO(payload);
+  const response = await authAPI.register(registerDTO);
 
   if (apiHasError(response)) {
-    dispatch({ isLoading: false, registerError: response.reason });
+    dispatch({ isLoading: false, registerFormError: response.reason });
     return;
   }
 
   const responseUser = await authAPI.getUser();
 
-  dispatch({ isLoading: false, registerError: null });
+  dispatch({ isLoading: false, registerFormError: null });
 
   if (apiHasError(response)) {
     dispatch(logout);

@@ -1,45 +1,71 @@
-import { Block, Router } from 'core';
-import { withRouter } from 'utils';
-
-const mockUser = {
-  id: 123,
-  login: 'ivan',
-  firstName: 'Иван',
-  secondName: 'Иваов',
-  displayName: 'qweqweqwe',
-  avatar: 'https://robohash.org/51e6d8f1948e909898302c6b9edcc05d?set=set1&bgset=bg1&size=400x400',
-  phone: '123123123',
-  email: 'ivan@ivan.ru',
-};
+import { Block, Store } from 'core';
+import { withStore } from 'utils';
 
 interface ProfilePageProps {
-  router: Router;
-  user: User;
+  store: Store<AppState>;
+  user: () => User | null;
+  isLoading: () => boolean;
 }
 
 class ProfilePage extends Block<ProfilePageProps> {
   static componentName = 'ProfilePage';
 
   constructor(props: ProfilePageProps) {
-    super({
+    super(props);
+
+    this.setProps({
       ...props,
-      user: mockUser,
+      user: () => props.store.getState().user,
+      isLoading: () => props.store.getState().isLoading,
     });
   }
 
   render() {
     // language=hbs
-    // return `
-    //  {{#ProfileLayout}}
-    //    {{{ProfileData user=user}}}
-    //  {{/ProfileLayout}}
-    // `;
     return `
       {{#Layout}}
-        <div>Profile page</div>
-      {{/Layout}} 
+        {{#ProfileWrapper}}
+          {{#with user}}
+            <ul class="profile-data">
+              <li class="profile-data__item">
+                <span class="profile-data__label">Имя</span>
+                <p class="profile-data__value">{{firstName}}</p>
+              </li>
+              <li class="profile-data__item">
+                <span class="profile-data__label">Фамилия</span>
+                <p class="profile-data__value">{{secondName}}</p>
+              </li>
+              <li class="profile-data__item">
+                <span class="profile-data__label">Имя в чате</span>
+                <p class="profile-data__value">
+                    {{#if displayName}}
+                      {{displayName}}
+                    {{else}}
+                        -
+                    {{/if}}    
+                </p>
+              </li>
+              <li class="profile-data__item">
+                <span class="profile-data__label">Логин</span>
+                <p class="profile-data__value">{{login}}</p>
+              </li>
+              <li class="profile-data__item">
+                <span class="profile-data__label">Почта</span>
+                <p class="profile-data__value">{{email}}</p>
+              </li>
+              <li class="profile-data__item">
+                <span class="profile-data__label">Телефон</span>
+                <p class="profile-data__value">{{phone}}</p>
+              </li>
+            </ul>
+          {{/with}}   
+        {{/ProfileWrapper}}
+        {{#if isLoading}}
+            {{{Loader}}}
+        {{/if}}
+      {{/Layout}}
     `;
   }
 }
 
-export default withRouter(ProfilePage);
+export default withStore(ProfilePage);

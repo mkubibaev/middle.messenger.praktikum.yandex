@@ -74,12 +74,11 @@ export default class Block<Props extends Record<string, any>> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount(props: Props) {
+  private _componentDidMount(props: Props) {
     this.componentDidMount(props);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidMount(props: Props) {
+  componentDidMount() {
   }
 
   private _componentWillUnmount() {
@@ -100,9 +99,7 @@ export default class Block<Props extends Record<string, any>> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    const op = { ...oldProps, router: null, store: null };
-    const np = { ...newProps, router: null, store: null };
-    return !isEqual(op, np);
+    return !isEqual(oldProps, newProps);
   }
 
   setProps = (nextProps: Props) => {
@@ -125,7 +122,7 @@ export default class Block<Props extends Record<string, any>> {
     return this._element;
   }
 
-  _render() {
+  private _render() {
     const fragment = this._compile();
 
     this._removeEvents();
@@ -253,10 +250,10 @@ export default class Block<Props extends Record<string, any>> {
   }
 
   show() {
-    this.element!.style.display = 'block';
+    this.getContent().style.display = 'block';
   }
 
   hide() {
-    this.element!.style.display = 'none';
+    this.getContent().style.display = 'none';
   }
 }

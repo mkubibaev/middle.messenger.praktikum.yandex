@@ -1,6 +1,7 @@
 export * from './isEqual';
 export * from './withRouter';
 export * from './withStore';
+export * from './withLoading';
 export * from './validator';
 export * from './pageList';
 export * from './apiHasError';
