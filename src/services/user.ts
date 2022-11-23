@@ -1,6 +1,5 @@
 import { Dispatch } from 'core';
-import userAPI from 'api/userAPI';
-import { PasswordDTO, Profile, UserDTO } from 'api/types';
+import { userAPI, PasswordDTO, ProfilePayload, UserDTO } from 'api';
 import { apiHasError, transformToProfileDTO, transformUser } from 'utils';
 
 export const chaneAvatar = async (
@@ -23,7 +22,7 @@ export const chaneAvatar = async (
 export const changeProfile = async (
   dispatch: Dispatch<AppState>,
   _state: AppState,
-  payload: Profile,
+  payload: ProfilePayload,
 ) => {
   dispatch({ isLoading: true, profileFormError: null });
 
@@ -55,4 +54,8 @@ export const changePassword = async (
 
   dispatch({ isLoading: false });
   window.router.go('/settings');
+};
+
+export const searchUser = async (payload: { login: string }) => {
+  return userAPI.searchByLogin(payload);
 };

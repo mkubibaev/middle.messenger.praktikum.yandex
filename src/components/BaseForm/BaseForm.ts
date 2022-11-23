@@ -2,7 +2,7 @@ import { Block } from 'core';
 import './BaseForm.scss';
 
 type BaseFormProps = {
-  title: string;
+  title?: string;
   submitLabel: string;
   onSubmit: () => void;
   isLoading: boolean;
@@ -25,7 +25,9 @@ export default class BaseForm extends Block<BaseFormProps> {
     // language=hbs
     return `
       <form class="base-form">
-        <h2 class="base-form__title">{{title}}</h2>
+        {{#if title}}
+          <h3 class="base-form__title">{{title}}</h3>
+        {{/if}}
       
         <div class="base-form__inputs" data-layout="${this.id}"></div>
       

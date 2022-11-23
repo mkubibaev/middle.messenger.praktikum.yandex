@@ -1,7 +1,8 @@
-.selected-contact {
+.selected-chat {
   height: 50px;
   margin-bottom: 20px;
   display: flex;
+  position: relative;
 
   &__inner {
     flex-grow: 1;
@@ -20,11 +21,7 @@
     border-radius: 50%;
     overflow: hidden;
     margin-right: 10px;
-  }
-
-  &__avatar-img {
-    display: block;
-    height: 100%;
+    background: var(--gray-200);
   }
 
   &__name {
@@ -42,5 +39,31 @@
     font-size: 20px;
     font-family: var(--base-font-family);
     background-color: var(--base-white);
+  }
+
+  &__menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.07) 0 4px 8px;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 0;
+    list-style-type: none;
+    &.active {
+      display: block;
+    }
+
+    li {
+      display: block;
+    }
+  }
+
+  .user-list {
+    height: 100%;
+    max-height: 300px;
+    overflow-y: scroll;
   }
 }

@@ -1,7 +1,6 @@
 import { Dispatch } from 'core';
 import { apiHasError, transformToRegisterDTO, transformUser } from 'utils';
-import authAPI from 'api/authAPI';
-import { UserDTO } from 'api/types';
+import { authAPI, UserDTO } from 'api';
 import { LoginPayload, RegisterPayload } from './types';
 
 export const logout = async (dispatch: Dispatch<AppState>) => {

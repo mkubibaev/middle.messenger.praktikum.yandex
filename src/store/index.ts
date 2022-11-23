@@ -3,6 +3,7 @@ export const defaultState: AppState = {
   isLoading: false,
   page: null,
   user: null,
+  chats: [],
   loginFormError: null,
   registerFormError: null,
   avatarFormError: null,

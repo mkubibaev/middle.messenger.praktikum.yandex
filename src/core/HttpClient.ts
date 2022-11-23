@@ -27,7 +27,7 @@ export default class HttpClient {
     return this.request(queryString, { ...options, method: METHOD.GET }, options.timeout);
   }
 
-  public post(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
+  public post<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
   }
 
@@ -35,7 +35,7 @@ export default class HttpClient {
     return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
   }
 
-  public delete(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
+  public delete<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
   }
 

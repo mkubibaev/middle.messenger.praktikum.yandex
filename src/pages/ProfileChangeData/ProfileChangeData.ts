@@ -1,7 +1,7 @@
 import { Block, Router, Store } from 'core';
 import { readAndValidateForm, ValidationRule } from 'utils/validator';
 import { withStore } from 'utils';
-import { changeProfile } from 'services/user';
+import { changeProfile } from 'services';
 
 interface ProfileChangeDataProps {
   router: Router;

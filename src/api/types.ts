@@ -4,11 +4,6 @@ export type APIError = {
 
 export type Response<T> = T | APIError;
 
-export type LoginRequestData = {
-  login: string;
-  password: string;
-};
-
 export type RegisterDTO = {
   first_name: string;
   second_name: string;
@@ -29,7 +24,7 @@ export type UserDTO = {
   email: string;
 };
 
-export type Profile = {
+export type ProfilePayload = {
   firstName: string;
   secondName: string;
   displayName: string;
@@ -50,4 +45,16 @@ export type ProfileDTO = {
 export type PasswordDTO = {
   oldPassword: string;
   newPassword: string;
+};
+
+export type ChatDTO = {
+  id: number;
+  title: string;
+  avatar: string | null;
+  unread_count: number,
+  last_message: {
+    user: UserDTO,
+    time: string;
+    content: string;
+  }
 };

@@ -13,8 +13,8 @@ export default class MessageForm extends Block<MessageFormProps> {
 
   constructor(props: MessageFormProps) {
     super({
-      ...props,
-      events: { submit: props.onSubmit },
+        ...props,
+        events: { submit: props.onSubmit },
     });
   }
 

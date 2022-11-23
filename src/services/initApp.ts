@@ -1,7 +1,6 @@
 import type { Dispatch } from 'core';
-import authAPI from 'api/authAPI';
+import { authAPI, UserDTO } from 'api';
 import { apiHasError, transformUser } from 'utils';
-import { UserDTO } from 'api/types';
 
 export async function initApp(dispatch: Dispatch<AppState>) {
   try {
@@ -10,7 +9,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
       return;
     }
     dispatch({ user: transformUser(userResponse as UserDTO) });
-    // window.router.go('/messenger');
+    window.router.go('/messenger');
   } catch (err) {
     console.error(err);
   } finally {

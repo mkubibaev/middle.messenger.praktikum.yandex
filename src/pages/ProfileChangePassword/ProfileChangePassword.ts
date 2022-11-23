@@ -1,6 +1,6 @@
 import { Block, Store } from 'core';
 import { readAndValidateForm, ValidationRule, withStore } from 'utils';
-import { changePassword } from '../../services/user';
+import { changePassword } from 'services';
 
 type ProfileChangePasswordProps = {
   store: Store<AppState>;

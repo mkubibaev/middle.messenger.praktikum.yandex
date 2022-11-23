@@ -1,5 +1,5 @@
 import { HttpClient } from 'core';
-import { PasswordDTO, ProfileDTO } from './types';
+import { PasswordDTO, ProfileDTO, UserDTO } from './types';
 
 const http = new HttpClient(`${process.env.API_ENDPOINT}user`);
 
@@ -14,6 +14,10 @@ class UserAPI {
 
   changePassword(data: PasswordDTO) {
     return http.put('/password', { data, headers: { 'content-type': 'application/json' } });
+  }
+
+  searchByLogin(data: { login: string }) {
+    return http.post<UserDTO[]>('/search', { data, headers: { 'content-type': 'application/json' } });
   }
 }
 

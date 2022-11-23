@@ -5,10 +5,23 @@ type ButtonProps = {
   label: string;
   classes: string;
   disabled: boolean;
+  onClick?: (e: PointerEvent) => void,
+  events?: {
+    click?: (e: PointerEvent) => void,
+  }
 };
 
 export default class Button extends Block<ButtonProps> {
   static componentName = 'Button';
+
+  constructor({ onClick, ...props }: ButtonProps) {
+    super({
+      ...props,
+      events: {
+        click: onClick,
+      },
+    });
+  }
 
   render() {
     // language=hbs
@@ -16,7 +29,10 @@ export default class Button extends Block<ButtonProps> {
       <button class="btn {{classes}}"
               type="{{#if type}}{{type}}{{else}}button{{/if}}"
               {{#if disabled}}disabled{{/if}}
-      >{{label}}</button>
+      >
+        {{label}}
+        <span data-layout="${this.id}"></span>
+      </button>
     `;
   }
 }

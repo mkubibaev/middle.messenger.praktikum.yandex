@@ -1,10 +1,12 @@
 import { Block, Store } from 'core';
 import './Chats.scss';
-import { withStore } from '../../utils';
+import { readAndValidateForm, ValidationRule, withStore } from 'utils';
+import { getChats, Chat, createChat } from 'services';
 
 type ChatsPageProps = {
   store: Store<AppState>;
-  onSend: (event: SubmitEvent) => void;
+  chats: () => Chat[];
+  selectedChat: () => Chat | null;
 };
 
 class ChatsPage extends Block<ChatsPageProps> {
@@ -13,45 +15,93 @@ class ChatsPage extends Block<ChatsPageProps> {
   constructor(props: ChatsPageProps) {
     super({
       ...props,
-      // contactsList: contacts,
-      // selectedContact: contacts[0],
-      // messagesList: messages,
+      chats: () => props.store.getState().chats,
     });
 
-    this.setProps({
-      ...props,
-      onSend: this.onSend,
+    this.setState({
+      selectedChat: () => props.store.getState().selectedChat,
+      showCreateChatModal: () => this.showCreateChatModal(),
+      hideCreateChatModal: () => this.hideCreateChatModal(),
+      onCreateChat: (event: SubmitEvent) => this.onCreateChat(event),
+      isCreateChatModalShown: false,
     });
   }
 
-  onSend = (event: SubmitEvent) => {
+  componentDidMount() {
+    this.props.store.dispatch(getChats);
+  }
+
+  showCreateChatModal() {
+    this.setState({ isCreateChatModalShown: true });
+  }
+
+  hideCreateChatModal() {
+    this.setState({ isCreateChatModalShown: false });
+  }
+
+  onCreateChat(event: SubmitEvent) {
     event.preventDefault();
-    console.log(event);
-  };
+    event.stopPropagation();
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.props.store.dispatch(createChat, formValue);
+      this.hideCreateChatModal();
+    }
+  }
 
   render() {
     // language=hbs
     return `
       {{#Layout}}
-        <div class="chat__container container">
-          <aside class="chat__sidebar">
+        <div class="chats__container container">
+          <div class="chats__sidebar">
             {{{Search}}}
-            {{{Contacts list=contactsList}}}
-          </aside>
+            <ul class="chats__list">
+              {{#each chats}}
+                {{{ChatItem chat=this}}}
+              {{/each}}
+            </ul>
+            {{{Button
+                label="Добавить чат"
+                onClick=showCreateChatModal
+                classes="btn--primary"
+            }}}
+          </div>
 
-          <main class="chat__main">
-            {{{SelectedContact contact=selectedContact}}}
-
-            <div class="chat__messages-wrap">
-              {{{Messages messages=messagesList}}}
-            </div>
-            <div class="chat__form-wrap">
-              {{{MessageForm
-                  onSubmit=onSend
-              }}}
-            </div>
-          </main>
+          <div class="chats__main">
+            {{#if selectedChat}}
+              {{{SelectedChat chat=selectedChat}}}
+              <div class="chats__messages-wrap">
+                {{{Messages messages=messagesList}}}
+              </div>
+              <div class="chats__form-wrap">
+                {{{MessageForm onSubmit=onSend}}}
+              </div>
+            {{else}}
+              <div class="chats__placeholder">
+                <p>Выберите чат чтобы отправить сообщение</p>
+              </div>
+            {{/if}}
+          </div>
         </div>
+
+        {{#Modal
+            title="Добавить чат"
+            isShown=isCreateChatModalShown
+            closeModal=hideCreateChatModal
+        }}
+          {{#BaseForm
+              submitLabel="Сохранить"
+              onSubmit=onCreateChat
+          }}
+            {{{ControlledInput
+                label="Назвение чата"
+                name="title"
+                ref="title"
+                validationRule="${ValidationRule.Required}"
+            }}}
+          {{/BaseForm}}
+        {{/Modal}}
       {{/Layout}}
     `;
   }

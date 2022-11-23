@@ -13,8 +13,8 @@ class RegisterPage extends Block<RegisterPageProps> {
 
   constructor(props: RegisterPageProps) {
     super({
-      ...props,
-      onRegister: (event) => this.onRegister(event),
+        ...props,
+        onRegister: (event) => this.onRegister(event),
     });
 
     this.setProps({

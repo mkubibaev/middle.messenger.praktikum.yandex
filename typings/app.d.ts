@@ -1,5 +1,7 @@
 import { Pages } from '../src/utils';
 import { Dispatch } from '../src/core';
+import { Chat } from '../src/services';
+import { UserDTO } from '../src/api';
 
 declare global {
   export type Nullable<T> = T | null;
@@ -16,11 +18,15 @@ declare global {
     page: Pages | null;
     isLoading: boolean;
     user: User | null;
+    chats: Chat[];
+    selectedChat: Chat | null;
+    foundUsers: UserDTO[] | null;
     loginFormError: string | null;
     registerFormError: string | null;
     avatarFormError: string | null;
     profileFormError: string | null;
     passwordFormError: string | null;
+    searchError: string | null;
   };
 
   export type User = {

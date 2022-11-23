@@ -1,12 +1,12 @@
 .search-form {
-  height: 50px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   background-color: var(--base-white);
   border-radius: 25px;
   overflow: hidden;
   padding: 0 15px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 
   &__input {
     outline: none;
