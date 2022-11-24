@@ -27,14 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router
     .use('/', getPageComponent(Pages.Login))
-    .use('/sign-in', getPageComponent(Pages.Login))
     .use('/sign-up', getPageComponent(Pages.Register))
     .use('/messenger', getPageComponent(Pages.Chats))
     .use('/settings', getPageComponent(Pages.Profile))
     .use('/settings/change-data', getPageComponent(Pages.ProfileChangeData))
     .use('/settings/change-password', getPageComponent(Pages.ProfileChangePassword))
-    .use('/404', getPageComponent(Pages.Error404))
-    .use('/500', getPageComponent(Pages.Error))
     .use('*', getPageComponent(Pages.Error404));
 
   store.on('changed', (prevState, nextState) => {
