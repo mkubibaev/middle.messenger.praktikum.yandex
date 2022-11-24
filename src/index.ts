@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router
     .use('/', getPageComponent(Pages.Login))
+    .use('/sign-in', getPageComponent(Pages.Login))
     .use('/sign-up', getPageComponent(Pages.Register))
     .use('/messenger', getPageComponent(Pages.Chats))
     .use('/settings', getPageComponent(Pages.Profile))
