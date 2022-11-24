@@ -64,12 +64,10 @@ export default class HttpClient {
 
       if (method === METHOD.GET) {
         xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
       } else {
-        if (data instanceof FormData) {
-          xhr.send(data);
-        } else {
-          xhr.send(JSON.stringify(data));
-        }
+        xhr.send(JSON.stringify(data));
       }
     });
   }
