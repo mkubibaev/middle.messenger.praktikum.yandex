@@ -6,6 +6,7 @@ import {
   ProfilePage,
   ProfileChangeDataPage,
   ProfileChangePasswordPage,
+  ErrorPage,
   Error404Page,
 } from 'pages';
 
@@ -16,6 +17,7 @@ export enum Pages {
   Profile = 'settings',
   ProfileChangeData = 'profile-change-data',
   ProfileChangePassword = 'profile-change-password',
+  Error = 'error',
   Error404 = 'error404',
 }
 
@@ -26,6 +28,7 @@ const pagesMap: Record<Pages, BlockConstructable<any>> = {
   [Pages.Profile]: ProfilePage,
   [Pages.ProfileChangeData]: ProfileChangeDataPage,
   [Pages.ProfileChangePassword]: ProfileChangePasswordPage,
+  [Pages.Error]: ErrorPage,
   [Pages.Error404]: Error404Page,
 };
 
