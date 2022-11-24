@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.router = router;
   window.store = store;
 
+  store.dispatch(initApp);
+
   router
     .use('/', getPageComponent(Pages.Login))
     .use('/sign-up', getPageComponent(Pages.Register))
@@ -30,11 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     .use('/settings', getPageComponent(Pages.Profile))
     .use('/settings/change-data', getPageComponent(Pages.ProfileChangeData))
     .use('/settings/change-password', getPageComponent(Pages.ProfileChangePassword))
-    .use('/error', getPageComponent(Pages.Error))
-    .use('*', getPageComponent(Pages.Error404))
-    .start();
+    .use('*', getPageComponent(Pages.Error404));
 
-  setTimeout(() => {
-    store.dispatch(initApp);
-  }, 100);
+  store.on('changed', (prevState, nextState) => {
+    if (!prevState.appIsInited && nextState.appIsInited) {
+      router.start();
+    }
+  });
 });
