@@ -1,12 +1,12 @@
 import { Block, Store } from 'core';
 import './Chats.scss';
 import { readAndValidateForm, ValidationRule, withStore } from 'utils';
-import { getChats, Chat, createChat } from 'services';
+import { getChats, Chat, createChat, ChatWithClick, Message, connectToChatSocket, sendMessage } from 'services';
 
 type ChatsPageProps = {
   store: Store<AppState>;
-  chats: () => Chat[];
-  selectedChat: () => Chat | null;
+  chats: () => ChatWithClick[];
+  messages: () => Message[];
 };
 
 class ChatsPage extends Block<ChatsPageProps> {
@@ -15,16 +15,24 @@ class ChatsPage extends Block<ChatsPageProps> {
   constructor(props: ChatsPageProps) {
     super({
       ...props,
-      chats: () => props.store.getState().chats,
+      chats: () => props.store.getState().chats.map((chat) => {
+        const chatWithClick = chat as ChatWithClick;
+        chatWithClick.onCLick = this.onSelectChat;
+        return chatWithClick;
+      }),
     });
+  }
 
-    this.setState({
-      selectedChat: () => props.store.getState().selectedChat,
+  getStateFromProps() {
+    this.state = {
+      selectedChat: null,
+      isCreateChatModalShown: false,
       showCreateChatModal: () => this.showCreateChatModal(),
       hideCreateChatModal: () => this.hideCreateChatModal(),
       onCreateChat: (event: SubmitEvent) => this.onCreateChat(event),
-      isCreateChatModalShown: false,
-    });
+      onSendMessage: (msg: string) => this.onSendMessage(msg),
+      messages: () => this.props.store.getState().messages,
+    };
   }
 
   componentDidMount() {
@@ -49,6 +57,23 @@ class ChatsPage extends Block<ChatsPageProps> {
     }
   }
 
+  onSelectChat = async (chat: Chat) => {
+    this.setState({ selectedChat: chat });
+    this.props.store.dispatch(connectToChatSocket, {
+      chatId: chat.id,
+      scroll: this.scrollMessagesWrap,
+    });
+  };
+
+  onSendMessage(msg: string) {
+    this.props.store.dispatch(sendMessage, msg);
+  }
+
+  scrollMessagesWrap = () => {
+    const wrap = document.getElementById('messages')!;
+    wrap.scrollTop = wrap.scrollHeight;
+  };
+
   render() {
     // language=hbs
     return `
@@ -58,7 +83,7 @@ class ChatsPage extends Block<ChatsPageProps> {
             {{{Search}}}
             <ul class="chats__list">
               {{#each chats}}
-                {{{ChatItem chat=this}}}
+                {{{ChatItem chat=this selectedChatId=${this.state.selectedChat?.id} }}}
               {{/each}}
             </ul>
             {{{Button
@@ -71,11 +96,21 @@ class ChatsPage extends Block<ChatsPageProps> {
           <div class="chats__main">
             {{#if selectedChat}}
               {{{SelectedChat chat=selectedChat}}}
-              <div class="chats__messages-wrap">
-                {{{Messages messages=messagesList}}}
+              <div class="chats__messages-wrap" id="messages">
+                <ul class="messages">
+                  {{#each messages}}
+                    {{{MessageItem
+                        content=this.content
+                        time=this.time
+                        isRead=this.is_read
+                        authorId=this.user_id
+                        userId=${this.props.store.getState().user?.id}
+                    }}}  
+                  {{/each}}
+                </ul>      
               </div>
               <div class="chats__form-wrap">
-                {{{MessageForm onSubmit=onSend}}}
+                {{{MessageForm onSubmit=onSendMessage}}}
               </div>
             {{else}}
               <div class="chats__placeholder">

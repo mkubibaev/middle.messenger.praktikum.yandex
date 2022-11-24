@@ -9,7 +9,6 @@ import { login as loginAction } from 'services';
 type LoginPageProps = {
   store: Store<AppState>;
   formError: () => string | null;
-  onLogin: (event: SubmitEvent) => void
 };
 
 class LoginPage extends Block<LoginPageProps> {
@@ -18,19 +17,17 @@ class LoginPage extends Block<LoginPageProps> {
   constructor(props: LoginPageProps) {
     super({
       ...props,
-      onLogin: (event) => this.onLogin(event),
-    });
-
-    this.setProps({
-      ...props,
       formError: () => props.store.getState().loginFormError,
     });
   }
 
   getStateFromProps() {
     this.state = {
-      login: '',
-      password: '',
+      formValue: {
+        login: '',
+        password: '',
+      },
+      onLogin: (event: SubmitEvent) => this.onLogin(event),
     };
   }
 
@@ -44,8 +41,7 @@ class LoginPage extends Block<LoginPageProps> {
   }
 
   render() {
-    const { login, password } = this.state;
-
+    const { formValue } = this.state;
     // language=hbs
     return `
       {{#Layout}}
@@ -66,7 +62,7 @@ class LoginPage extends Block<LoginPageProps> {
                   label="Логин"
                   name="login"
                   ref="login"
-                  value="${login}"
+                  value="${formValue.login}"
                   validationRule="${ValidationRule.Required}"
               }}}
               {{{ControlledInput
@@ -74,7 +70,7 @@ class LoginPage extends Block<LoginPageProps> {
                   name="password"
                   type="password"
                   ref="password"
-                  value="${password}"
+                  value="${formValue.password}"
                   validationRule="${ValidationRule.Required}"
               }}}
             {{/BaseForm}}

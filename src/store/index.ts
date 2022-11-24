@@ -4,6 +4,8 @@ export const defaultState: AppState = {
   page: null,
   user: null,
   chats: [],
+  messages: [],
+  chatSockets: [],
   loginFormError: null,
   registerFormError: null,
   avatarFormError: null,

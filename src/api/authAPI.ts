@@ -2,7 +2,7 @@ import { HttpClient } from 'core';
 import { LoginPayload } from 'services';
 import { RegisterDTO } from './types';
 
-const http = new HttpClient(`${process.env.API_ENDPOINT}auth`);
+const http = new HttpClient(`${process.env.API_ENDPOINT}/auth`);
 
 class AuthAPI {
   login(data: LoginPayload) {

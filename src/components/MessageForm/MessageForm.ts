@@ -2,9 +2,9 @@ import { Block } from 'core';
 import './MessageForm.scss';
 
 type MessageFormProps = {
-  onSubmit: () => void;
+  onSubmit: (msg: string) => void;
   events: {
-    submit: () => void;
+    submit: (event: SubmitEvent) => void;
   }
 };
 
@@ -13,20 +13,36 @@ export default class MessageForm extends Block<MessageFormProps> {
 
   constructor(props: MessageFormProps) {
     super({
-        ...props,
-        events: { submit: props.onSubmit },
+      ...props,
+      events: {
+        submit: (event) => {
+          const value = this.onSubmitForm(event);
+          props.onSubmit(value);
+        },
+      },
     });
   }
+
+  onSubmitForm = (event: SubmitEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const input = this.refs.input.element as HTMLInputElement;
+    return input.value;
+  };
 
   render() {
     // language=hbs
     return `
       <form class="message-form">
         <div class="message-form__inner">
-          <input class="message-form__input" type="text" placeholder="Сообщение..." name="message">
-          <button class="message-form__btn " type="button">
-            <i class="bi bi-paperclip"></i>
-          </button>
+          {{{Input
+              placeholder="Сообщение..."
+              classes="message-form__input"
+              ref="input"
+          }}}
+<!--          <button class="message-form__btn " type="button">-->
+<!--            <i class="bi bi-paperclip"></i>-->
+<!--          </button>-->
         </div>
         <button class="message-form__btn message-form__btn--submit" type="submit">
           <i class="bi bi-send"></i>

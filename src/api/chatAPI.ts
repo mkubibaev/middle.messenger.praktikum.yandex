@@ -1,7 +1,7 @@
 import { HttpClient } from 'core';
 import { ChatDTO, UserDTO } from './types';
 
-const http = new HttpClient(`${process.env.API_ENDPOINT}chats`);
+const http = new HttpClient(`${process.env.API_ENDPOINT}/chats`);
 
 class ChatAPI {
   getChats() {
@@ -26,6 +26,10 @@ class ChatAPI {
 
   deleteUsersFromChat(data: { users: number[], chatId: number }) {
     return http.delete('/users', { data, headers: { 'content-type': 'application/json' } });
+  }
+
+  getChatToken(chatId: number) {
+    return http.post<{ token: string }>(`/token/${chatId}`);
   }
 }
 

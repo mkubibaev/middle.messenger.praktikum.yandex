@@ -23,3 +23,17 @@ export type Chat = {
     content: string;
   } | null
 };
+
+export type ChatWithClick = Chat & {
+  onCLick: (chat: Chat) => void;
+};
+
+export type Message = {
+  chat_id: number;
+  content: string;
+  id: number;
+  is_read: boolean;
+  time: string;
+  type: string;
+  user_id: number;
+};

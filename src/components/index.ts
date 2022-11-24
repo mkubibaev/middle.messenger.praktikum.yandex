@@ -16,7 +16,6 @@ export * from './ChatItem';
 export * from './SelectedChat';
 export * from './Modal';
 export * from './UserItem';
-
+export * from './MessageItem';
 export * from './MessageForm';
-export * from './Messages';
 export * from './Search';

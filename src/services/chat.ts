@@ -42,8 +42,6 @@ export const deleteChat = async (
     dispatch({ isLoading: false });
     return;
   }
-  dispatch({ selectedChat: null });
-
   dispatch(getChats);
 };
 
@@ -77,4 +75,8 @@ export const deleteUserFromChat = async (
     return;
   }
   dispatch({ isLoading: false });
+};
+
+export const getChatToken = async (chatId: number): Promise<{ token: string }> => {
+  return chatAPI.getChatToken(chatId);
 };

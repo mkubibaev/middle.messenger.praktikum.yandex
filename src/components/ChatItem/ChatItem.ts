@@ -1,34 +1,29 @@
-import { Block, Store } from 'core';
+import { Block } from 'core';
 import './ChatItem.scss';
-import { Chat } from 'services';
-import { withStore } from '../../utils';
+import { ChatWithClick } from 'services';
 
 type ChatProps = {
-  store: Store<AppState>;
-  chat: Chat;
+  chat: ChatWithClick;
+  selectedChatId: number;
   events: {
     click: () => void
   }
 };
 
-class ChatItem extends Block<ChatProps> {
+export default class ChatItem extends Block<ChatProps> {
   static componentName = 'ChatItem';
 
   constructor(props: ChatProps) {
     super({
       ...props,
       events: {
-        click: () => this.onSelectChat(props.chat),
+        click: () => {
+          if (props.chat.id !== props.selectedChatId) {
+            props.chat.onCLick(props.chat);
+          }
+        },
       },
     });
-  }
-
-  componentDidUpdate(): boolean {
-    return false;
-  }
-
-  onSelectChat(chat: Chat) {
-    this.props.store.dispatch({ selectedChat: chat });
   }
 
   render() {
@@ -37,8 +32,7 @@ class ChatItem extends Block<ChatProps> {
       ? new Date(time).toLocaleDateString('ru')
       : '';
 
-    const active = this.props.chat.id === this.props.store.getState().selectedChat?.id;
-
+    const active = this.props.chat.id === this.props.selectedChatId;
     // language=hbs
     return `
 
@@ -62,5 +56,3 @@ class ChatItem extends Block<ChatProps> {
     `;
   }
 }
-
-export default withStore(ChatItem);

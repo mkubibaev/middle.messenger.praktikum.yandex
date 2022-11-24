@@ -2,7 +2,6 @@ import { Block, Store } from 'core';
 import './SelectedChat.scss';
 import { addUsersToChat, Chat, deleteChat, searchUser, getChatUsers, deleteUserFromChat } from 'services';
 import { readAndValidateForm, transformUser, ValidationRule, withStore } from 'utils';
-import {  } from 'services/user';
 
 type UserItem = User & {
   onClick: (id: number) => void
@@ -10,16 +9,14 @@ type UserItem = User & {
 
 type SelectedChatProps = {
   store: Store<AppState>;
-  chat: () => Chat;
+  chat: Chat;
 };
 
 class SelectedChat extends Block<SelectedChatProps> {
   static componentName = 'SelectedChat';
 
-  constructor(props: SelectedChatProps) {
-    super(props);
-
-    this.setState({
+  getStateFromProps() {
+    this.state = {
       isChatMenuShown: false,
       isUserAddModalShown: false,
       isUserDeleteModalShown: false,
@@ -33,7 +30,7 @@ class SelectedChat extends Block<SelectedChatProps> {
       hideUserDeleteModal: () => this.hideUserDeleteModal(),
       onDeleteChat: () => this.onDeleteChat(),
       searchUser: (event: SubmitEvent) => this.searchUser(event),
-    });
+    };
   }
 
   toggleChatMenu() {
@@ -52,7 +49,7 @@ class SelectedChat extends Block<SelectedChatProps> {
   showUserDeleteModal() {
     this.setState({ isUserDeleteModalShown: true });
     this.toggleChatMenu();
-    this.getSelectedChatUsers(this.props.chat().id);
+    this.getSelectedChatUsers(this.props.chat.id);
   }
 
   hideUserDeleteModal() {
@@ -60,7 +57,7 @@ class SelectedChat extends Block<SelectedChatProps> {
   }
 
   onDeleteChat() {
-    const chatId = this.props?.chat().id;
+    const chatId = this.props?.chat.id;
     if (chatId) {
       this.props.store.dispatch(deleteChat, { chatId });
     }
@@ -90,14 +87,14 @@ class SelectedChat extends Block<SelectedChatProps> {
   addUserToChat = (userId: number) => {
     this.props.store.dispatch(addUsersToChat, {
       users: [userId],
-      chatId: this.props.chat().id,
+      chatId: this.props.chat.id,
     });
   };
 
   deleteUserFormChat = (userId: number) => {
     this.props.store.dispatch(deleteUserFromChat, {
       users: [userId],
-      chatId: this.props.chat().id,
+      chatId: this.props.chat.id,
     });
   };
 
@@ -113,7 +110,6 @@ class SelectedChat extends Block<SelectedChatProps> {
 
   render() {
     const { foundUsers, chatUsers } = this.state;
-
     // language=hbs
     return `
       <div class="selected-chat">
