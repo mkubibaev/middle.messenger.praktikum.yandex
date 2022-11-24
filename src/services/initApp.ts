@@ -9,7 +9,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
       return;
     }
     dispatch({ user: transformUser(userResponse as UserDTO) });
-    window.router.go('/messenger');
+    // window.router.go('/messenger');
   } catch (err) {
     console.error(err);
   } finally {
