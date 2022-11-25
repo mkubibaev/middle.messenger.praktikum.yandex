@@ -3,15 +3,19 @@ import { apiHasError, transformChat } from 'utils';
 import { chatAPI, ChatDTO } from 'api';
 
 export const getChats = async (dispatch: Dispatch<AppState>) => {
-  dispatch({ isLoading: true });
+  try {
+    dispatch({ isLoading: true });
 
-  const response = await chatAPI.getChats();
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false });
-    return;
+    const response = await chatAPI.getChats();
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false });
+      return;
+    }
+    const chats = response.map((chat: ChatDTO) => transformChat(chat));
+    dispatch({ isLoading: false, chats });
+  } catch (err) {
+    console.log(err);
   }
-  const chats = response.map((chat: ChatDTO) => transformChat(chat));
-  dispatch({ isLoading: false, chats });
 };
 
 export const createChat = async (
@@ -19,15 +23,19 @@ export const createChat = async (
   _state: AppState,
   payload: { title: string },
 ) => {
-  dispatch({ isLoading: true });
+  try {
+    dispatch({ isLoading: true });
 
-  const response = await chatAPI.createChat(payload);
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false });
-    return;
+    const response = await chatAPI.createChat(payload);
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false });
+      return;
+    }
+
+    dispatch(getChats);
+  } catch (err) {
+    console.log(err);
   }
-
-  dispatch(getChats);
 };
 
 export const deleteChat = async (
@@ -35,14 +43,18 @@ export const deleteChat = async (
   _state: AppState,
   payload: { chatId: number },
 ) => {
-  dispatch({ isLoading: true });
+  try {
+    dispatch({ isLoading: true });
 
-  const response = await chatAPI.deleteChat(payload);
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false });
-    return;
+    const response = await chatAPI.deleteChat(payload);
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false });
+      return;
+    }
+    dispatch(getChats);
+  } catch (err) {
+    console.log(err);
   }
-  dispatch(getChats);
 };
 
 export const addUsersToChat = async (
@@ -50,17 +62,26 @@ export const addUsersToChat = async (
   _state: AppState,
   payload: { users: number[], chatId: number },
 ) => {
-  dispatch({ isLoading: true });
-  const response = await chatAPI.addUsersToChat(payload);
-  if (apiHasError(response)) {
+  try {
+    dispatch({ isLoading: true });
+    const response = await chatAPI.addUsersToChat(payload);
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false });
+      return;
+    }
     dispatch({ isLoading: false });
-    return;
+  } catch (err) {
+    console.log(err);
   }
-  dispatch({ isLoading: false });
 };
 
-export const getChatUsers = async (chatId: number) => {
-  return chatAPI.getChatUsers(chatId);
+export const getChatUsers = (chatId: number) => {
+  try {
+    return chatAPI.getChatUsers(chatId);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const deleteUserFromChat = async (
@@ -68,15 +89,24 @@ export const deleteUserFromChat = async (
   _state: AppState,
   payload: { users: number[], chatId: number },
 ) => {
-  dispatch({ isLoading: true });
-  const response = await chatAPI.deleteUsersFromChat(payload);
-  if (apiHasError(response)) {
+  try {
+    dispatch({ isLoading: true });
+    const response = await chatAPI.deleteUsersFromChat(payload);
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false });
+      return;
+    }
     dispatch({ isLoading: false });
-    return;
+  } catch (err) {
+    console.log(err);
   }
-  dispatch({ isLoading: false });
 };
 
-export const getChatToken = async (chatId: number): Promise<{ token: string }> => {
-  return chatAPI.getChatToken(chatId);
+export const getChatToken = (chatId: number) => {
+  try {
+    return chatAPI.getChatToken(chatId);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };

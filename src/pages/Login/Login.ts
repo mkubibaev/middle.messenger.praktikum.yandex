@@ -35,7 +35,7 @@ class LoginPage extends Block<LoginPageProps> {
     event.preventDefault();
     const [isValid, formValue] = readAndValidateForm(this.refs);
     if (isValid) {
-      this.setState(formValue);
+      this.setState({ formValue });
       this.props.store.dispatch(loginAction, formValue);
     }
   }
