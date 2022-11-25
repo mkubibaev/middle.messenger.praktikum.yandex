@@ -4,12 +4,16 @@ import { authAPI, UserDTO } from 'api';
 import { LoginPayload, RegisterPayload } from './types';
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
-  dispatch({ isLoading: true });
+  try {
+    dispatch({ isLoading: true });
 
-  await authAPI.logout();
-  dispatch({ isLoading: false, user: null });
+    await authAPI.logout();
+    dispatch({ isLoading: false, user: null });
 
-  window.router.go('/');
+    window.router.go('/');
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const login = async (
@@ -17,24 +21,28 @@ export const login = async (
   _state: AppState,
   payload: LoginPayload,
 ) => {
-  dispatch({ isLoading: true, loginFormError: null });
+  try {
+    dispatch({ isLoading: true, loginFormError: null });
 
-  const response = await authAPI.login(payload);
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, loginFormError: response.reason });
-    return;
+    const response = await authAPI.login(payload);
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, loginFormError: response.reason });
+      return;
+    }
+
+    const responseUser = await authAPI.getUser();
+    dispatch({ isLoading: false, loginFormError: null });
+    if (apiHasError(response)) {
+      dispatch(logout);
+      return;
+    }
+
+    dispatch({ user: transformUser(responseUser as UserDTO) });
+
+    window.router.go('/messenger');
+  } catch (err) {
+    console.log(err);
   }
-
-  const responseUser = await authAPI.getUser();
-  dispatch({ isLoading: false, loginFormError: null });
-  if (apiHasError(response)) {
-    dispatch(logout);
-    return;
-  }
-
-  dispatch({ user: transformUser(responseUser as UserDTO) });
-
-  window.router.go('/messenger');
 };
 
 export const register = async (
@@ -42,26 +50,30 @@ export const register = async (
   _state: AppState,
   payload: RegisterPayload,
 ) => {
-  dispatch({ isLoading: true, registerFormError: null });
+  try {
+    dispatch({ isLoading: true, registerFormError: null });
 
-  const registerDTO = transformToRegisterDTO(payload);
-  const response = await authAPI.register(registerDTO);
+    const registerDTO = transformToRegisterDTO(payload);
+    const response = await authAPI.register(registerDTO);
 
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, registerFormError: response.reason });
-    return;
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, registerFormError: response.reason });
+      return;
+    }
+
+    const responseUser = await authAPI.getUser();
+
+    dispatch({ isLoading: false, registerFormError: null });
+
+    if (apiHasError(response)) {
+      dispatch(logout);
+      return;
+    }
+
+    dispatch({ user: transformUser(responseUser as UserDTO) });
+
+    window.router.go('/messenger');
+  } catch (err) {
+    console.log(err);
   }
-
-  const responseUser = await authAPI.getUser();
-
-  dispatch({ isLoading: false, registerFormError: null });
-
-  if (apiHasError(response)) {
-    dispatch(logout);
-    return;
-  }
-
-  dispatch({ user: transformUser(responseUser as UserDTO) });
-
-  window.router.go('/messenger');
 };

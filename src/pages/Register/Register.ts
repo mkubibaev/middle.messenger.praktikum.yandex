@@ -35,7 +35,7 @@ class RegisterPage extends Block<RegisterPageProps> {
     event.preventDefault();
     const [isValid, formValue] = readAndValidateForm(this.refs);
     if (isValid) {
-      this.setState(formValue);
+      this.setState({ formValue });
       this.props.store.dispatch(register, formValue);
     }
   }

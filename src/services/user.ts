@@ -7,16 +7,20 @@ export const chaneAvatar = async (
   _state: AppState,
   payload: FormData,
 ) => {
-  dispatch({ isLoading: true, avatarFormError: null });
+  try {
+    dispatch({ isLoading: true, avatarFormError: null });
 
-  const response = await userAPI.changeAvatar(payload);
+    const response = await userAPI.changeAvatar(payload);
 
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, avatarFormError: response.reason });
-    return;
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, avatarFormError: response.reason });
+      return;
+    }
+
+    dispatch({ isLoading: false, user: transformUser(response as UserDTO) });
+  } catch (err) {
+    console.log(err);
   }
-
-  dispatch({ isLoading: false, user: transformUser(response as UserDTO) });
 };
 
 export const changeProfile = async (
@@ -24,18 +28,23 @@ export const changeProfile = async (
   _state: AppState,
   payload: ProfilePayload,
 ) => {
-  dispatch({ isLoading: true, profileFormError: null });
+  try {
+    dispatch({ isLoading: true, profileFormError: null });
 
-  const data = transformToProfileDTO(payload);
-  const response = await userAPI.changeProfile(data);
+    const data = transformToProfileDTO(payload);
+    const response = await userAPI.changeProfile(data);
 
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, profileFormError: response.reason });
-    return;
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, profileFormError: response.reason });
+      return;
+    }
+
+    dispatch({ isLoading: false, user: transformUser(response as UserDTO) });
+    window.router.go('/settings');
+  } catch (err) {
+    console.log(err);
   }
 
-  dispatch({ isLoading: false, user: transformUser(response as UserDTO) });
-  window.router.go('/settings');
 };
 
 export const changePassword = async (
@@ -43,19 +52,28 @@ export const changePassword = async (
   _state: AppState,
   payload: PasswordDTO,
 ) => {
-  dispatch({ isLoading: true });
+  try {
+    dispatch({ isLoading: true });
 
-  const response = await userAPI.changePassword(payload);
+    const response = await userAPI.changePassword(payload);
 
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, passwordFormError: response.reason });
-    return;
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, passwordFormError: response.reason });
+      return;
+    }
+
+    dispatch({ isLoading: false });
+    window.router.go('/settings');
+  } catch (err) {
+    console.log(err);
   }
-
-  dispatch({ isLoading: false });
-  window.router.go('/settings');
 };
 
-export const searchUser = async (payload: { login: string }) => {
-  return userAPI.searchByLogin(payload);
+export const searchUser = (payload: { login: string }) => {
+  try {
+    return userAPI.searchByLogin(payload);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
