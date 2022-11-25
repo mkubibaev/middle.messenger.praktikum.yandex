@@ -44,6 +44,7 @@ export const changeProfile = async (
   } catch (err) {
     console.log(err);
   }
+
 };
 
 export const changePassword = async (
