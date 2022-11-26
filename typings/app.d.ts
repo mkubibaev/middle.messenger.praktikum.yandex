@@ -19,7 +19,7 @@ declare global {
     user: User | null;
     chats: Chat[];
     messages: Message[];
-    chatSocket: WebSocket;
+    chatSocket: WebSocket | null;
     loginFormError: string | null;
     registerFormError: string | null;
     avatarFormError: string | null;

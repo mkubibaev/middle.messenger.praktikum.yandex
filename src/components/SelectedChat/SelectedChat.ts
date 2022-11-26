@@ -15,6 +15,19 @@ type SelectedChatProps = {
 class SelectedChat extends Block<SelectedChatProps> {
   static componentName = 'SelectedChat';
 
+  constructor(props: SelectedChatProps) {
+    super({
+      ...props,
+      chat: {
+        ...props.chat,
+        ...props.chat,
+        avatar: props.chat.avatar
+          ? `${process.env.API_ENDPOINT}/resources${props.chat.avatar}`
+          : '',
+      },
+    });
+  }
+
   getStateFromProps() {
     this.state = {
       isChatMenuShown: false,

@@ -1,12 +1,13 @@
-import { Dispatch } from 'core';
+import { Dispatch, DispatchStateHandler } from 'core';
 import { chatAPI } from 'api';
 import { apiHasError } from '../utils';
 import { logout } from './auth';
+import { ConnectToChatSocketPayload } from './types';
 
-export const connectToChatSocket = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  payload: { chatId: number, scroll: () => void },
+export const connectToChatSocket: DispatchStateHandler<ConnectToChatSocketPayload> = async (
+  dispatch,
+  state,
+  payload,
 ) => {
   try {
     const tokenResponse = await chatAPI.getChatToken(payload.chatId);
@@ -25,17 +26,32 @@ export const connectToChatSocket = async (
           type: 'get old',
         }),
       );
+
+      setInterval(() => {
+        socket.send(
+          JSON.stringify({
+            type: 'ping',
+          }),
+        );
+      }, 8000);
     });
 
     socket.addEventListener('message', (event) => {
-      const data = JSON.parse(event.data);
-      if (Array.isArray(data)) {
-        const newMessages = data.reverse();
-        dispatch({ messages: newMessages });
-      } else {
-        dispatch({ messages: [...window.store.getState().messages, data] });
+      try {
+        const data = JSON.parse(event.data);
+        if (Array.isArray(data)) {
+          const newMessages = data.reverse();
+          dispatch({ messages: newMessages });
+        } else {
+          if (data.type === 'pong') {
+            return;
+          }
+          dispatch({ messages: [...window.store.getState().messages, data] });
+        }
+        payload.scroll();
+      } catch (err) {
+        console.log(err);
       }
-      payload.scroll();
     });
 
     socket.addEventListener('close', (event) => {

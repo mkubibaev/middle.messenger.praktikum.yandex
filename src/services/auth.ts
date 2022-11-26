@@ -1,4 +1,4 @@
-import { Dispatch } from 'core';
+import { Dispatch, DispatchStateHandler } from 'core';
 import { apiHasError, transformToRegisterDTO, transformUser } from 'utils';
 import { authAPI, UserDTO } from 'api';
 import { LoginPayload, RegisterPayload } from './types';
@@ -16,10 +16,10 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
   }
 };
 
-export const login = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: LoginPayload,
+export const login: DispatchStateHandler<LoginPayload> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true, loginFormError: null });
@@ -45,10 +45,10 @@ export const login = async (
   }
 };
 
-export const register = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: RegisterPayload,
+export const register: DispatchStateHandler<RegisterPayload> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true, registerFormError: null });

@@ -1,6 +1,7 @@
-import { Dispatch } from 'core';
+import { Dispatch, DispatchStateHandler } from 'core';
 import { apiHasError, transformChat } from 'utils';
 import { chatAPI, ChatDTO } from 'api';
+import { AddUsersToChatPayload, DeleteUsersFromChatPayload } from './types';
 
 export const getChats = async (dispatch: Dispatch<AppState>) => {
   try {
@@ -18,10 +19,10 @@ export const getChats = async (dispatch: Dispatch<AppState>) => {
   }
 };
 
-export const createChat = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: { title: string },
+export const createChat: DispatchStateHandler<{ title: string }> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true });
@@ -38,10 +39,10 @@ export const createChat = async (
   }
 };
 
-export const deleteChat = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: { chatId: number },
+export const deleteChat: DispatchStateHandler<{ chatId: number }> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true });
@@ -57,10 +58,10 @@ export const deleteChat = async (
   }
 };
 
-export const addUsersToChat = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: { users: number[], chatId: number },
+export const addUsersToChat: DispatchStateHandler<AddUsersToChatPayload> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true });
@@ -80,14 +81,14 @@ export const getChatUsers = (chatId: number) => {
     return chatAPI.getChatUsers(chatId);
   } catch (err) {
     console.log(err);
-    return err;
+    return [];
   }
 };
 
-export const deleteUserFromChat = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: { users: number[], chatId: number },
+export const deleteUserFromChat: DispatchStateHandler<DeleteUsersFromChatPayload> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true });
