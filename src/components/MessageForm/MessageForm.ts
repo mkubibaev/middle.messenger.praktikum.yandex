@@ -1,5 +1,6 @@
 import { Block } from 'core';
 import './MessageForm.scss';
+import { sanitizeString } from '../../utils/sanitizeString';
 
 type MessageFormProps = {
   onSubmit: (msg: string) => void;
@@ -17,7 +18,10 @@ export default class MessageForm extends Block<MessageFormProps> {
       events: {
         submit: (event) => {
           const value = this.onSubmitForm(event);
-          props.onSubmit(value);
+          if (value) {
+            const sanitized = sanitizeString(value);
+            props.onSubmit(sanitized);
+          }
         },
       },
     });

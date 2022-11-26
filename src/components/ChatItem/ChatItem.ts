@@ -16,6 +16,12 @@ export default class ChatItem extends Block<ChatProps> {
   constructor(props: ChatProps) {
     super({
       ...props,
+      chat: {
+        ...props.chat,
+        avatar: props.chat.avatar
+          ? `${process.env.API_ENDPOINT}/resources${props.chat.avatar}`
+          : '',
+      },
       events: {
         click: () => {
           if (props.chat.id !== props.selectedChatId) {
@@ -31,11 +37,10 @@ export default class ChatItem extends Block<ChatProps> {
     const localeDate = time
       ? new Date(time).toLocaleDateString('ru')
       : '';
-
     const active = this.props.chat.id === this.props.selectedChatId;
+
     // language=hbs
     return `
-
         <li class="chat {{#if ${active}}}active{{/if}}">
           <div class="chat__avatar">
             {{{AvatarImage avatarUrl=chat.avatar name=chat.title}}}

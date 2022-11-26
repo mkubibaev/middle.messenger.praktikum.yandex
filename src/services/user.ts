@@ -1,11 +1,11 @@
-import { Dispatch } from 'core';
 import { userAPI, PasswordDTO, ProfilePayload, UserDTO } from 'api';
 import { apiHasError, transformToProfileDTO, transformUser } from 'utils';
+import { DispatchStateHandler } from 'core';
 
-export const chaneAvatar = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: FormData,
+export const chaneAvatar: DispatchStateHandler<FormData> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true, avatarFormError: null });
@@ -23,10 +23,10 @@ export const chaneAvatar = async (
   }
 };
 
-export const changeProfile = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: ProfilePayload,
+export const changeProfile: DispatchStateHandler<ProfilePayload> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true, profileFormError: null });
@@ -44,13 +44,12 @@ export const changeProfile = async (
   } catch (err) {
     console.log(err);
   }
-
 };
 
-export const changePassword = async (
-  dispatch: Dispatch<AppState>,
-  _state: AppState,
-  payload: PasswordDTO,
+export const changePassword: DispatchStateHandler<PasswordDTO> = async (
+  dispatch,
+  _state,
+  payload,
 ) => {
   try {
     dispatch({ isLoading: true });
@@ -74,6 +73,6 @@ export const searchUser = (payload: { login: string }) => {
     return userAPI.searchByLogin(payload);
   } catch (err) {
     console.log(err);
-    return err;
+    return [];
   }
 };

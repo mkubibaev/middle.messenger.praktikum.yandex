@@ -37,3 +37,15 @@ export type Message = {
   type: string;
   user_id: number;
 };
+
+export type AddUsersToChatPayload = {
+  users: number[];
+  chatId: number;
+};
+
+export type DeleteUsersFromChatPayload = AddUsersToChatPayload;
+
+export type ConnectToChatSocketPayload = {
+  chatId: number;
+  scroll: () => void;
+};

@@ -11,6 +11,8 @@ export type Action<State> = (
   payload: any,
 ) => void;
 
+export type DispatchStateHandler<TAction> = (dispatch: Dispatch<AppState>, state: AppState, action: TAction) => Promise<void>;
+
 export class Store<State extends Record<string, any>> extends EventBus {
   private state: State = {} as State;
 
