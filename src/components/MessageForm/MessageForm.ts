@@ -17,9 +17,9 @@ export default class MessageForm extends Block<MessageFormProps> {
       ...props,
       events: {
         submit: (event) => {
-          const value = this.onSubmitForm(event);
-          if (value) {
-            const sanitized = sanitizeString(value);
+          const value = this.onSubmitForm(event).trim();
+          const sanitized = sanitizeString(value);
+          if (sanitized) {
             props.onSubmit(sanitized);
           }
         },
