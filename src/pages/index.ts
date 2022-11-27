@@ -5,3 +5,4 @@ export * from './Profile';
 export * from './ProfileChangeData';
 export * from './ProfileChangePassword';
 export * from './Error';
+export * from './Error404';

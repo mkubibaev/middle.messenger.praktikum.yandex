@@ -1,31 +1,52 @@
 import { Block } from 'core';
-import './MessageForm.pcss';
+import './MessageForm.scss';
+import { sanitizeString } from '../../utils/sanitizeString';
 
-interface MessageFormProps {
-  onSubmit: () => void;
-}
+type MessageFormProps = {
+  onSubmit: (msg: string) => void;
+  events: {
+    submit: (event: SubmitEvent) => void;
+  }
+};
 
-export default class MessageForm extends Block {
-  constructor({ onSubmit, ...props }: MessageFormProps) {
+export default class MessageForm extends Block<MessageFormProps> {
+  static componentName = 'MessageForm';
+
+  constructor(props: MessageFormProps) {
     super({
       ...props,
-      events: { submit: onSubmit },
+      events: {
+        submit: (event) => {
+          const value = this.onSubmitForm(event).trim();
+          const sanitized = sanitizeString(value);
+          if (sanitized) {
+            props.onSubmit(sanitized);
+          }
+        },
+      },
     });
   }
 
-  get componentName(): string {
-    return 'MessageForm';
-  }
+  onSubmitForm = (event: SubmitEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const input = this.refs.input.element as HTMLInputElement;
+    return input.value;
+  };
 
   render() {
     // language=hbs
     return `
       <form class="message-form">
         <div class="message-form__inner">
-          <input class="message-form__input" type="text" placeholder="Сообщение..." name="message">
-          <button class="message-form__btn " type="button">
-            <i class="bi bi-paperclip"></i>
-          </button>
+          {{{Input
+              placeholder="Сообщение..."
+              classes="message-form__input"
+              ref="input"
+          }}}
+<!--          <button class="message-form__btn " type="button">-->
+<!--            <i class="bi bi-paperclip"></i>-->
+<!--          </button>-->
         </div>
         <button class="message-form__btn message-form__btn--submit" type="submit">
           <i class="bi bi-send"></i>

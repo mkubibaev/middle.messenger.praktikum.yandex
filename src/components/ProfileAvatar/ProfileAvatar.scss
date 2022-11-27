@@ -1,0 +1,38 @@
+.profile {
+  &__avatar {
+    margin-bottom: 30px;
+  }
+  &__avatar-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px;
+  }
+  &__avatar-input {
+    position: relative;
+    display: inline-block;
+    margin: 5px 0;
+
+    input[type=file] {
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+      display: block;
+      width: 0;
+      height: 0;
+    }
+    span {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+      box-sizing: border-box;
+      border: none;
+    }
+  }
+}

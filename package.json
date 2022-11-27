@@ -2,8 +2,8 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "scripts": {
-    "build": "parcel build src/*.html --public-url ./",
-    "serve": "parcel src/*.html --no-source-maps && parcel watch ./*",
+    "build": "parcel build src/index.html --public-url ./",
+    "serve": "parcel src/index.html --no-source-maps --no-cache",
     "start": "node server.js",
     "lint": "eslint . --ext .ts",
     "stylelint": "stylelint '**/*.pcss'"
@@ -11,9 +11,11 @@
   "alias": {
     "core": "./src/core",
     "types": "./src/types",
-    "helpers": "./src/helpers",
     "pages": "./src/pages",
-    "components": "./src/components"
+    "components": "./src/components",
+    "utils": "./src/utils",
+    "api": "./src/api",
+    "services": "./src/services"
   },
   "repository": {
     "type": "git",
@@ -23,25 +25,21 @@
   "author": "Murat Kubibaev",
   "license": "MIT",
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "@parcel/transformer-sass": "2.8.0",
     "@types/node": "17.0.41",
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "@typescript-eslint/parser": "5.27.1",
     "eslint": "8.17.0",
     "eslint-config-airbnb-typescript": "17.0.0",
     "express": "4.18.1",
-    "handlebars": "4.7.7",
-    "parcel": "2.5.0",
+    "parcel": "2.8.0",
     "parcel-plugin-handlebars-precompile": "1.0.2",
-    "postcss": "8.4.14",
-    "postcss-import": "14.1.0",
-    "postcss-mixins": "9.0.2",
-    "postcss-nested": "5.0.6",
     "stylelint": "14.9.1",
     "stylelint-config-standard": "26.0.0",
     "typescript": "4.7.3"
   },
   "dependencies": {
+    "handlebars": "4.7.7",
     "nanoid": "4.0.0"
   }
 }

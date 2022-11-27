@@ -1,44 +1,49 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import { Block, Store } from 'core';
+import { readAndValidateForm, ValidationRule, withStore } from 'utils';
+import { changePassword } from 'services';
 
-interface ProfileChangePasswordProps {}
+type ProfileChangePasswordProps = {
+  store: Store<AppState>;
+  formError: () => string | null;
+  onSave: (event: SubmitEvent) => void;
+};
 
-export default class ProfileChangePassword extends Block {
+class ProfileChangePasswordPage extends Block<ProfileChangePasswordProps> {
+  static componentName = 'ProfileChangePassword';
+
   constructor(props: ProfileChangePasswordProps) {
     super({
       ...props,
+      onSave: (event) => this.onSave(event),
     });
 
     this.setProps({
-      onSave: this.onSave.bind(this),
+      ...props,
+      formError: () => this.props.store.getState().passwordFormError,
     });
   }
 
   onSave(event: SubmitEvent) {
     event.preventDefault();
-    const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
-      const { validationRule } = component.props;
-      if (validationRule) {
-        const input = component.refs.input.getContent() as HTMLInputElement;
-        const { name, value } = input;
-        formValue[name] = value;
-        const errorText = validateValue(validationRule, value);
-        component.refs.error.setProps({ text: errorText });
-      }
-    });
-    console.log(formValue);
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.props.store.dispatch(changePassword, formValue);
+    }
   }
 
   render() {
     // language=hbs
     return `
-      {{#ProfileLayout}}
-        {{#BaseForm
-            title="Изменить пароль"
-            submitLabel="Сохранить"
-            onSubmit=onSave
-        }}
+      {{#Layout}}
+        {{#ProfileWrapper}}
+          {{#BaseForm
+              title="Изменить пароль"
+              submitLabel="Сохранить"
+              onSubmit=onSave
+          }}
+            {{#if formError}}
+              {{{Alert type="danger" text=formError}}}
+            {{/if}}
             {{{ControlledInput
                 label="Текущий пароль"
                 name="oldPassword"
@@ -53,8 +58,11 @@ export default class ProfileChangePassword extends Block {
                 type="password"
                 validationRule="${ValidationRule.Password}"
             }}}
-        {{/BaseForm}}
-      {{/ProfileLayout}}
+          {{/BaseForm}}
+        {{/ProfileWrapper}}
+      {{/Layout}}  
     `;
   }
 }
+
+export default withStore(ProfileChangePasswordPage);

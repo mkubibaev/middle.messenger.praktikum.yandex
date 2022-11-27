@@ -1,0 +1,16 @@
+.form-control__input {
+  outline: none;
+  border: none;
+  color: var(--text-color);
+  font-family: var(--base-font-family);
+  font-size: 16px;
+  padding-top: 2px ;
+  padding-bottom: 2px ;
+  width: 100%;
+  border-bottom: 1px solid var(--gray-200);
+
+  &:-webkit-autofill {
+    -webkit-text-fill-color: var(--text-color);
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+  }
+}

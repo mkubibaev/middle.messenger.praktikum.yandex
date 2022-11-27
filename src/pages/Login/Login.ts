@@ -1,59 +1,84 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import { Block, Store } from 'core';
+import {
+  readAndValidateForm,
+  ValidationRule,
+  withStore,
+} from 'utils';
+import { login as loginAction } from 'services';
 
-interface LoginProps {}
+type LoginPageProps = {
+  store: Store<AppState>;
+  formError: () => string | null;
+};
 
-export default class Login extends Block<LoginProps> {
-  constructor(props: LoginProps) {
-    super(props);
+class LoginPage extends Block<LoginPageProps> {
+  static componentName = 'LoginPage';
 
-    this.setProps({
-      onLogin: this.onLogin.bind(this),
+  constructor(props: LoginPageProps) {
+    super({
+      ...props,
+      formError: () => props.store.getState().loginFormError,
     });
+  }
+
+  getStateFromProps() {
+    this.state = {
+      formValue: {
+        login: '',
+        password: '',
+      },
+      onLogin: (event: SubmitEvent) => this.onLogin(event),
+    };
   }
 
   onLogin(event: SubmitEvent) {
     event.preventDefault();
-    const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
-      const { validationRule } = component.props;
-      if (validationRule) {
-        const input = component.refs.input.getContent() as HTMLInputElement;
-        const { name, value } = input;
-        formValue[name] = value;
-        const errorText = validateValue(validationRule, value);
-        component.refs.error.setProps({ text: errorText });
-      }
-    });
-    console.log(formValue);
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.setState({ formValue });
+      this.props.store.dispatch(loginAction, formValue);
+    }
   }
 
   render() {
+    const { formValue } = this.state;
     // language=hbs
     return `
-      {{#AuthLayout}}
-        {{#BaseForm
-          title="Вход"      
-          submitLabel="Войти"      
-          onSubmit=onLogin
-          linkLabel="Нет аккаунта?"
-          linkUrl="./register.html"
-        }}
-          {{{ControlledInput
-              label="Логин"
-              name="login"
-              ref="login"
-              validationRule="${ValidationRule.Required}"
-          }}}
-          {{{ControlledInput
-              label="Пароль"
-              name="password"
-              type="password"
-              ref="password"
-              validationRule="${ValidationRule.Required}"
-          }}}
-        {{/BaseForm}}    
-      {{/AuthLayout}}
+      {{#Layout}}
+        <div class="auth__container container">
+          <div class="auth__inner">
+            {{#BaseForm
+                title="Вход"
+                submitLabel="Войти"
+                onSubmit=onLogin
+                isLoading=isLoading
+                linkLabel="Нет аккаунта?"
+                linkUrl="/sign-up"
+            }}
+              {{#if formError}}
+                  {{{Alert type="danger" text=formError}}}
+              {{/if}}
+              {{{ControlledInput
+                  label="Логин"
+                  name="login"
+                  ref="login"
+                  value="${formValue.login}"
+                  validationRule="${ValidationRule.Required}"
+              }}}
+              {{{ControlledInput
+                  label="Пароль"
+                  name="password"
+                  type="password"
+                  ref="password"
+                  value="${formValue.password}"
+                  validationRule="${ValidationRule.Required}"
+              }}}
+            {{/BaseForm}}
+          </div>
+        </div>
+      {{/Layout}}
     `;
   }
 }
+
+export default withStore(LoginPage);

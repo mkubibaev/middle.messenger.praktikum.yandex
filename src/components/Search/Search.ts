@@ -1,10 +1,10 @@
 import { Block } from 'core';
-import './Search.pcss';
+import './Search.scss';
 
-export default class Search extends Block {
-  get componentName(): string {
-    return 'Search';
-  }
+type SearchProps = {};
+
+export default class Search extends Block<SearchProps> {
+  static componentName = 'Search';
 
   render() {
     // language=hbs
@@ -13,7 +13,7 @@ export default class Search extends Block {
         <div class="search-form__icon">
           <i class="bi bi-search"></i>
         </div>
-        <input class="search-form__input" type="text" placeholder="Поиск">
+        <input class="search-form__input" type="text" placeholder="Поиск" disabled>
       </form>
     `;
   }

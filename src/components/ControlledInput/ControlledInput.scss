@@ -1,0 +1,13 @@
+.form-control {
+  margin-bottom: 15px;
+
+  &__label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: var(--secondary-color);
+  }
+
+  &__error {
+    color: var(--danger-color);
+  }
+}

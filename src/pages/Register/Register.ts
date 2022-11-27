@@ -1,83 +1,117 @@
-import { Block } from 'core';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import { Block, Store } from 'core';
+import { readAndValidateForm, ValidationRule, withStore } from 'utils';
+import { register } from 'services';
 
-interface RegisterProps {}
+type RegisterPageProps = {
+  store: Store<AppState>;
+  formError: () => string | null;
+};
 
-export default class Register extends Block<RegisterProps> {
-  constructor(props: RegisterProps) {
-    super(props);
+class RegisterPage extends Block<RegisterPageProps> {
+  static componentName = 'RegisterPage';
 
-    this.setProps({
-      onRegister: this.onRegister.bind(this),
+  constructor(props: RegisterPageProps) {
+    super({
+      ...props,
+      formError: () => props.store.getState().registerFormError,
     });
+  }
+
+  getStateFromProps() {
+    this.state = {
+      formValue: {
+        firstName: '',
+        secondName: '',
+        login: '',
+        email: '',
+        phone: '',
+        password: '',
+      },
+      onRegister: (event: SubmitEvent) => this.onRegister(event),
+    };
   }
 
   onRegister(event: SubmitEvent) {
     event.preventDefault();
-    const formValue: { [key: string]: string } = {};
-    Object.values(this.refs).forEach((component: Block) => {
-      const { validationRule } = component.props;
-      if (validationRule) {
-        const input = component.refs.input.getContent() as HTMLInputElement;
-        const { name, value } = input;
-        formValue[name] = value;
-        const errorText = validateValue(validationRule, value);
-        component.refs.error.setProps({ text: errorText });
-      }
-    });
-    console.log(formValue);
+    const [isValid, formValue] = readAndValidateForm(this.refs);
+    if (isValid) {
+      this.setState({ formValue });
+      this.props.store.dispatch(register, formValue);
+    }
   }
 
   render() {
+    const { formValue } = this.state;
+
     // language=hbs
     return `
-      {{#AuthLayout}}
-        {{#BaseForm
-          title="Регистрация"      
-          submitLabel="Зарегистрироваться"
-          onSubmit=onRegister
-          linkLabel="Войти"
-          linkUrl="./login.html"
-        }}
-          {{{ControlledInput
-              label="Имя"
-              name="first_name"
-              ref="first_name"
-              validationRule="${ValidationRule.Name}"
-          }}}
-          {{{ControlledInput
-              label="Фамилия"
-              name="second_name"
-              ref="second_name"
-              validationRule="${ValidationRule.Name}"
-          }}}
-          {{{ControlledInput
-              label="Почта"
-              name="email"
-              ref="email"
-              validationRule="${ValidationRule.Email}"
-          }}}
-          {{{ControlledInput
-              label="Телефон"
-              name="phone"
-              ref="phone"
-              validationRule="${ValidationRule.Phone}"
-          }}}
-          {{{ControlledInput
-              label="Логин"
-              name="login"
-              ref="login"
-              validationRule="${ValidationRule.Login}"
-          }}}
-          {{{ControlledInput
-              label="Пароль"
-              name="password"
-              type="password"
-              ref="password"
-              validationRule="${ValidationRule.Password}"
-          }}}
-        {{/BaseForm}}
-      {{/AuthLayout}}
+      {{#Layout}}
+        <div class="auth__container container">
+          <div class="auth__inner">
+            {{#BaseForm
+              title="Регистрация"      
+              submitLabel="Зарегистрироваться"
+              onSubmit=onRegister
+              isLoading=isLoading
+              linkLabel="Войти"
+              linkUrl="/"
+            }}
+              {{#if formError}}
+                {{{Alert type="danger" text=formError}}}
+              {{/if}}  
+              
+              {{{ControlledInput
+                  label="Имя"
+                  name="firstName"
+                  ref="firstName"
+                  value="${formValue.firstName}"
+                  validationRule="${ValidationRule.Name}"
+              }}}
+              {{{ControlledInput
+                  label="Фамилия"
+                  name="secondName"
+                  ref="secondName"
+                  value="${formValue.secondName}"
+                  validationRule="${ValidationRule.Name}"
+              }}}
+              {{{ControlledInput
+                  label="Логин"
+                  name="login"
+                  ref="login"
+                  value="${formValue.login}"
+                  validationRule="${ValidationRule.Login}"
+              }}}
+              {{{ControlledInput
+                  label="Почта"
+                  name="email"
+                  type="email"
+                  ref="email"
+                  value="${formValue.email}"
+                  validationRule="${ValidationRule.Email}"
+              }}}
+              {{{ControlledInput
+                  label="Телефон"
+                  name="phone"
+                  ref="phone"
+                  value="${formValue.phone}"
+                  validationRule="${ValidationRule.Phone}"
+              }}}
+              {{{ControlledInput
+                  label="Пароль"
+                  name="password"
+                  type="password"
+                  ref="password"
+                  validationRule="${ValidationRule.Password}"
+              }}}
+            {{/BaseForm}}
+          </div>
+        </div>
+        {{#if isLoading}}
+            {{{Loader}}}
+        {{/if}}  
+      {{/Layout}}
     `;
   }
 }
+
+export default withStore(RegisterPage);

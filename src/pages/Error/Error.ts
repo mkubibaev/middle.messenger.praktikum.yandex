@@ -1,12 +1,16 @@
-import { Block } from '../../core';
-import './Error.pcss';
+import { Block, Router } from 'core';
+import './Error.scss';
+import { withRouter } from 'utils';
 
-interface ErrorProps {
+interface ErrorPageProps {
   code: number;
   message: string;
+  router: Router
 }
 
-export default class Error extends Block<ErrorProps> {
+class ErrorPage extends Block<ErrorPageProps> {
+  static componentName = 'ErrorPage';
+
   render() {
     // language=hbs
     return `
@@ -14,9 +18,14 @@ export default class Error extends Block<ErrorProps> {
         <div class="error-card">
           <strong class="error-card__code">{{code}}</strong>
           <p class="error-card__msg">{{message}}</p>
-          <a class="link" href="./index.html">Назад к чатам</a>
+          {{{Link
+              label="Назад к чатам"
+              to="/"
+          }}}
         </div>
       </main>
     `;
   }
 }
+
+export default withRouter(ErrorPage);

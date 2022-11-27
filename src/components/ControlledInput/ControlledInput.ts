@@ -1,24 +1,24 @@
 import { Block } from 'core';
-import './ControlledInput.pcss';
-import { validateValue, ValidationRule } from 'helpers/validator';
+import './ControlledInput.scss';
+import { validateValue, ValidationRule } from 'utils';
+import { InputProps } from '../Input/Input';
 
-interface ControlledInputProps {
+export type ControlledInputProps = InputProps & {
   label: string;
   validationRule?: ValidationRule;
-}
+};
 
-export default class ControlledInput extends Block {
+export default class ControlledInput extends Block<ControlledInputProps> {
+  static componentName = 'ControlledInput';
+
   constructor(props: ControlledInputProps) {
     super(props);
 
     this.setProps({
-      onFocus: this.validate.bind(this),
-      onBlur: this.validate.bind(this),
+      ...props,
+      onFocus: (event) => this.validate(event),
+      onBlur: (event) => this.validate(event),
     });
-  }
-
-  get componentName(): string {
-    return 'ControlledInput';
   }
 
   validate(event: FocusEvent) {
@@ -39,6 +39,7 @@ export default class ControlledInput extends Block {
             name=name
             type=type
             value=value
+            placeholder=placeholder
             onFocus=onFocus
             onBlur=onBlur
             ref="input"

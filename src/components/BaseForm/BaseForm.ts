@@ -1,38 +1,44 @@
 import { Block } from 'core';
-import './BaseForm.pcss';
+import './BaseForm.scss';
 
-interface BaseFormProps {
-  title: string;
+type BaseFormProps = {
+  title?: string;
   submitLabel: string;
   onSubmit: () => void;
-}
+  isLoading: boolean;
+  events: {
+    submit: (event: SubmitEvent) => void;
+  };
+};
 
-export default class BaseForm extends Block {
-  constructor({ onSubmit, ...props }: BaseFormProps) {
+export default class BaseForm extends Block<BaseFormProps> {
+  static componentName = 'BaseForm';
+
+  constructor(props: BaseFormProps) {
     super({
       ...props,
-      events: { submit: onSubmit },
+      events: { submit: props.onSubmit },
     });
-  }
-
-  get componentName(): string {
-    return 'BaseForm';
   }
 
   render() {
     // language=hbs
     return `
       <form class="base-form">
-        <h2 class="base-form__title">{{title}}</h2>
+        {{#if title}}
+          <h3 class="base-form__title">{{title}}</h3>
+        {{/if}}
       
         <div class="base-form__inputs" data-layout="${this.id}"></div>
       
         <div class="base-form__actions">
           {{{Button
-              label=submitLabel
-              type="submit"
-              classes="base-form__submit btn--primary"
+            label=submitLabel
+            type="submit"
+            classes="base-form__submit btn--primary"
+            disabled=isLoading
           }}}
+          
           {{#if linkLabel}}
             {{{Link
               label=linkLabel

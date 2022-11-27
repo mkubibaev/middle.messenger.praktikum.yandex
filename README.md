@@ -24,5 +24,5 @@ https://incandescent-starship-4c6295.netlify.app/
 https://www.figma.com/file/lMt3wnD6f9qy75wphOxKJr/SomeChat?node-id=0%3A1
 
 ---
-Pull request sprint_2
-https://github.com/mkubibaev/middle.messenger.praktikum.yandex/pull/2
+Pull request sprint_3
+https://github.com/mkubibaev/middle.messenger.praktikum.yandex/pull/3

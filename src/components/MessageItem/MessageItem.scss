@@ -1,0 +1,35 @@
+.message {
+  margin-bottom: 10px;
+  padding: 15px 15px 8px;
+  background-color: var(--gray-200);
+  border-radius: 20px 20px 20px 0;
+  max-width: 480px;
+
+  &--own {
+    background-color: var(--base-purple);
+    color: var(--gray-200);
+    border-radius: 20px 20px 0;
+    align-self: flex-end;
+  }
+
+  &__text {
+    margin: 0 0 8px;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__date {
+    color: var(--secondary-color);
+    font-size: 12px;
+  }
+
+  &__status {
+    color: var(--base-orange);
+    font-size: 20px;
+    margin-left: 4px;
+  }
+}
