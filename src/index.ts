@@ -6,7 +6,7 @@ import { defaultState } from './store';
 import { initApp } from './services';
 
 Object.values(Components).forEach((Component) => {
-  registerComponent(Component as BlockConstructable, Component.componentName);
+  registerComponent(Component as BlockConstructable<{}>, Component.componentName);
 });
 
 declare global {

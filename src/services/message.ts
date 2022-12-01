@@ -1,6 +1,6 @@
 import { Dispatch, DispatchStateHandler } from 'core';
 import { chatAPI } from 'api';
-import { apiHasError } from '../utils';
+import { apiHasError, WS_ENDPOINT } from 'utils';
 import { logout } from './auth';
 import { ConnectToChatSocketPayload } from './types';
 
@@ -16,7 +16,7 @@ export const connectToChatSocket: DispatchStateHandler<ConnectToChatSocketPayloa
     }
     const { token } = tokenResponse;
     const userId = state.user?.id;
-    const socket = new WebSocket(`${process.env.WS_ENDPOINT}/chats/${userId}/${payload.chatId}/${token}`);
+    const socket = new WebSocket(`${WS_ENDPOINT}/chats/${userId}/${payload.chatId}/${token}`);
     dispatch({ chatSocket: socket });
 
     socket.addEventListener('open', () => {

@@ -1,7 +1,7 @@
 import { Block, Store } from 'core';
 import './SelectedChat.scss';
 import { addUsersToChat, Chat, deleteChat, searchUser, getChatUsers, deleteUserFromChat } from 'services';
-import { readAndValidateForm, transformUser, ValidationRule, withStore } from 'utils';
+import { API_ENDPOINT, readAndValidateForm, transformUser, ValidationRule, withStore } from 'utils';
 
 type UserItem = User & {
   onClick: (id: number) => void
@@ -22,7 +22,7 @@ class SelectedChat extends Block<SelectedChatProps> {
         ...props.chat,
         ...props.chat,
         avatar: props.chat.avatar
-          ? `${process.env.API_ENDPOINT}/resources${props.chat.avatar}`
+          ? `${API_ENDPOINT}/resources${props.chat.avatar}`
           : '',
       },
     });

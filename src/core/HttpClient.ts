@@ -22,20 +22,20 @@ export default class HttpClient {
     this.apiUrl = apiUrl;
   }
 
-  public get<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  get<T>(url: string, options: RequestOptions = {}): Promise<T> {
     const queryString = options.data ? url + this.queryStringify(options.data) : url;
     return this.request(queryString, { ...options, method: METHOD.GET }, options.timeout);
   }
 
-  public post<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  post<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
   }
 
-  public put<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  put<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
   }
 
-  public delete<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  delete<T>(url: string, options: RequestOptions = {}): Promise<T> {
     return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
   }
 

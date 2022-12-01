@@ -7,7 +7,7 @@ class Route {
 
   private block: Block<any> | null;
 
-  private readonly BlockClass: BlockConstructable;
+  private readonly BlockClass: BlockConstructable<any>;
 
   private readonly props: Props;
 

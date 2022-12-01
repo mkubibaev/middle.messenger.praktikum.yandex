@@ -1,7 +1,8 @@
 import { HttpClient } from 'core';
+import { API_ENDPOINT } from 'utils';
 import { PasswordDTO, ProfileDTO, UserDTO } from './types';
 
-const http = new HttpClient(`${process.env.API_ENDPOINT}/user`);
+const http = new HttpClient(`${API_ENDPOINT}/user`);
 
 class UserAPI {
   changeAvatar(data: FormData) {
