@@ -9,7 +9,6 @@
   transition: background-color 0.2s;
   margin-bottom: 10px;
 
-
   &--primary {
     font-size: 16px;
     font-weight: 600;
@@ -47,6 +46,7 @@
     width: 100%;
     text-align: left;
     font-size: 14px;
+
     &:hover {
       background-color: var(--gray-100);
       color: var(--primary-color);

@@ -17,7 +17,6 @@ const testPost: Post = {
 };
 
 describe('HttpClient', () => {
-
   it('Check GET request', async () => {
     const response = await http.get<Post>('/1');
     expect(response.data.id).to.eq(1);
