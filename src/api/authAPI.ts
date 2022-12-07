@@ -7,7 +7,7 @@ const http = new HttpClient(`${API_ENDPOINT}/auth`);
 
 class AuthAPI {
   login(data: LoginPayload) {
-    return http.post('/signin', { data, headers: { 'content-type': 'application/json' } });
+    return http.post<{}>('/signin', { data, headers: { 'content-type': 'application/json' } });
   }
 
   logout() {

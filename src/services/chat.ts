@@ -8,11 +8,11 @@ export const getChats = async (dispatch: Dispatch<AppState>) => {
     dispatch({ isLoading: true });
 
     const response = await chatAPI.getChats();
-    if (apiHasError(response)) {
+    if (apiHasError(response.data)) {
       dispatch({ isLoading: false });
       return;
     }
-    const chats = response.map((chat: ChatDTO) => transformChat(chat));
+    const chats = response.data.map((chat: ChatDTO) => transformChat(chat));
     dispatch({ isLoading: false, chats });
   } catch (err) {
     console.log(err);
@@ -81,7 +81,7 @@ export const getChatUsers = (chatId: number) => {
     return chatAPI.getChatUsers(chatId);
   } catch (err) {
     console.log(err);
-    return [];
+    return { data: [] };
   }
 };
 

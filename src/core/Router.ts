@@ -38,9 +38,8 @@ class Route {
   render() {
     if (!this.block) {
       this.block = new this.BlockClass(this.props);
-    } else {
-      this.block.show();
     }
+    this.block.show();
     renderDOM(this.block);
   }
 }

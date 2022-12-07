@@ -82,12 +82,12 @@ class SelectedChat extends Block<SelectedChatProps> {
     const [isValid, formValue] = readAndValidateForm(this.refs);
     if (isValid) {
       this.setState({ formError: '' });
-      const foundUsers = await searchUser(formValue as { login: string });
-      if (foundUsers.length === 0) {
+      const response = await searchUser(formValue as { login: string });
+      if (response.data.length === 0) {
         this.setState({ formError: 'Пользователь не найден' });
       } else {
         // костыль, не смог передать колбэк внутри хелпера #each
-        const users = foundUsers.map((u) => {
+        const users = response.data.map((u) => {
           const user = transformUser(u);
           (user as UserItem).onClick = this.addUserToChat;
           return user;
@@ -113,7 +113,7 @@ class SelectedChat extends Block<SelectedChatProps> {
 
   async getSelectedChatUsers(chatId: number) {
     const chatUsersDTO = await getChatUsers(chatId);
-    const chatUsers = chatUsersDTO.map((u) => {
+    const chatUsers = chatUsersDTO.data.map((u) => {
       const user = transformUser(u);
       (user as UserItem).onClick = this.deleteUserFormChat;
       return user;

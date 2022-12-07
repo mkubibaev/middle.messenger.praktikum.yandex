@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+import { v4 as uuidv4 } from 'uuid';
 import Handlebars from 'handlebars';
 import { isEqual } from 'utils/isEqual';
 import EventBus from './EventBus';
@@ -19,7 +19,7 @@ export default class Block<Props extends Record<string, any>> {
     FLOW_RENDER: 'flow:render',
   } as const;
 
-  public id = nanoid(6);
+  public id = uuidv4();
 
   protected _element: Nullable<HTMLElement> = null;
 
