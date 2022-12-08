@@ -1,24 +1,26 @@
-enum METHOD {
+enum METHODS {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',
 }
 
-interface RequestOptions {
+type RequestOptions = {
   headers?: Record<string, string>;
   data?: any;
   timeout?: number
-}
+};
 
-interface RequestOptionsWithMethod extends RequestOptions {
-  method: METHOD;
-}
+type RequestOptionsWithMethod = RequestOptions & {
+  method: METHODS;
+};
 
 type XHRResponse<T> = {
   data: T;
   status: number
 };
+
+type HTTPMethod = <T>(url: string, options?: RequestOptions) => Promise<XHRResponse<T>>;
 
 export default class HttpClient {
   private apiUrl = '';
@@ -27,22 +29,22 @@ export default class HttpClient {
     this.apiUrl = apiUrl;
   }
 
-  get<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
+  get: HTTPMethod = (url, options = {}) => {
     const queryString = options.data ? url + this.queryStringify(options.data) : url;
-    return this.request(queryString, { ...options, method: METHOD.GET }, options.timeout);
-  }
+    return this.request(queryString, { ...options, method: METHODS.GET }, options.timeout);
+  };
 
-  post<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
-    return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
-  }
+  post: HTTPMethod = (url, options = {}) => (
+    this.request(url, { ...options, method: METHODS.POST }, options.timeout)
+  );
 
-  put<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
-    return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
-  }
+  put: HTTPMethod = (url: string, options = {}) => (
+    this.request(url, { ...options, method: METHODS.PUT }, options.timeout)
+  );
 
-  delete<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
-    return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
-  }
+  delete: HTTPMethod = (url: string, options: RequestOptions = {}) => (
+    this.request(url, { ...options, method: METHODS.DELETE }, options.timeout)
+  );
 
   private request<T>(url: string, options: RequestOptionsWithMethod, timeout = 10000): Promise<XHRResponse<T>> {
     const resultUrl = this.apiUrl + url;
@@ -70,7 +72,7 @@ export default class HttpClient {
       xhr.onerror = reject;
       xhr.ontimeout = reject;
 
-      if (method === METHOD.GET) {
+      if (method === METHODS.GET) {
         xhr.send();
       } else if (data instanceof FormData) {
         xhr.send(data);

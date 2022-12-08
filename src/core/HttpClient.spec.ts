@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { JSDOM } from 'jsdom';
 import HttpClient from './HttpClient';
 
 global.XMLHttpRequest = require('xhr2');
@@ -17,6 +18,13 @@ const testPost: Post = {
 };
 
 describe('HttpClient', () => {
+  const { window } = new JSDOM('<div id=\'app\'></div>', { url: 'http://localhost' });
+  // @ts-ignore
+  global.window = window;
+  global.document = window.document;
+  global.Node = window.Node;
+  global.FormData = window.FormData;
+
   it('Check GET request', async () => {
     const response = await http.get<Post>('/1');
     expect(response.data.id).to.eq(1);

@@ -13,20 +13,20 @@
 * [Husky](https://typicode.github.io/husky/#/) - precommit
 * [ESlint](https://eslint.org/) - Линтинг ts кода
 * [Stylelint](https://stylelint.io/) - Линтинг файлов стилей
-* [scss](https://sass-lang.com//) - Файлы стилей
+* [scss](https://sass-lang.com/) - Файлы стилей
 ---
 
 ### Команды запуска
 ```shell
+    ## Запуск в режиме разработки 
+    npm run dev    
+    
     ## Сборка проекта 
     npm run build
     
     ## Локальный запуск express.js 
     npm run start
     
-    ## Запуск webpack-dev-server 
-    npm run serve    
-     
     ## Запуск тестов 
     npm run test 
      
