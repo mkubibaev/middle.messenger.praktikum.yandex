@@ -39,7 +39,7 @@
 ```
 ---
 ### Демо:
-* netlify.com: https://somechat.netlify.app/ \
+* netlify.com: https://somechat.netlify.app/
 * render.com (docker): https://somechat.onrender.com/
 ---
 ### Дизайн:
