@@ -1,3 +1,4 @@
+export * from './const';
 export * from './isEqual';
 export * from './withRouter';
 export * from './withStore';

@@ -1,6 +1,7 @@
 import { Block } from 'core';
 import './ChatItem.scss';
 import { ChatWithClick } from 'services';
+import { API_ENDPOINT } from 'utils';
 
 type ChatProps = {
   chat: ChatWithClick;
@@ -19,7 +20,7 @@ export default class ChatItem extends Block<ChatProps> {
       chat: {
         ...props.chat,
         avatar: props.chat.avatar
-          ? `${process.env.API_ENDPOINT}/resources${props.chat.avatar}`
+          ? `${API_ENDPOINT}/resources${props.chat.avatar}`
           : '',
       },
       events: {

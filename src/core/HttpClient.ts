@@ -15,6 +15,11 @@ interface RequestOptionsWithMethod extends RequestOptions {
   method: METHOD;
 }
 
+type XHRResponse<T> = {
+  data: T;
+  status: number
+};
+
 export default class HttpClient {
   private apiUrl = '';
 
@@ -22,28 +27,28 @@ export default class HttpClient {
     this.apiUrl = apiUrl;
   }
 
-  public get<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  get<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
     const queryString = options.data ? url + this.queryStringify(options.data) : url;
     return this.request(queryString, { ...options, method: METHOD.GET }, options.timeout);
   }
 
-  public post<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  post<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
     return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
   }
 
-  public put<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  put<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
     return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
   }
 
-  public delete<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  delete<T>(url: string, options: RequestOptions = {}): Promise<XHRResponse<T>> {
     return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
   }
 
-  private request<T>(url: string, options: RequestOptionsWithMethod, timeout = 10000): Promise<T> {
+  private request<T>(url: string, options: RequestOptionsWithMethod, timeout = 10000): Promise<XHRResponse<T>> {
     const resultUrl = this.apiUrl + url;
     const { method, headers, data } = options;
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise<XHRResponse<T>>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open(method, resultUrl);
 
@@ -57,7 +62,10 @@ export default class HttpClient {
       xhr.responseType = 'json';
       xhr.withCredentials = true;
       xhr.timeout = timeout;
-      xhr.onload = () => resolve(xhr.response);
+      xhr.onload = () => resolve({
+        status: xhr.status,
+        data: xhr.response,
+      });
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;

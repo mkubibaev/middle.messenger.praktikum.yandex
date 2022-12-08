@@ -1,6 +1,6 @@
 import { Block, Store } from 'core';
 import './ProfileAvatar.scss';
-import { withStore } from 'utils';
+import { API_ENDPOINT, withStore } from 'utils';
 import { chaneAvatar } from 'services';
 
 type ProfileAvatarProps = {
@@ -27,7 +27,7 @@ class ProfileAvatar extends Block<ProfileAvatarProps> {
     this.setProps({
       ...props,
       avatarUrl: props.store.getState().user?.avatar
-        ? `${process.env.API_ENDPOINT}/resources${props.store.getState().user?.avatar}`
+        ? `${API_ENDPOINT}/resources${props.store.getState().user?.avatar}`
         : undefined,
       name: `${props.store.getState().user?.firstName} ${props.store.getState().user?.secondName}`,
       formError: () => props.store.getState().avatarFormError,

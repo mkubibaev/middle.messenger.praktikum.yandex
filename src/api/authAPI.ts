@@ -1,12 +1,13 @@
 import { HttpClient } from 'core';
 import { LoginPayload } from 'services';
-import { RegisterDTO } from './types';
+import { API_ENDPOINT } from 'utils';
+import { RegisterDTO, UserDTO } from './types';
 
-const http = new HttpClient(`${process.env.API_ENDPOINT}/auth`);
+const http = new HttpClient(`${API_ENDPOINT}/auth`);
 
 class AuthAPI {
   login(data: LoginPayload) {
-    return http.post('/signin', { data, headers: { 'content-type': 'application/json' } });
+    return http.post<{}>('/signin', { data, headers: { 'content-type': 'application/json' } });
   }
 
   logout() {
@@ -18,7 +19,7 @@ class AuthAPI {
   }
 
   getUser() {
-    return http.get('/user');
+    return http.get<UserDTO>('/user');
   }
 }
 

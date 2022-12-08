@@ -1,7 +1,7 @@
 import Handlebars, { HelperOptions } from 'handlebars';
 import { BlockConstructable } from './Block';
 
-export default function registerComponent<Props extends any>(Component: BlockConstructable<Props>, componentName: string) {
+export default function registerComponent<Props extends {}>(Component: BlockConstructable<Props>, componentName: string) {
   Handlebars.registerHelper(componentName, function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
     if (!data.root.children) {
       data.root.children = {};

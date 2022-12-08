@@ -2,6 +2,7 @@
   &__avatar {
     margin-bottom: 30px;
   }
+
   &__avatar-img {
     width: 140px;
     height: 140px;
@@ -9,12 +10,13 @@
     overflow: hidden;
     margin: 0 auto 15px;
   }
+
   &__avatar-input {
     position: relative;
     display: inline-block;
     margin: 5px 0;
 
-    input[type=file] {
+    input[type="file"] {
       position: absolute;
       z-index: -1;
       opacity: 0;
@@ -22,6 +24,7 @@
       width: 0;
       height: 0;
     }
+
     span {
       position: relative;
       display: inline-block;
