@@ -39,8 +39,8 @@
 ```
 ---
 ### Демо:
-netlify.com: https://somechat.netlify.app/ \
-render.com (docker): https://somechat.onrender.com/
+* netlify.com: https://somechat.netlify.app/ \
+* render.com (docker): https://somechat.onrender.com/
 ---
 ### Дизайн:
 https://www.figma.com/file/lMt3wnD6f9qy75wphOxKJr/SomeChat?node-id=0%3A1
