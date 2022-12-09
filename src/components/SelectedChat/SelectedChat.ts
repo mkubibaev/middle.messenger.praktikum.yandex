@@ -1,7 +1,7 @@
 import { Block, Store } from 'core';
 import './SelectedChat.scss';
 import { addUsersToChat, Chat, deleteChat, searchUser, getChatUsers, deleteUserFromChat } from 'services';
-import { readAndValidateForm, transformUser, ValidationRule, withStore } from 'utils';
+import { API_ENDPOINT, readAndValidateForm, transformUser, ValidationRule, withStore } from 'utils';
 
 type UserItem = User & {
   onClick: (id: number) => void
@@ -22,7 +22,7 @@ class SelectedChat extends Block<SelectedChatProps> {
         ...props.chat,
         ...props.chat,
         avatar: props.chat.avatar
-          ? `${process.env.API_ENDPOINT}/resources${props.chat.avatar}`
+          ? `${API_ENDPOINT}/resources${props.chat.avatar}`
           : '',
       },
     });
@@ -82,12 +82,12 @@ class SelectedChat extends Block<SelectedChatProps> {
     const [isValid, formValue] = readAndValidateForm(this.refs);
     if (isValid) {
       this.setState({ formError: '' });
-      const foundUsers = await searchUser(formValue as { login: string });
-      if (foundUsers.length === 0) {
+      const response = await searchUser(formValue as { login: string });
+      if (response.data.length === 0) {
         this.setState({ formError: 'Пользователь не найден' });
       } else {
         // костыль, не смог передать колбэк внутри хелпера #each
-        const users = foundUsers.map((u) => {
+        const users = response.data.map((u) => {
           const user = transformUser(u);
           (user as UserItem).onClick = this.addUserToChat;
           return user;
@@ -113,7 +113,7 @@ class SelectedChat extends Block<SelectedChatProps> {
 
   async getSelectedChatUsers(chatId: number) {
     const chatUsersDTO = await getChatUsers(chatId);
-    const chatUsers = chatUsersDTO.map((u) => {
+    const chatUsers = chatUsersDTO.data.map((u) => {
       const user = transformUser(u);
       (user as UserItem).onClick = this.deleteUserFormChat;
       return user;

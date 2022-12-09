@@ -1,11 +1,11 @@
-import { nanoid } from 'nanoid';
+import { v4 as uuidv4 } from 'uuid';
 import Handlebars from 'handlebars';
 import { isEqual } from 'utils/isEqual';
 import EventBus from './EventBus';
 
 type Events = Values<typeof Block.EVENTS>;
 
-export interface BlockConstructable<Props = any> {
+export interface BlockConstructable<Props extends {}> {
   new(props: Props): Block<Props>;
   componentName: string
 }
@@ -19,7 +19,7 @@ export default class Block<Props extends Record<string, any>> {
     FLOW_RENDER: 'flow:render',
   } as const;
 
-  public id = nanoid(6);
+  public id = uuidv4();
 
   protected _element: Nullable<HTMLElement> = null;
 
@@ -64,6 +64,7 @@ export default class Block<Props extends Record<string, any>> {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected getStateFromProps(props: any): void {
     this.state = {};
@@ -78,7 +79,9 @@ export default class Block<Props extends Record<string, any>> {
     this.componentDidMount(props);
   }
 
-  componentDidMount() {
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  componentDidMount(props: any) {
   }
 
   private _componentWillUnmount() {

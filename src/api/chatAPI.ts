@@ -1,7 +1,8 @@
 import { HttpClient } from 'core';
+import { API_ENDPOINT } from 'utils';
 import { ChatDTO, UserDTO } from './types';
 
-const http = new HttpClient(`${process.env.API_ENDPOINT}/chats`);
+const http = new HttpClient(`${API_ENDPOINT}/chats`);
 
 class ChatAPI {
   getChats() {

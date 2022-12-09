@@ -1,4 +1,4 @@
-import { BlockConstructable } from 'core';
+import { BlockConstructable, Router } from 'core';
 import {
   LoginPage,
   RegisterPage,
@@ -34,4 +34,15 @@ const pagesMap: Record<Pages, BlockConstructable<any>> = {
 
 export const getPageComponent = (page: Pages): BlockConstructable<any> => {
   return pagesMap[page];
+};
+
+export const initRouter = (router: Router) => {
+  router
+    .use('/', getPageComponent(Pages.Login))
+    .use('/sign-up', getPageComponent(Pages.Register))
+    .use('/messenger', getPageComponent(Pages.Chats))
+    .use('/settings', getPageComponent(Pages.Profile))
+    .use('/settings/change-data', getPageComponent(Pages.ProfileChangeData))
+    .use('/settings/change-password', getPageComponent(Pages.ProfileChangePassword))
+    .use('*', getPageComponent(Pages.Error404));
 };

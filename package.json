@@ -2,15 +2,16 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "scripts": {
-    "build": "parcel build src/index.html --public-url ./",
-    "serve": "parcel src/index.html --no-source-maps --no-cache",
+    "dev": "webpack serve --config webpack/webpack.dev.config.js",
+    "build": "webpack --config webpack/webpack.prod.config.js",
     "start": "node server.js",
+    "test": "mocha",
     "lint": "eslint . --ext .ts",
-    "stylelint": "stylelint '**/*.pcss'"
+    "stylelint": "stylelint '**/*.scss'",
+    "prepare": "husky install"
   },
   "alias": {
     "core": "./src/core",
-    "types": "./src/types",
     "pages": "./src/pages",
     "components": "./src/components",
     "utils": "./src/utils",
@@ -25,21 +26,46 @@
   "author": "Murat Kubibaev",
   "license": "MIT",
   "devDependencies": {
-    "@parcel/transformer-sass": "2.8.0",
-    "@types/node": "17.0.41",
-    "@typescript-eslint/eslint-plugin": "5.27.1",
-    "@typescript-eslint/parser": "5.27.1",
-    "eslint": "8.17.0",
+    "@types/chai": "4.3.4",
+    "@types/jsdom": "20.0.1",
+    "@types/mocha": "10.0.1",
+    "@types/node": "18.11.10",
+    "@types/uuid": "9.0.0",
+    "@typescript-eslint/eslint-plugin": "5.45.0",
+    "@typescript-eslint/parser": "5.45.0",
+    "chai": "4.3.7",
+    "css-loader": "6.7.2",
+    "eslint": "8.28.0",
     "eslint-config-airbnb-typescript": "17.0.0",
-    "express": "4.18.1",
-    "parcel": "2.8.0",
-    "parcel-plugin-handlebars-precompile": "1.0.2",
-    "stylelint": "14.9.1",
-    "stylelint-config-standard": "26.0.0",
-    "typescript": "4.7.3"
+    "express": "4.18.2",
+    "handlebars": "4.7.7",
+    "html-webpack-plugin": "5.5.0",
+    "husky": "8.0.0",
+    "jsdom": "20.0.3",
+    "lint-staged": "13.1.0",
+    "mini-css-extract-plugin": "2.7.1",
+    "mocha": "10.1.0",
+    "sass": "1.56.1",
+    "sass-loader": "13.2.0",
+    "style-loader": "3.3.1",
+    "stylelint": "14.15.0",
+    "stylelint-config-standard": "29.0.0",
+    "stylelint-config-standard-scss": "6.1.0",
+    "ts-loader": "9.4.2",
+    "ts-node": "10.9.1",
+    "tsconfig-paths": "4.1.1",
+    "typescript": "4.9.3",
+    "webpack": "5.75.0",
+    "webpack-cli": "5.0.0",
+    "webpack-dev-server": "4.11.1",
+    "webpack-merge": "5.8.0",
+    "xhr2": "0.2.1"
   },
   "dependencies": {
-    "handlebars": "4.7.7",
-    "nanoid": "4.0.0"
+    "uuid": "9.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.ts": "eslint",
+    "src/**/*.scss": "stylelint"
   }
 }

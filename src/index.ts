@@ -1,12 +1,12 @@
 import { BlockConstructable, registerComponent, Router, Store } from 'core';
 import * as Components from 'components';
 import './styles/main.scss';
-import { getPageComponent, Pages } from 'utils';
+import { initRouter } from 'utils';
 import { defaultState } from './store';
 import { initApp } from './services';
 
 Object.values(Components).forEach((Component) => {
-  registerComponent(Component as BlockConstructable, Component.componentName);
+  registerComponent(Component as BlockConstructable<{}>, Component.componentName);
 });
 
 declare global {
@@ -25,14 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   store.dispatch(initApp);
 
-  router
-    .use('/', getPageComponent(Pages.Login))
-    .use('/sign-up', getPageComponent(Pages.Register))
-    .use('/messenger', getPageComponent(Pages.Chats))
-    .use('/settings', getPageComponent(Pages.Profile))
-    .use('/settings/change-data', getPageComponent(Pages.ProfileChangeData))
-    .use('/settings/change-password', getPageComponent(Pages.ProfileChangePassword))
-    .use('*', getPageComponent(Pages.Error404));
+  initRouter(router);
 
   store.on('changed', (prevState, nextState) => {
     if (!prevState.appIsInited && nextState.appIsInited) {

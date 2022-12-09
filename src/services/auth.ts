@@ -25,19 +25,19 @@ export const login: DispatchStateHandler<LoginPayload> = async (
     dispatch({ isLoading: true, loginFormError: null });
 
     const response = await authAPI.login(payload);
-    if (apiHasError(response)) {
-      dispatch({ isLoading: false, loginFormError: response.reason });
+    if (apiHasError(response.data)) {
+      dispatch({ isLoading: false, loginFormError: response.data.reason });
       return;
     }
 
     const responseUser = await authAPI.getUser();
     dispatch({ isLoading: false, loginFormError: null });
-    if (apiHasError(response)) {
+    if (apiHasError(responseUser.data)) {
       dispatch(logout);
       return;
     }
 
-    dispatch({ user: transformUser(responseUser as UserDTO) });
+    dispatch({ user: transformUser(responseUser.data as UserDTO) });
 
     window.router.go('/messenger');
   } catch (err) {
@@ -56,8 +56,8 @@ export const register: DispatchStateHandler<RegisterPayload> = async (
     const registerDTO = transformToRegisterDTO(payload);
     const response = await authAPI.register(registerDTO);
 
-    if (apiHasError(response)) {
-      dispatch({ isLoading: false, registerFormError: response.reason });
+    if (apiHasError(response.data)) {
+      dispatch({ isLoading: false, registerFormError: response.data.reason });
       return;
     }
 
@@ -65,12 +65,12 @@ export const register: DispatchStateHandler<RegisterPayload> = async (
 
     dispatch({ isLoading: false, registerFormError: null });
 
-    if (apiHasError(response)) {
+    if (apiHasError(responseUser.data)) {
       dispatch(logout);
       return;
     }
 
-    dispatch({ user: transformUser(responseUser as UserDTO) });
+    dispatch({ user: transformUser(responseUser.data as UserDTO) });
 
     window.router.go('/messenger');
   } catch (err) {
